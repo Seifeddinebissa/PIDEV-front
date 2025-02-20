@@ -87,22 +87,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css",
-              "../src/assets/css/bootstrap.min.css",
-              "../src/assets/css/animate.min.css",
-              "../src/assets/css/magnific-popup.css",
-              "../src/assets/css/fontawesome-all.min.css",
-              "../src/assets/css/flaticon-skillgro.css",
-              "../src/assets/css/flaticon-skillgro-new.css",
-              "../src/assets/css/swiper-bundle.min.css",
-              "../src/assets/css/default-icons.css",
-              "../src/assets/css/select2.min.css",
-              "../src/assets/css/odometer.css",
-              "../src/assets/css/aos.css",
-              "../src/assets/css/plyr.css",
-              "../src/assets/css/spacing.css",
-              "../src/assets/css/tg-cursor.css",
-              "../src/assets/css/main.css"
+              "src/styles.css"
             ],
             "scripts": []
           }

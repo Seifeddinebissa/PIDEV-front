@@ -12,13 +12,15 @@ import { Router, RouterModule } from '@angular/router';
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild([
+    /*RouterModule.forChild([
       {
         path: '',
         component: FrontOfficeComponent
       }
-    ]),
+    ]),*/
+    RouterModule,
     FrontOfficeRoutingModule
-  ]
+  ],
+  exports: [FrontOfficeComponent]
 })
 export class FrontOfficeModule { }
