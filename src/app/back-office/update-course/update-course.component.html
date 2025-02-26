@@ -1,0 +1,102 @@
+<div class="container mt-5"> 
+    <h2>Update Course</h2>
+    <form (ngSubmit)="onSubmit()" class="mt-4">
+        <!-- Image Upload -->
+        <div class="mb-3">
+            <label for="fileInput" class="form-label">Course Image</label>
+            <input type="file" 
+                   id="fileInput" 
+                   (change)="onPhotoSelected($event)" 
+                   accept="image/*" 
+                   class="form-control" />
+            <div class="mt-2" *ngIf="photoPreview">
+                <img [src]="photoPreview" 
+                     alt="Image Preview" 
+                     class="img-thumbnail" 
+                     style="max-width: 200px;" />
+            </div>
+        </div>
+
+        <!-- Title -->
+        <div class="mb-3">
+            <label for="titre" class="form-label">Title</label>
+            <input type="text" 
+                   id="titre" 
+                   class="form-control" 
+                   [(ngModel)]="course.titre" 
+                   name="titre" 
+                   required 
+                   placeholder="Enter course title" />
+        </div>
+
+        <!-- Description -->
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea id="description" 
+                      class="form-control" 
+                      [(ngModel)]="course.description" 
+                      name="description" 
+                      required 
+                      rows="3" 
+                      placeholder="Enter course description"></textarea>
+        </div>
+
+<!-- PDF Content Upload -->
+<div class="mb-3">
+    <label class="form-label">Course Content (PDFs)</label>
+    <div>
+        <button type="button" 
+                class="btn btn-secondary mb-2" 
+                (click)="triggerPdfInput()">
+            Choose PDF Files
+        </button>
+        <input type="file" 
+               id="pdfInput" 
+               (change)="onPdfsSelected($event)" 
+               accept=".pdf" 
+               multiple
+               class="d-none" />
+    </div>
+    <div class="mt-2" *ngIf="selectedPdfs && selectedPdfs.length > 0">
+        <p>New PDFs to Upload:</p>
+        <ul class="list-group">
+            <li *ngFor="let pdf of selectedPdfs" class="list-group-item d-flex justify-content-between align-items-center">
+                {{ pdf.name }}
+                <button type="button" 
+                        class="btn btn-danger btn-sm" 
+                        (click)="removePdf(pdf)">
+                    Remove
+                </button>
+            </li>
+        </ul>
+    </div>
+    <div class="mt-2" *ngIf="course.contenu && course.contenu.length > 0">
+        <p>Existing PDFs:</p>
+        <ul class="list-group">
+            <li *ngFor="let pdfUrl of course.contenu" class="list-group-item d-flex justify-content-between align-items-center">
+                {{ pdfUrl | slice: -20 }} <!-- Affiche les 20 derniers caractères de l'URL -->
+                <button type="button" 
+                        class="btn btn-danger btn-sm" 
+                        (click)="removeExistingPdf(pdfUrl)">
+                    Remove
+                </button>
+            </li>
+        </ul>
+    </div>
+</div>
+
+        <!-- Error Message -->
+        <div *ngIf="errorMessage" class="alert alert-danger mb-3">
+            {{ errorMessage }}
+        </div>
+
+        <!-- Buttons -->
+        <div class="mb-3">
+            <button type="submit" 
+                    class="btn btn-primary me-2" 
+                    [disabled]="!course.titre || !course.description || isLoading">
+                {{ isLoading ? 'Updating...' : 'Update Course' }}
+            </button>
+        </div>
+    </form>
+</div>

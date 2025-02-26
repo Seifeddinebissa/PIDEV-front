@@ -6,12 +6,21 @@ import { BackOfficeComponent } from './back-office.component';
 import { RouterModule } from '@angular/router';
 import { PaiementComponent } from './paiement/paiement.component';
 import { HttpClientModule } from '@angular/common/http';
+import { CoursesComponent } from './courses/courses.component';
+import { AddCourseComponent } from './add-course/add-course.component';
+import { FormsModule } from '@angular/forms';
+import { UpdateCourseComponent } from './update-course/update-course.component';
+import { QuizComponent } from './quiz/quiz.component';
 
 
 @NgModule({
   declarations: [
     BackOfficeComponent,
-    PaiementComponent
+    PaiementComponent,
+    CoursesComponent,
+    AddCourseComponent,
+    UpdateCourseComponent,
+    QuizComponent
   ],
   imports: [
     CommonModule,
@@ -24,6 +33,7 @@ import { HttpClientModule } from '@angular/common/http';
     RouterModule,
     BackOfficeRoutingModule,
     HttpClientModule,
+    FormsModule
     
   ],
   exports: [BackOfficeComponent]

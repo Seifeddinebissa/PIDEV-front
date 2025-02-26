@@ -1,0 +1,15 @@
+.pdf-viewer .pdf-header {
+    display: flex;
+    justify-content: space-between; /* Pousse le titre à gauche et le bouton à droite */
+    align-items: center; /* Centre verticalement */
+    margin-bottom: 10px; /* Espacement avant l'iframe */
+  }
+  
+  .pdf-viewer .btn-primary {
+    padding: 5px 15px; /* Taille du bouton ajustée */
+  }
+  
+  .pdf-viewer iframe {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
