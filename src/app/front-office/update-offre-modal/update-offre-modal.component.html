@@ -1,0 +1,73 @@
+<h2 mat-dialog-title>Update Offer</h2>
+<mat-dialog-content>
+  <form (ngSubmit)="onUpdate()">
+    <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input matInput [(ngModel)]="updatedOffer.title" name="title" required />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Description</mat-label>
+      <textarea matInput [(ngModel)]="updatedOffer.description" name="description" required></textarea>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Salary</mat-label>
+        <input matInput [(ngModel)]="updatedOffer.salary" name="salary" required />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>location</mat-label>
+        <input matInput [(ngModel)]="updatedOffer.location" name="location" required />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>datePosted</mat-label>
+        <input matInput [(ngModel)]="updatedOffer.datePosted" name="datePosted" required />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>dateExpiration</mat-label>
+        <input matInput [(ngModel)]="updatedOffer.dateExpiration" name="dateExpiration" required />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>contractType</mat-label>
+        <input matInput [(ngModel)]="updatedOffer.contractType" name="contractType" required />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>experienceLevel</mat-label>
+        <input matInput [(ngModel)]="updatedOffer.experienceLevel" name="experienceLevel" required />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>jobFunction</mat-label>
+        <input matInput [(ngModel)]="updatedOffer.jobFunction" name="jobFunction" required />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>jobType</mat-label>
+        <input matInput [(ngModel)]="updatedOffer.jobType" name="jobType" required />
+      </mat-form-field>
+      
+      <mat-form-field>
+        <mat-label>jobShift</mat-label>
+        <input matInput [(ngModel)]="updatedOffer.jobShift" name="jobShift" required />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>jobSchedule</mat-label>
+        <input matInput [(ngModel)]="updatedOffer.jobSchedule" name="jobSchedule" required />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>educationLevel</mat-label>
+        <input matInput [(ngModel)]="updatedOffer.educationLevel" name="educationLevel" required />
+      </mat-form-field>
+      
+    <div mat-dialog-actions>
+      <button mat-button (click)="onNoClick()">Cancel</button>
+      <button mat-button type="submit" color="primary">Update</button>
+    </div>
+  </form>
+</mat-dialog-content>

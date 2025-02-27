@@ -1,0 +1,66 @@
+<div class="container">
+  <h2>Create New Job Offer</h2>
+
+  <form [formGroup]="offreForm" (ngSubmit)="onSubmit()">
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+    <label for="title">Title:</label>
+    <input id="title" formControlName="title" type="text" required />
+    <div *ngIf="offreForm.controls['title'].invalid && submitted" class="error">Title is required.</div>
+
+    <label for="description">Description:</label>
+    <textarea id="description" formControlName="description" required></textarea>
+    <div *ngIf="offreForm.controls['description'].invalid && submitted" class="error">Description is required.</div>
+
+    <label for="salary">Salary:</label>
+    <input id="salary" formControlName="salary" type="number" required />
+    <div *ngIf="offreForm.controls['salary'].invalid && submitted" class="error">Salary is required.</div>
+
+    <label for="location">Location:</label>
+    <input id="location" formControlName="location" type="text" required />
+    <div *ngIf="offreForm.controls['location'].invalid && submitted" class="error">Location is required.</div>
+
+    <label for="datePosted">Date Posted:</label>
+    <input id="datePosted" formControlName="datePosted" type="date" required />
+    <div *ngIf="offreForm.controls['datePosted'].invalid && submitted" class="error">Date Posted is required.</div>
+
+    <label for="dateExpiration">Expiration Date:</label>
+    <input id="dateExpiration" formControlName="dateExpiration" type="date" required />
+    <div *ngIf="offreForm.controls['dateExpiration'].invalid && submitted" class="error">Expiration Date is required.</div>
+
+    <label for="contractType">Contract Type:</label>
+    <input id="contractType" formControlName="contractType" type="text" required />
+    <div *ngIf="offreForm.controls['contractType'].invalid && submitted" class="error">Contract Type is required.</div>
+
+    <label for="experienceLevel">Experience Level:</label>
+    <input id="experienceLevel" formControlName="experienceLevel" type="text" required />
+    <div *ngIf="offreForm.controls['experienceLevel'].invalid && submitted" class="error">Experience Level is required.</div>
+
+    <label for="jobFunction">Job Function:</label>
+    <input id="jobFunction" formControlName="jobFunction" type="text" required />
+    <div *ngIf="offreForm.controls['jobFunction'].invalid && submitted" class="error">Job Function is required.</div>
+
+    <label for="jobType">Job Type:</label>
+    <input id="jobType" formControlName="jobType" type="text" required />
+    <div *ngIf="offreForm.controls['jobType'].invalid && submitted" class="error">Job Type is required.</div>
+
+    <label for="jobShift">Job Shift:</label>
+    <input id="jobShift" formControlName="jobShift" type="text" required />
+    <div *ngIf="offreForm.controls['jobShift'].invalid && submitted" class="error">Job Shift is required.</div>
+
+    <label for="jobSchedule">Job Schedule:</label>
+    <input id="jobSchedule" formControlName="jobSchedule" type="text" required />
+    <div *ngIf="offreForm.controls['jobSchedule'].invalid && submitted" class="error">Job Schedule is required.</div>
+
+    <label for="educationLevel">Education Level:</label>
+    <input id="educationLevel" formControlName="educationLevel" type="text" required />
+    <div *ngIf="offreForm.controls['educationLevel'].invalid && submitted" class="error">Education Level is required.</div>
+
+    <label for="entrepriseId">Entreprise Name:</label>
+    <input id="entrepriseId" formControlName="entrepriseId" type="number" required />
+    <div *ngIf="offreForm.controls['entrepriseId'].invalid && submitted" class="error">Entreprise ID is required.</div>
+
+    <button type="submit" [disabled]="loading">Create Offer</button>
+    <div *ngIf="loading">Submitting...</div>
+  </form>
+</div>

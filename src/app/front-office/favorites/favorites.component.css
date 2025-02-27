@@ -1,0 +1,162 @@
+/* favorites.component.css */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.mt-4 {
+    margin-top: 2rem;
+}
+
+.mb-3 {
+    margin-bottom: 1.5rem;
+}
+
+h2 {
+    color: #2c3e50;
+    font-family: Arial, sans-serif;
+    font-weight: 600;
+    text-align: center;
+}
+
+.loading-message {
+    text-align: center;
+    padding: 20px;
+    color: #7f8c8d;
+    font-style: italic;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+
+.error-message {
+    text-align: center;
+    padding: 15px;
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.offer-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.offer-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.offer-title {
+    color: #34495e;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.offer-description {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.offer-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.offer-details p {
+    margin: 5px 0;
+    color: #555;
+}
+
+.offer-details strong {
+    color: #2c3e50;
+    margin-right: 5px;
+}
+
+.offer-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-sm {
+    padding: 6px 12px;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* For the commented-out buttons, if you decide to use them later */
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0069d9;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.alert {
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    color: #856404;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    
+    .offer-details {
+        grid-template-columns: 1fr;
+    }
+    
+    .offer-actions {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+}

@@ -1,0 +1,89 @@
+<div class="container mt-4">
+  <h2>Add New Entreprise</h2>
+  
+  <form [formGroup]="entrepriseForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="name">Entreprise Name</label>
+      <input
+        type="text"
+        class="form-control"
+        id="name"
+        formControlName="name"
+        [ngClass]="{'is-invalid': submitted && f['name'].errors}"
+      />
+      <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+        <div *ngIf="f['name'].errors?.['required']">Entreprise Name is required.</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="sector">Sector</label>
+      <input
+        type="text"
+        class="form-control"
+        id="sector"
+        formControlName="sector"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="location">Location</label>
+      <input
+        type="text"
+        class="form-control"
+        id="location"
+        formControlName="location"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea
+        class="form-control"
+        id="description"
+        formControlName="description"
+      ></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        formControlName="email"
+        [ngClass]="{'is-invalid': submitted && f['email'].errors}"
+      />
+      <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+        <div *ngIf="f['email'].errors?.['required']">Email is required.</div>
+        <div *ngIf="f['email'].errors?.['email']">Invalid email format.</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="phone">Phone</label>
+      <input
+        type="text"
+        class="form-control"
+        id="phone"
+        formControlName="phone"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="website">Website</label>
+      <input
+        type="url"
+        class="form-control"
+        id="website"
+        formControlName="website"
+      />
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="loading">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm"></span> 
+      {{loading ? 'Adding...' : 'Add Entreprise'}}
+    </button>
+  </form>
+  <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
+</div>

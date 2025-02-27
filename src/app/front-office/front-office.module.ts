@@ -4,20 +4,40 @@ import { CommonModule } from '@angular/common';
 import { FrontOfficeRoutingModule } from './front-office-routing.module';
 import { FrontOfficeComponent } from './front-office.component';
 import { Router, RouterModule } from '@angular/router';
+import { CreateOffreComponent } from './create-offre/create-offre.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UpdateOffreModalComponent } from './update-offre-modal/update-offre-modal.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input'; 
+import { OfferComponent } from './offer/offer.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { OfferStudentComponent } from './offer-student/offer-student.component';
+import { FavoritesComponent } from './favorites/favorites.component';
+
 
 
 @NgModule({
   declarations: [
-    FrontOfficeComponent
+    FrontOfficeComponent,
+    OfferComponent,
+    CreateOffreComponent,
+    UpdateOffreModalComponent,
+    OfferStudentComponent,
+    FavoritesComponent,
+    
+    
   ],
   imports: [
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    FormsModule,
     CommonModule,
-    /*RouterModule.forChild([
-      {
-        path: '',
-        component: FrontOfficeComponent
-      }
-    ]),*/
+    MatDialogModule, 
+    MatButtonModule, 
+    MatFormFieldModule, 
+    MatInputModule, 
     RouterModule,
     FrontOfficeRoutingModule
   ],

@@ -1,0 +1,133 @@
+<!-- update-entreprise.component.html -->
+
+<!-- Modal Overlay (optional) -->
+<div class="modal-overlay" *ngIf="showModal" (click)="closeModal($event)">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+      <div class="container">
+          <h2>Update Entreprise</h2>
+          <form [formGroup]="entrepriseForm" (ngSubmit)="onSubmit()">
+              <div class="form-group">
+                  <label for="name">Entreprise Name *</label>
+                  <input
+                      type="text"
+                      class="form-control"
+                      id="name"
+                      formControlName="name"
+                      [ngClass]="{'is-invalid': submitted && f['name'].errors}"
+                  />
+                  <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+                      <div *ngIf="f['name'].errors?.['required']">Entreprise Name is required.</div>
+                  </div>
+              </div>
+
+              <div class="form-group">
+                  <label for="sector">Sector</label>
+                  <input
+                      type="text"
+                      class="form-control"
+                      id="sector"
+                      formControlName="sector"
+                  />
+              </div>
+
+              <div class="form-group">
+                  <label for="location">Location</label>
+                  <input
+                      type="text"
+                      class="form-control"
+                      id="location"
+                      formControlName="location"
+                  />
+              </div>
+
+              <div class="form-group">
+                  <label for="description">Description</label>
+                  <textarea
+                      class="form-control"
+                      id="description"
+                      formControlName="description"
+                      placeholder="Enter a brief description of the entreprise"
+                  ></textarea>
+              </div>
+
+              <div class="form-group">
+                  <label for="email">Email *</label>
+                  <input
+                      type="email"
+                      class="form-control"
+                      id="email"
+                      formControlName="email"
+                      [ngClass]="{'is-invalid': submitted && f['email'].errors}"
+                  />
+                  <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+                      <div *ngIf="f['email'].errors?.['required']">Email is required.</div>
+                      <div *ngIf="f['email'].errors?.['email']">Invalid email format.</div>
+                  </div>
+              </div>
+
+              <div class="form-group">
+                  <label for="phone">Phone</label>
+                  <input
+                      type="text"
+                      class="form-control"
+                      id="phone"
+                      formControlName="phone"
+                      placeholder="+1 (123) 456-7890"
+                  />
+              </div>
+
+              <div class="form-group">
+                  <label for="website">Website</label>
+                  <input
+                      type="url"
+                      class="form-control"
+                      id="website"
+                      formControlName="website"
+                      placeholder="https://example.com"
+                  />
+              </div>
+
+              <div class="form-actions">
+                  <button type="submit" class="btn btn-primary" [disabled]="loading">
+                      <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
+                      {{ loading ? 'Updating...' : 'Update Entreprise' }}
+                  </button>
+                  <button type="button" class="btn btn-secondary" (click)="closeModal()" *ngIf="showModal">
+                      Cancel
+                  </button>
+              </div>
+          </form>
+
+          <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
+      </div>
+  </div>
+</div>
+
+<!-- Standard Page Layout (if not using modal) -->
+<div class="container mt-4" *ngIf="!showModal">
+  <h2>Update Entreprise</h2>
+  <form [formGroup]="entrepriseForm" (ngSubmit)="onSubmit()">
+      <!-- Same form content as above -->
+      <div class="form-group">
+          <label for="name">Entreprise Name *</label>
+          <input
+              type="text"
+              class="form-control"
+              id="name"
+              formControlName="name"
+              [ngClass]="{'is-invalid': submitted && f['name'].errors}"
+          />
+          <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+              <div *ngIf="f['name'].errors?.['required']">Entreprise Name is required.</div>
+          </div>
+      </div>
+      <!-- ... Repeat all form fields ... -->
+      <div class="form-actions">
+          <button type="submit" class="btn btn-primary" [disabled]="loading">
+              <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
+              {{ loading ? 'Updating...' : 'Update Entreprise' }}
+          </button>
+      </div>
+  </form>
+  <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
+</div>

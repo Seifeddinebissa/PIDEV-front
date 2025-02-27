@@ -1,0 +1,57 @@
+<div class="container mt-4">
+    <h2 class="mb-3">List of Entreprises</h2>
+    <!-- Search Bar (Updated placeholder) -->
+    <div class="search-bar mb-3">
+      <input
+          type="text"
+          class="form-control"
+          placeholder="Search entreprises by name or email..."
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="filterEntreprises()"
+      />
+  </div>
+  
+  <table class="table table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Logo</th>
+            <th>Name</th>
+            <th>Sector</th>
+            <th>Location</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Website</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let entreprise of filteredEntreprises">
+            <td>
+                <img *ngIf="entreprise.logo" [src]="entreprise.logo" alt="Logo" class="company-logo">
+            </td>
+            <td>{{ entreprise.name }}</td>
+            <td>{{ entreprise.sector }}</td>
+            <td>{{ entreprise.location }}</td>
+            <td>{{ entreprise.email }}</td>
+            <td>{{ entreprise.phone }}</td>
+            <td>
+                <a *ngIf="entreprise.website" [href]="entreprise.website" target="_blank">Visit</a>
+            </td>
+            <td>
+                <button class="btn btn-warning btn-sm me-2" (click)="editEntreprise(entreprise)">Edit</button>
+                <button class="btn btn-danger btn-sm" *ngIf="entreprise.id" (click)="deleteEntreprise(entreprise.id)">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div *ngIf="filteredEntreprises.length === 0" class="alert alert-warning text-center">
+    No entreprises found matching your search.
+</div>
+
+  
+    <div *ngIf="entreprises.length === 0" class="alert alert-warning text-center">
+      No entreprises available at the moment.
+    </div>
+  </div>
+  

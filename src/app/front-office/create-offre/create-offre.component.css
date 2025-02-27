@@ -1,0 +1,108 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  color: #333;
+  text-align: center;
+  margin-bottom: 30px;
+  font-family: Arial, sans-serif;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+label {
+  color: #555;
+  font-weight: 500;
+  margin-bottom: 5px;
+  font-family: Arial, sans-serif;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.error {
+  color: #dc3545;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.error-message {
+  color: #dc3545;
+  text-align: center;
+  padding: 10px;
+  background-color: #ffebee;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  .container {
+      margin: 10px;
+      padding: 15px;
+  }
+  
+  input, textarea {
+      font-size: 14px;
+  }
+  
+  button {
+      font-size: 14px;
+  }
+}
+
+/* Style for the loading state */
+form > div:last-child {
+  color: #666;
+  font-style: italic;
+  text-align: center;
+}

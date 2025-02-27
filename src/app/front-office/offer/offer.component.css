@@ -1,0 +1,158 @@
+/* offers.component.css */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.loading-message {
+  text-align: center;
+  padding: 20px;
+  color: #7f8c8d;
+  font-style: italic;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  margin: 20px 0;
+}
+
+.error-message {
+  text-align: center;
+  padding: 15px;
+  color: #721c24;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 5px;
+  margin: 20px 0;
+}
+
+.offer-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.offer-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.offer-title {
+  color: #34495e;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  font-weight: 500;
+  font-family: Arial, sans-serif;
+}
+
+.offer-description {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.offer-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.offer-details p {
+  margin: 5px 0;
+  color: #555;
+}
+
+.offer-details strong {
+  color: #2c3e50;
+  margin-right: 5px;
+}
+
+.offer-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.offer-actions button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Update button */
+.offer-actions button:first-child {
+  background-color: #28a745;
+  color: white;
+}
+
+.offer-actions button:first-child:hover {
+  background-color: #218838;
+}
+
+/* Delete button */
+.offer-actions button:nth-child(2) {
+  background-color: #dc3545;
+  color: white;
+}
+
+.offer-actions button:nth-child(2):hover {
+  background-color: #c82333;
+}
+
+/* No data message */
+ng-template p {
+  text-align: center;
+  padding: 15px;
+  background-color: #fff3cd;
+  border: 1px solid #ffeeba;
+  color: #856404;
+  border-radius: 5px;
+  margin: 20px 0;
+}
+
+/* Uncomment and style the Add Offer button if needed */
+/*
+.action-button {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.go-to-page-button:hover {
+  background-color: #0069d9;
+}
+*/
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+      padding: 15px;
+  }
+  
+  .offer-details {
+      grid-template-columns: 1fr;
+  }
+  
+  .offer-actions {
+      justify-content: center;
+      flex-wrap: wrap;
+  }
+  
+  .offer-actions button {
+      width: 100%;
+      margin-bottom: 10px;
+  }
+}
