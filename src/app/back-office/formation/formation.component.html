@@ -1,0 +1,66 @@
+<div class="dashboard__content-wrap">
+    <div class="dashboard__content-title d-flex justify-content-between align-items-center">
+      <h4 class="title">Trainings</h4>
+      <form class="tgmenu__search-form" (ngSubmit)="searchCourses()">
+        <div class="input-grp">
+          <input type="text" [(ngModel)]="searchQuery" placeholder="Search For Course . . ." name="searchQuery">
+          <button type="submit"><i class="flaticon-search"></i></button>
+        </div>
+      </form>
+      <button (click)="addFormation()" class="btn btn-primary">
+        <i class="skillgro-plus"></i> Add a Training
+      </button>
+    </div>
+  
+    <div class="row mt-25">
+      <div class="col-12">
+        <div class="dashboard__review-table">
+          <table class="table table-borderless">
+            <thead>
+              <tr>
+                <th>&nbsp;</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Duration</th>
+                <th>Price</th>
+                <th>Public</th>
+                <th>&nbsp;</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let formation of filteredFormation">
+                <td>
+                  <img [src]="formation.image" alt="Course Image" width="50">
+                </td>
+                <td>
+                  {{ formation.title.length > 20 ? (formation.title | slice:0:20) + '...' : formation.title }}
+                </td>
+                <td>
+                  {{ formation.description.length > 25 ? (formation.description | slice:0:25) + '...' : formation.description }}
+                </td>
+                <td>
+                  {{ formation.duration }} hours
+                </td>
+                <td>
+                  {{ formation.price }} $
+                </td>
+                <td>
+                  <span class="sub-title">
+                    {{ formation.is_public ? 'Yes' : 'No' }}
+                  </span>
+                </td>
+                <td>
+                  <div class="dashboard__review-action">
+                    <a [routerLink]="['/formations/edit/', formation.id]" title="Edit"><i class="skillgro-edit"></i></a>
+                    <a href="#" title="Delete" (click)="deleteFormation(formation.id, $event)">
+                      <i class="skillgro-bin"></i>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>

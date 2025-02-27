@@ -1,0 +1,47 @@
+<div class="dashboard__content-wrap">
+    <div class="dashboard__content-title d-flex justify-content-between align-items-center">
+        <h4 class="title">Feedbacks</h4>
+        <button (click)="addFeedback()" class="btn btn-primary">
+            <i class="skillgro-plus"></i> Add a Feedback
+        </button>
+    </div>
+    <div class="row mt-25">
+        <div class="col-12">
+            <div class="dashboard__review-table">
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th>Rating</th>
+                            <th>Comment</th>
+                            <th>Date</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let feedback of listFeedback">
+                            <td>
+                               {{ feedback.rating }}
+                            </td>
+                            <td>
+                                {{ feedback.comment }}
+                            </td>
+                            <td>
+                                {{ feedback.date | date:'shortDate' }}
+                            </td>
+                            <td>
+                                <div class="dashboard__review-action">
+                                    <a [routerLink]="['/feedbacks/edit/', feedback.id]" title="Edit">
+                                      <i class="skillgro-edit"></i>
+                                    </a>
+                                    <a href="#" title="Delete" (click)="deleteFeedback(feedback.id, $event)">
+                                      <i class="skillgro-bin"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+  </div>

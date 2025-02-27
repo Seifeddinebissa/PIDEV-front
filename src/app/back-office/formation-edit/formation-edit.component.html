@@ -1,0 +1,73 @@
+<div class="instructor__profile-form-wrap">
+    <form [formGroup]="formationForm" (ngSubmit)="updateFormation()" class="instructor__profile-form">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-grp">
+                    <label for="image">Image</label>
+                    <input id="image" type="text" formControlName="image" class="form-control">
+                    <div *ngIf="formationForm.get('image')?.invalid && formationForm.get('image')?.touched" class="error">
+                        Image URL is required.
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-grp">
+                    <label for="title">Title</label>
+                    <input id="title" type="text" formControlName="title" class="form-control">
+                    <div *ngIf="formationForm.get('title')?.invalid && formationForm.get('title')?.touched" class="error">
+                        Title is required and must be at least 3 characters.
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-grp">
+                    <label for="price">Price</label>
+                    <input id="price" type="number" formControlName="price" class="form-control">
+                    <div *ngIf="formationForm.get('price')?.invalid && formationForm.get('price')?.touched" class="error">
+                        Price must be greater than 0.
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="form-grp">
+                    <label for="description">Description</label>
+                    <textarea id="description" formControlName="description" class="form-control"></textarea>
+                    <div *ngIf="formationForm.get('description')?.invalid && formationForm.get('description')?.touched" class="error">
+                        Description is required.
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-grp">
+                    <label for="duration">Duration (hours)</label>
+                    <input id="duration" type="number" formControlName="duration" class="form-control">
+                    <div *ngIf="formationForm.get('duration')?.invalid && formationForm.get('duration')?.touched" class="error">
+                        Duration must be at least 1 hour.
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-grp select-grp">
+                    <label for="isPublic">Public Visibility</label>
+                    <select id="isPublic" formControlName="is_public" class="form-control">
+                        <option [value]="true">Yes</option>
+                        <option [value]="false">No</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-25">
+            <div class="col-md-2">
+                <a class="btn arrow-btn w-100" [routerLink]="['/formations']">Cancel</a>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn arrow-btn w-100" [disabled]="formationForm.invalid">Update Info</button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,121 @@
+<!-- Scroll-top -->
+<button class="scroll__top scroll-to-target" data-target="html">
+    <i class="tg-flaticon-arrowhead-up"></i>
+</button>
+<!-- Scroll-top-end-->
+
+<!-- main-area -->
+<main class="main-area fix">
+
+    <!-- breadcrumb-area -->
+    <section class="breadcrumb__area breadcrumb__bg" data-background="../assets/img/bg/breadcrumb_bg.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb__content">
+                        <h3 class="title">All Courses</h3>
+                        <nav class="breadcrumb">
+                            <span property="itemListElement" typeof="ListItem">
+                                <a routerLink="/">Home</a>
+                            </span>
+                            <span class="breadcrumb-separator"><i class="fas fa-angle-right"></i></span>
+                            <span property="itemListElement" typeof="ListItem">Trainings</span>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="breadcrumb__shape-wrap">
+            <img src="assets/img/others/breadcrumb_shape01.svg" alt="img" class="alltuchtopdown">
+            <img src="assets/img/others/breadcrumb_shape02.svg" alt="img" data-aos="fade-right" data-aos-delay="300">
+            <img src="assets/img/others/breadcrumb_shape03.svg" alt="img" data-aos="fade-up" data-aos-delay="400">
+            <img src="assets/img/others/breadcrumb_shape04.svg" alt="img" data-aos="fade-down-left" data-aos-delay="400">
+            <img src="assets/img/others/breadcrumb_shape05.svg" alt="img" data-aos="fade-left" data-aos-delay="400">
+        </div>
+    </section>
+    <!-- breadcrumb-area-end -->
+
+    <!-- all-courses -->
+    <section class="all-courses-area section-py-120">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-3 col-lg-4 order-2 order-lg-0">
+                    <aside class="courses__sidebar">
+                        <div class="courses-widget">
+                            <h4 class="widget-title">Price</h4>
+                            <div class="courses-cat-list">
+                                <ul class="list-wrap">
+                                  <li *ngFor="let priceOption of priceOptions">
+                                    <div class="form-check">
+                                      <input class="form-check-input price-filter" 
+                                             type="radio" 
+                                             [value]="priceOption.value" 
+                                             [(ngModel)]="selectedPrice" 
+                                             (change)="filterCourses()">
+                                      <label class="form-check-label">{{ priceOption.label }}</label>
+                                    </div>
+                                  </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+                <div class="col-xl-9 col-lg-8">
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="grid" role="tabpanel" aria-labelledby="grid-tab">
+                            <div class="row courses__grid-wrap row-cols-1 row-cols-xl-3 row-cols-lg-2 row-cols-md-2 row-cols-sm-1">
+                                <div *ngFor="let formation of paginatedFormations">
+                                    <div class="courses__item shine__animate-item">
+                                        <div class="courses__item-thumb">
+                                            <a [routerLink]="['/course-details', formation.id]" class="shine__animate-link">
+                                                <img [src]="formation.imageUrl || 'assets/img/courses/default.jpg'" alt="formation.imagee">
+                                            </a>
+                                        </div>
+                                        <div class="courses__item-content">
+                                            <ul class="courses__item-meta list-wrap">
+                                                <li class="courses__item-tag">
+                                                    <a href="course.html">{{ formation.duration }} hours</a>
+                                                </li>
+                                                <li class="avg-rating">
+                                                    <i class="fas fa-star"></i>
+                                                    ({{ feedbackCounts[formation.id] || 0 }} Reviews)
+                                                </li>
+                                            </ul>
+                                            <h5 class="title">
+                                                <a [routerLink]="['/course-details', formation.id]">{{ formation.title }}</a>
+                                            </h5>
+                                            <p class="author">
+                                                <a href="#">{{ formation.description.length > 25 ? (formation.description | slice:0:25) + '...' : formation.description }}</a>
+                                            </p>
+                                            <div class="courses__item-bottom">
+                                                <div class="button">
+                                                    <a [routerLink]="['/course-details', formation.id]">
+                                                        <span class="text">Enroll Now</span>
+                                                        <i class="flaticon-arrow-right"></i>
+                                                    </a>
+                                                </div>
+                                                <h5 class="price">${{ formation.price }}</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- PAGINATION -->
+                            <nav class="pagination__wrap mt-30" *ngIf="totalPages > 1">
+                                <ul class="list-wrap">
+                                    <li *ngFor="let page of getPages()" [class.active]="currentPage === page">
+                                        <a href="#" (click)="changePage(page, $event)">{{ page }}</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- all-courses-end -->
+
+</main>
+<!-- main-area-end -->
