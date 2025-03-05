@@ -30,7 +30,7 @@
             <tbody>
               <tr *ngFor="let formation of filteredFormation">
                 <td>
-                  <img [src]="formation.image" alt="Course Image" width="50">
+                  <img [src]="formation.image" alt="Course Image" width="50" height="50">
                 </td>
                 <td>
                   {{ formation.title.length > 20 ? (formation.title | slice:0:20) + '...' : formation.title }}

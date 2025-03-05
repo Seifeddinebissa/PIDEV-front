@@ -116,4 +116,11 @@ export class CourseDetailsComponent implements OnInit {
       }
     );
   }
+
+  // Gestion des erreurs de chargement d'image
+  onImageError(event: Event): void {
+    const imgElement = event.target as HTMLImageElement;
+    imgElement.src = 'assets/img/courses/default.jpg';
+    console.warn('Image failed to load, using default image');
+  }
 }

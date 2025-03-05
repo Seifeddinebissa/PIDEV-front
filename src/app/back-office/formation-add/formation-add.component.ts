@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormationService } from '../services/formation.service'; // Import du service
+import { FormationService } from '../services/formation.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class FormationAddComponent {
   formationForm: FormGroup;
+  selectedImage: File | null = null; // Pour stocker le fichier image sélectionné
 
   constructor(
     private router: Router,
@@ -17,7 +18,6 @@ export class FormationAddComponent {
     private fb: FormBuilder
   ) {
     this.formationForm = this.fb.group({
-      image: ['', Validators.required],
       title: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', Validators.required],
       duration: [0, [Validators.required, Validators.min(1)]],
@@ -26,16 +26,33 @@ export class FormationAddComponent {
     });
   }
 
-  addFormation() {
-    if (this.formationForm.invalid) {
+  // Gestion du changement de fichier
+  onImageSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedImage = input.files[0];
+    }
+  }
+
+  addFormation(): void {
+    if (this.formationForm.invalid || !this.selectedImage) {
       this.formationForm.markAllAsTouched();
+      console.error('Formulaire invalide ou image manquante');
       return;
     }
 
-    this.formationService.addFormation(this.formationForm.value).subscribe(
+    const formData = new FormData();
+    formData.append('title', this.formationForm.get('title')?.value);
+    formData.append('description', this.formationForm.get('description')?.value);
+    formData.append('duration', this.formationForm.get('duration')?.value.toString());
+    formData.append('price', this.formationForm.get('price')?.value.toString());
+    formData.append('is_public', this.formationForm.get('is_public')?.value.toString());
+    formData.append('image', this.selectedImage);
+
+    this.formationService.addFormationWithImage(formData).subscribe(
       (response) => {
         console.log('Formation ajoutée avec succès :', response);
-        this.router.navigate(['/formations']); // Redirection après ajout
+        this.router.navigate(['/formations']);
       },
       (error) => {
         console.error('Erreur lors de l’ajout de la formation :', error);

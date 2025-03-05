@@ -61,7 +61,7 @@ export class FeedbackAddComponent implements OnInit {
     this.feedbackService.addFeedback(feedbackData, feedbackData.formationId).subscribe(
       (response) => {
         console.log('Feedback ajouté avec succès:', response);
-        this.router.navigate(['/formations']);
+        this.router.navigate(['/feedbacks']);
       },
       (error) => {
         console.error('Erreur lors de l’ajout du feedback:', error);

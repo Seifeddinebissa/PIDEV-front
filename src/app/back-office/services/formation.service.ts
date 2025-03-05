@@ -8,36 +8,39 @@ import { Formation } from '../models/Formation';
   providedIn: 'root'
 })
 export class FormationService {
-
   apiUrl = "http://localhost:8081/api/formations";
-  constructor(private http: HttpClient,
-      private router: Router) { }
 
-      getAllFormation():Observable<any[]>{
-          return this.http.get<any[]>(this.apiUrl+"/get-all");  
-        }
+  constructor(private http: HttpClient, private router: Router) {}
 
-      getFormationById(id: number): Observable<Formation> {
-          return this.http.get<Formation>(`${this.apiUrl}/${id}`);
-        }
-      
-      updateFormation(id: number, formation: Formation): Observable<Formation> {
-          return this.http.put<Formation>(`${this.apiUrl}/${id}`, formation);
-        }
+  getAllFormation(): Observable<Formation[]> {
+    return this.http.get<Formation[]>(`${this.apiUrl}/get-all`);
+  }
 
-        deleteFormation(id: number): Observable<void> {
-          return this.http.delete<void>(`${this.apiUrl}/${id}`);
-        }
+  getFormationById(id: number): Observable<Formation> {
+    return this.http.get<Formation>(`${this.apiUrl}/${id}`);
+  }
 
-        addFormation(formation: any): Observable<any> {
-          return this.http.post<any>(this.apiUrl, formation);
-        }
+  updateFormation(id: number, formation: Formation): Observable<Formation> {
+    return this.http.put<Formation>(`${this.apiUrl}/${id}`, formation);
+  }
 
-        getFeedbackCountByFormation(id: number): Observable<number> {
-          return this.http.get<number>(`${this.apiUrl}/${id}/feedback-count`);
-        }
+  // Nouvelle méthode pour mise à jour avec image
+  updateFormationWithImage(id: number, formData: FormData): Observable<Formation> {
+    return this.http.put<Formation>(`${this.apiUrl}/${id}`, formData);
+  }
 
-        // New method to get feedbacks for a formation
+  deleteFormation(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  addFormationWithImage(formData: FormData): Observable<Formation> {
+    return this.http.post<Formation>(`${this.apiUrl}/create`, formData);
+  }
+
+  getFeedbackCountByFormation(id: number): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/${id}/feedback-count`);
+  }
+
   getFeedbacksByFormation(id: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/${id}/feedbacks`);
   }

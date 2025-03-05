@@ -45,16 +45,16 @@
                             <h4 class="widget-title">Price</h4>
                             <div class="courses-cat-list">
                                 <ul class="list-wrap">
-                                  <li *ngFor="let priceOption of priceOptions">
-                                    <div class="form-check">
-                                      <input class="form-check-input price-filter" 
-                                             type="radio" 
-                                             [value]="priceOption.value" 
-                                             [(ngModel)]="selectedPrice" 
-                                             (change)="filterCourses()">
-                                      <label class="form-check-label">{{ priceOption.label }}</label>
-                                    </div>
-                                  </li>
+                                    <li *ngFor="let priceOption of priceOptions">
+                                        <div class="form-check">
+                                            <input class="form-check-input price-filter" 
+                                                   type="radio" 
+                                                   [value]="priceOption.value" 
+                                                   [(ngModel)]="selectedPrice" 
+                                                   (change)="filterCourses()">
+                                            <label class="form-check-label">{{ priceOption.label }}</label>
+                                        </div>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -68,7 +68,9 @@
                                     <div class="courses__item shine__animate-item">
                                         <div class="courses__item-thumb">
                                             <a [routerLink]="['/course-details', formation.id]" class="shine__animate-link">
-                                                <img [src]="formation.imageUrl || 'assets/img/courses/default.jpg'" alt="formation.imagee">
+                                                <img [src]="formation.image || 'assets/img/courses/default.jpg'" 
+                                                     alt="{{ formation.title }}" 
+                                                     (error)="onImageError($event)">
                                             </a>
                                         </div>
                                         <div class="courses__item-content">

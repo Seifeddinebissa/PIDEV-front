@@ -38,7 +38,9 @@
                 <div class="row">
                     <div class="col-xl-9 col-lg-8">
                         <div class="courses__details-thumb">
-                            <img src="assets/img/courses/courses_details.jpg" alt="img">
+                            <img [src]="formation?.image || 'assets/img/courses/default.jpg'" 
+     alt="{{ formation?.title || 'Course Image' }}" 
+     (error)="onImageError($event)" height="400px" width="1200px">
                         </div>
                         <div class="courses__details-content">
                             <ul class="courses__item-meta list-wrap">

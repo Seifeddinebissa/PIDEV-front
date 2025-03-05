@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormationService } from '../../back-office/services/formation.service';
+import { FormationService } from '../../back-office/services/formation.service'; // Ajustez le chemin si nécessaire
 import { HttpClient } from '@angular/common/http';
+import { Formation } from 'src/app/back-office/models/Formation';
+
 
 @Component({
   selector: 'app-formations-list',
@@ -8,10 +10,9 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./formations-list.component.css']
 })
 export class FormationsListComponent implements OnInit {
-
-  formations: any[] = [];
-  filteredFormations: any[] = [];
-  paginatedFormations: any[] = [];
+  formations: Formation[] = [];
+  filteredFormations: Formation[] = [];
+  paginatedFormations: Formation[] = [];
   feedbackCounts: { [key: number]: number } = {};
   publicFormationCount: number = 0;
 
@@ -20,8 +21,8 @@ export class FormationsListComponent implements OnInit {
   itemsPerPage: number = 6;
 
   // Price filter variables
-  selectedPrice: string = 'all'; // Default to 'all' to show all formations
-  priceOptions: { value: string, label: string }[] = [
+  selectedPrice: string = 'all';
+  priceOptions: { value: string; label: string }[] = [
     { value: 'all', label: 'All Prices' },
     { value: '0-999', label: '0 $ - 999 $' },
     { value: '1000-2999', label: '1000 $ - 2999 $' },
@@ -29,15 +30,15 @@ export class FormationsListComponent implements OnInit {
     { value: '7000+', label: 'more than 7000 $' }
   ];
 
-  constructor(private formationService: FormationService, private http: HttpClient) { }
+  constructor(private formationService: FormationService, private http: HttpClient) {}
 
   ngOnInit(): void {
     this.formationService.getAllFormation().subscribe(
       (data) => {
         this.formations = data.filter(f => f.is_public);
-        this.filteredFormations = [...this.formations]; // Initialize filtered formations
+        this.filteredFormations = [...this.formations];
         this.publicFormationCount = this.filteredFormations.length;
-        this.updatePaginatedFormations(); // Initialize pagination
+        this.updatePaginatedFormations();
 
         // Fetch feedback counts for each formation
         this.formations.forEach(formation => this.getFeedbackCount(formation.id));
@@ -48,7 +49,6 @@ export class FormationsListComponent implements OnInit {
     );
   }
 
-  // Get feedback count for a formation
   getFeedbackCount(formation_id: number): void {
     this.formationService.getFeedbackCountByFormation(formation_id).subscribe(
       (count) => {
@@ -60,7 +60,6 @@ export class FormationsListComponent implements OnInit {
     );
   }
 
-  // Apply price filter to formations
   filterCourses(): void {
     this.filteredFormations = this.formations.filter(f => {
       const price = Number(f.price);
@@ -71,26 +70,23 @@ export class FormationsListComponent implements OnInit {
         case '1000-2999': return price >= 1000 && price <= 2999;
         case '3000-6999': return price >= 3000 && price <= 6999;
         case '7000+': return price >= 7000;
-        default: return true; // 'all' option: show all formations
+        default: return true;
       }
     });
 
     this.publicFormationCount = this.filteredFormations.length;
-    this.currentPage = 1; // Reset pagination to first page
+    this.currentPage = 1;
     this.updatePaginatedFormations();
   }
 
-  // Calculate total pages dynamically
   get totalPages(): number {
     return Math.ceil(this.publicFormationCount / this.itemsPerPage);
   }
 
-  // Generate array of pages dynamically
   getPages(): number[] {
     return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 
-  // Change the page and update displayed formations
   changePage(page: number, event: Event): void {
     event.preventDefault();
     if (page >= 1 && page <= this.totalPages) {
@@ -99,9 +95,15 @@ export class FormationsListComponent implements OnInit {
     }
   }
 
-  // Update paginated formations based on the current page
   updatePaginatedFormations(): void {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     this.paginatedFormations = this.filteredFormations.slice(startIndex, startIndex + this.itemsPerPage);
+  }
+
+  // Gestion des erreurs de chargement d'image
+  onImageError(event: Event): void {
+    const imgElement = event.target as HTMLImageElement;
+    imgElement.src = 'assets/img/courses/default.jpg';
+    console.warn('Image failed to load, using default image');
   }
 }
