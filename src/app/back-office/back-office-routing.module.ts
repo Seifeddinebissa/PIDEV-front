@@ -6,6 +6,9 @@ import { CoursesComponent } from './courses/courses.component';
 import { AddCourseComponent } from './add-course/add-course.component';
 import { UpdateCourseComponent } from './update-course/update-course.component';
 import { QuizComponent } from './quiz/quiz.component';
+import { AddQuestionComponent } from './add-question/add-question.component';
+import { QuizAttemptsComponent } from './quiz-attempts/quiz-attempts.component';
+import { AdminCoursesComponent } from './admin-courses/admin-courses.component';
 
 const routes: Routes = [
   {
@@ -16,7 +19,10 @@ const routes: Routes = [
       {path:"courses", component:CoursesComponent} ,
       {path:"Addcourse", component:AddCourseComponent} ,
       {path:"UpdateCourse/:id", component:UpdateCourseComponent} ,
-      {path:"Quiz/:id", component:QuizComponent}
+      {path:"Quiz/:id", component:QuizComponent} ,
+      {path:"questions/add/:quizId", component:AddQuestionComponent} ,
+      {path:"QiuzAttempts", component:QuizAttemptsComponent} ,
+      {path:"adminCourses", component:AdminCoursesComponent}
     ]
   }
 ];

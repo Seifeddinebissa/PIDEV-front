@@ -1,0 +1,41 @@
+.courses__item.card-equal-height {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.courses__item-thumb {
+    flex-shrink: 0; /* Empêche l'image de se réduire */
+}
+
+.courses__item-thumb img {
+    width: 100%;
+    height: 200px; /* Ajustez cette valeur selon vos besoins */
+    object-fit: cover;
+}
+
+.courses__item-content.content-wrapper {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+}
+
+.description-text {
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* Limite à 3 lignes, ajustez selon vos besoins */
+    -webkit-box-orient: vertical;
+}
+
+.courses__item-bottom {
+    margin-top: auto; /* Pousse le bouton vers le bas */
+}
+
+.courses__item.card-equal-height {
+    height: 450px; /* Ajustez selon vos besoins */
+    display: flex;
+    flex-direction: column;
+}

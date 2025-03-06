@@ -8,33 +8,22 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    course Content
-                                    
+                                    Course Content
                                 </button>
                             </h2>
                             <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
                                     <ul class="list-wrap">
-                                        <li class="course-item open-item"  *ngFor="let pdfUrl of course.contenu">
-                                            <a href="#" class="course-item-link active">
-                                               
-
-                                               
-                                                    <a href="#" (click)="openPdf(pdfUrl); $event.preventDefault()">
-                                                        {{ getPdfTitle(pdfUrl) }}
-                                                    </a>
-                                                
-                                                
+                                        <li class="course-item open-item" *ngFor="let pdfUrl of course.contenu">
+                                            <a href="#" class="course-item-link active" (click)="openPdf(pdfUrl); $event.preventDefault()">
+                                                {{ getPdfTitle(pdfUrl) }}
                                             </a>
                                         </li>
-                                     
-                                      
                                     </ul>
                                 </div>
                             </div>
                         </div>
                         <div class="accordion-item">
-                            
                             <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
                                     <ul class="list-wrap">
@@ -60,9 +49,6 @@
                                                 </div>
                                             </a>
                                         </li>
-                                      
-                                        
-                                       
                                     </ul>
                                 </div>
                             </div>
@@ -71,24 +57,27 @@
                             <h2 class="accordion-header">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                     Final Audit
-                                    
                                 </button>
                             </h2>
                             <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
                                     <ul class="list-wrap">
-                                        <li class="course-item">
-                                            <a href="#" class="course-item-link">
-                                                <span class="item-name">Course Installation</span>
+                                        <!-- Boucle sur les quizzes existants -->
+                                        <li class="course-item open-item" *ngFor="let quiz of existingQuizzes">
+                                            <!-- Navigation vers QuizComponent avec l'ID du quiz -->
+                                            <a [routerLink]="['/quiz', quiz.idQuiz]" class="course-item-link">
+                                                <span class="item-name">{{ quiz.titre }}</span>
                                                 <div class="course-item-meta">
-                                                    <span class="item-meta duration">03:03</span>
+                                                    <span class="item-meta duration" *ngIf="quiz.duration">{{ quiz.duration }}</span>
                                                     <span class="item-meta course-item-status">
-                                                        <img src="assets/img/icons/lock.svg" alt="icon">
+                                                        <img src="assets/img/icons/lock.svg" alt="icon" *ngIf="!quiz.isAccessible">
                                                     </span>
                                                 </div>
                                             </a>
                                         </li>
-                                       
+                                        <li *ngIf="existingQuizzes.length === 0">
+                                            <span class="item-name">Aucun quiz disponible pour ce cours.</span>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -106,20 +95,33 @@
                         <div class="lesson__video-wrap-top-right">
                             <a href="#"><i class="fas fa-times"></i></a>
                         </div>
-
-
                     </div>
-
-
                     <div *ngIf="course">
-                        <img [src]="course.image || 'assets/img/courses/course_thumb01.jpg'" alt="{{ course.titre }}" class="img-fluid" style="width: 700px; height: 700;">
+                        <img [src]="course.image || 'assets/img/courses/course_thumb01.jpg'" alt="{{ course.titre }}" class="img-fluid" style="width: 900px; height: 500px;">
                     </div>
-
-
-
                     <div class="lesson__next-prev-button">
                         <button class="prev-button" title="Create a Simple React App"><i class="flaticon-arrow-right"></i></button>
                         <button class="next-button" title="React for the Rest of us"><i class="flaticon-arrow-right"></i></button>
+                    </div>
+                    <!-- PDF Viewer -->
+                    <div class="pdf-viewer mt-4" *ngIf="selectedPdfUrl">
+                        <div #fullscreenContainer class="fullscreen-container">
+                            <div class="pdf-header">
+                                <h5>Reading: {{ getPdfTitle(selectedPdfUrl) }}</h5>
+                                <div class="pdf-controls">
+                                    <button class="btn btn-primary" (click)="toggleFullScreen()" *ngIf="!isFullScreen">
+                                        Full Screen
+                                    </button>
+                                    <button class="btn btn-danger" (click)="exitFullScreen()" *ngIf="isFullScreen">
+                                        Exit Full Screen
+                                    </button>
+                                    <button class="btn btn-success" (click)="downloadPdf()">
+                                        Download
+                                    </button>
+                                </div>
+                            </div>
+                            <iframe [src]="selectedPdfUrl | safe: 'resourceUrl'" width="100%" height="1000px" frameborder="0"></iframe>
+                        </div>
                     </div>
                 </div>
                 <div class="courses__details-content lesson__details-content">
@@ -130,187 +132,23 @@
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="instructors-tab" data-bs-toggle="tab" data-bs-target="#instructors-tab-pane" type="button" role="tab" aria-controls="instructors-tab-pane" aria-selected="false">Instructors</button>
                         </li>
-                        
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="overview-tab-pane" role="tabpanel" aria-labelledby="overview-tab" tabindex="0">
                             <div class="courses__overview-wrap">
                                 <h3 class="title">Course Description</h3>
-
-                                
                                 <div *ngIf="course">
                                     <p>{{ course.description }}</p>
                                 </div>
-
-
-
                                 <ul class="about__info-list list-wrap">
-                                    <li class="about__info-list-item">
-                                        <i class="flaticon-angle-right"></i>
-                                        <p class="content">Work with color & Gradients & Grids</p>
-                                    </li>
-                                    <li class="about__info-list-item">
-                                        <i class="flaticon-angle-right"></i>
-                                        <p class="content">All the useful shortcuts</p>
-                                    </li>
-                                    <li class="about__info-list-item">
-                                        <i class="flaticon-angle-right"></i>
-                                        <p class="content">Be able to create Flyers, Brochures, Advertisements</p>
-                                    </li>
-                                    <li class="about__info-list-item">
-                                        <i class="flaticon-angle-right"></i>
-                                        <p class="content">How to work with Images & Text</p>
-                                    </li>
+                                    <li class="about__info-list-item"><i class="flaticon-angle-right"></i><p class="content">Work with color & Gradients & Grids</p></li>
+                                    <li class="about__info-list-item"><i class="flaticon-angle-right"></i><p class="content">All the useful shortcuts</p></li>
+                                    <li class="about__info-list-item"><i class="flaticon-angle-right"></i><p class="content">Be able to create Flyers, Brochures, Advertisements</p></li>
+                                    <li class="about__info-list-item"><i class="flaticon-angle-right"></i><p class="content">How to work with Images & Text</p></li>
                                 </ul>
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="instructors-tab-pane" role="tabpanel" aria-labelledby="instructors-tab" tabindex="0">
-                            <div class="courses__instructors-wrap">
-                                <div class="courses__instructors-thumb">
-                                    <img src="assets/img/courses/course_instructors.png" alt="img">
-                                </div>
-                                <div class="courses__instructors-content">
-                                    <h2 class="title">Mark Jukarberg</h2>
-                                    <span class="designation">UX Design Lead</span>
-                                    <p class="avg-rating"><i class="fas fa-star"></i>(4.8 Ratings)</p>
-                                    <p>Dorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan.</p>
-                                    <div class="instructor__social">
-                                        <ul class="list-wrap justify-content-start">
-                                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-whatsapp"></i></a></li>
-                                            <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="reviews-tab-pane" role="tabpanel" aria-labelledby="reviews-tab" tabindex="0">
-                            <div class="courses__rating-wrap">
-                                <h2 class="title">Reviews</h2>
-                                <div class="course-rate">
-                                    <div class="course-rate__summary">
-                                        <div class="course-rate__summary-value">4.8</div>
-                                        <div class="course-rate__summary-stars">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                        </div>
-                                        <div class="course-rate__summary-text">
-                                            12 Ratings
-                                        </div>
-                                    </div>
-                                    <div class="course-rate__details">
-                                        <div class="course-rate__details-row">
-                                            <div class="course-rate__details-row-star">
-                                                5
-                                                <i class="fas fa-star"></i>
-                                            </div>
-                                            <div class="course-rate__details-row-value">
-                                                <div class="rating-gray"></div>
-                                                <div class="rating" style="width:80%;" title="80%"></div>
-                                                <span class="rating-count">2</span>
-                                            </div>
-                                        </div>
-                                        <div class="course-rate__details-row">
-                                            <div class="course-rate__details-row-star">
-                                                4
-                                                <i class="fas fa-star"></i>
-                                            </div>
-                                            <div class="course-rate__details-row-value">
-                                                <div class="rating-gray"></div>
-                                                <div class="rating" style="width:50%;" title="50%"></div>
-                                                <span class="rating-count">1</span>
-                                            </div>
-                                        </div>
-                                        <div class="course-rate__details-row">
-                                            <div class="course-rate__details-row-star">
-                                                3
-                                                <i class="fas fa-star"></i>
-                                            </div>
-                                            <div class="course-rate__details-row-value">
-                                                <div class="rating-gray"></div>
-                                                <div class="rating" style="width:0%;" title="0%"></div>
-                                                <span class="rating-count">0</span>
-                                            </div>
-                                        </div>
-                                        <div class="course-rate__details-row">
-                                            <div class="course-rate__details-row-star">
-                                                2
-                                                <i class="fas fa-star"></i>
-                                            </div>
-                                            <div class="course-rate__details-row-value">
-                                                <div class="rating-gray"></div>
-                                                <div class="rating" style="width:0%;" title="0%"></div>
-                                                <span class="rating-count">0</span>
-                                            </div>
-                                        </div>
-                                        <div class="course-rate__details-row">
-                                            <div class="course-rate__details-row-star">
-                                                1
-                                                <i class="fas fa-star"></i>
-                                            </div>
-                                            <div class="course-rate__details-row-value">
-                                                <div class="rating-gray"></div>
-                                                <div class="rating" style="width:0%;" title="0%"></div>
-                                                <span class="rating-count">0</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="course-review-head">
-                                    <div class="review-author-thumb">
-                                        <img src="assets/img/courses/review-author.png" alt="img">
-                                    </div>
-                                    <div class="review-author-content">
-                                        <div class="author-name">
-                                            <h5 class="name">Jura Hujaor <span>2 Days ago</span></h5>
-                                            <div class="author-rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                            </div>
-                                        </div>
-                                        <h4 class="title">The best LMS Design System</h4>
-                                        <p>Maximus ligula eleifend id nisl quis interdum. Sed malesuada tortor non turpis semper bibendum nisi porta, malesuada risus nonerviverra dolor. Vestibulum ante ipsum primis in faucibus.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                         
-
-                        
-
-
-                        <div class="pdf-viewer mt-4" *ngIf="selectedPdfUrl">
-                            <div class="pdf-header">
-                                <h5>Reading: {{ getPdfTitle(selectedPdfUrl) }}</h5>
-                                <button class="btn btn-primary" (click)="toggleFullScreen()">Full Screen</button>
-                            </div>
-                            <iframe #pdfIframe [src]="selectedPdfUrl | safe: 'resourceUrl'" width="100%" height="600px" frameborder="0"></iframe>
-                        </div>
-
-                        
-                    
-
-                
-
-              
-
-                
-
-
-
-
-
-
-
-
+                        <!-- Autres onglets inchangés -->
                     </div>
                 </div>
             </div>

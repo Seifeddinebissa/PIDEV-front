@@ -6,7 +6,9 @@ import { FrontOfficeComponent } from './front-office.component';
 import { Router, RouterModule } from '@angular/router';
 import { CoursesComponent } from './courses/courses.component';
 import { LessonsComponent } from './lessons/lessons.component';
+import { FormsModule } from '@angular/forms';
 import { SafePipe } from './safe.pipe';
+import { QuizComponent } from './quiz/quiz.component';
 
 
 @NgModule({
@@ -14,7 +16,8 @@ import { SafePipe } from './safe.pipe';
     FrontOfficeComponent,
     CoursesComponent,
     LessonsComponent,
-    SafePipe
+    SafePipe,
+    QuizComponent
     
   ],
   imports: [
@@ -26,7 +29,8 @@ import { SafePipe } from './safe.pipe';
       }
     ]),*/
     RouterModule,
-    FrontOfficeRoutingModule
+    FrontOfficeRoutingModule,
+    FormsModule
   ],
   exports: [FrontOfficeComponent]
 })

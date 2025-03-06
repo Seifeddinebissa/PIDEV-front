@@ -1,0 +1,96 @@
+<!-- main-area -->
+<main class="main-area fix">
+  <!-- breadcrumb-area -->
+  <section class="breadcrumb__area breadcrumb__bg" data-background="assets/img/bg/breadcrumb_bg.jpg">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="breadcrumb__content">
+            <h2 *ngIf="quiz?.titre">{{ quiz.titre }}</h2>
+            <nav class="breadcrumb">
+              <span property="itemListElement" typeof="ListItem">
+                <a href="index.html">courses</a>
+              </span>
+              <span class="breadcrumb-separator"><i class="fas fa-angle-right"></i></span>
+              <span property="itemListElement" typeof="ListItem">final Audit</span>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="breadcrumb__shape-wrap">
+      <img src="assets/img/others/breadcrumb_shape01.svg" alt="img" class="alltuchtopdown">
+      <img src="assets/img/others/breadcrumb_shape02.svg" alt="img" data-aos="fade-right" data-aos-delay="300">
+      <img src="assets/img/others/breadcrumb_shape03.svg" alt="img" data-aos="fade-up" data-aos-delay="400">
+      <img src="assets/img/others/breadcrumb_shape04.svg" alt="img" data-aos="fade-down-left" data-aos-delay="400">
+      <img src="assets/img/others/breadcrumb_shape05.svg" alt="img" data-aos="fade-left" data-aos-delay="400">
+    </div>
+  </section>
+
+  <div class="container mt-5">
+    <p *ngIf="quiz?.description">{{ quiz.description }}</p>
+
+    <!-- Compte à rebours -->
+    <div class="text-center mb-4" *ngIf="!isSubmitted">
+      <h4>Temps restant: <span class="badge bg-primary">{{ getFormattedTime() }}</span></h4>
+    </div>
+
+    <!-- Message de chargement -->
+    <div *ngIf="isLoading" class="text-center">
+      <p>Chargement des questions...</p>
+    </div>
+
+    <!-- Liste des questions avec réponses multiples -->
+    <div *ngIf="!isLoading && quiz?.questions && quiz.questions.length > 0; else noQuestions">
+      <form (ngSubmit)="submitQuiz()">
+        <div class="question-item mb-4" *ngFor="let question of quiz.questions; let i = index">
+          <h4>{{ i + 1 }}. {{ question.contenu }}</h4>
+          <div class="form-group">
+            <div class="form-check" *ngFor="let reponse of question.reponses">
+              <input
+                type="radio"
+                class="form-check-input"
+                [id]="'reponse-' + question.idQuestion + '-' + reponse.answernum"
+                [name]="'question-' + question.idQuestion"
+                [value]="reponse.answernum"
+                [(ngModel)]="question.selectedAnswer"
+                [disabled]="isSubmitted"
+                (change)="selectAnswer(question, reponse)"
+              >
+              <label class="form-check-label" [for]="'reponse-' + question.idQuestion + '-' + reponse.answernum">
+                {{ reponse.answernum }}: {{ reponse.contenu }}
+              </label>
+            </div>
+            <!-- Résultat après soumission -->
+            <div *ngIf="isSubmitted && question.selectedAnswer" class="mt-2">
+              <span class="badge" [ngClass]="{'bg-success': isAnswerCorrect(question), 'bg-danger': !isAnswerCorrect(question)}">
+                {{ isAnswerCorrect(question) ? 'Correct' : 'Incorrect' }}
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- Bouton Submit -->
+        <button type="submit" class="btn btn-primary m-5" [disabled]="isLoading || isSubmitted || !areAllQuestionsAnswered()">
+          Submit Quiz
+        </button>
+      </form>
+
+      <!-- Note finale après soumission -->
+      <div *ngIf="isSubmitted" class="mt-4">
+        <h3>Note finale</h3>
+        <p>Votre score: {{ totalScore }} / {{ maxScore }}</p>
+        <p>{{ totalScore === maxScore ? 'Félicitations, score parfait !' : 'merci pour votre participation' }}</p>
+      </div>
+    </div>
+
+    <!-- Message si pas de questions -->
+    <ng-template #noQuestions>
+      <p *ngIf="!isLoading">Aucune question disponible pour ce quiz.</p>
+    </ng-template>
+
+    <!-- Message d'erreur -->
+    <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+      {{ errorMessage }}
+    </div>
+  </div>
+</main>

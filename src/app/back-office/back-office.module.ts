@@ -11,6 +11,9 @@ import { AddCourseComponent } from './add-course/add-course.component';
 import { FormsModule } from '@angular/forms';
 import { UpdateCourseComponent } from './update-course/update-course.component';
 import { QuizComponent } from './quiz/quiz.component';
+import { AddQuestionComponent } from './add-question/add-question.component';
+import { QuizAttemptsComponent } from './quiz-attempts/quiz-attempts.component';
+import { AdminCoursesComponent } from './admin-courses/admin-courses.component';
 
 
 @NgModule({
@@ -20,7 +23,10 @@ import { QuizComponent } from './quiz/quiz.component';
     CoursesComponent,
     AddCourseComponent,
     UpdateCourseComponent,
-    QuizComponent
+    QuizComponent,
+    AddQuestionComponent,
+    QuizAttemptsComponent,
+    AdminCoursesComponent
   ],
   imports: [
     CommonModule,

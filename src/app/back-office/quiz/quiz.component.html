@@ -1,0 +1,96 @@
+<div class="container mt-5">
+    <h2>{{ isEditing ? 'Edit Quiz' : 'Add New Quiz' }} for Course {{ courseTitle }}</h2>
+  
+    <!-- Liste des quizzes existants -->
+    <table class="table table-borderless">
+      <thead>
+        <th class="col-20">Quiz</th>
+        <th></th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let q of existingQuizzes">
+          <td>
+            <div class="dashboard__quiz-info">
+              <h6 class="title">{{ q.titre }} - {{ q.description }}</h6>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="dashboard__review-action">
+              <a href="#" title="Edit" (click)="editQuiz(q); $event.preventDefault()">
+                <i class="skillgro-edit"></i>
+              </a>
+              <a href="#" title="Delete" (click)="deleteQuiz(q.idQuiz); $event.preventDefault()">
+                <i class="skillgro-bin"></i>
+              </a>
+              <a href="#" title="Add Questions" (click)="navigateToAddQuestions(q.idQuiz); $event.preventDefault()">
+                <i class="skillgro-diploma-2"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <div class="mt-3" *ngIf="existingQuizzes.length === 0">
+      <p>No quizzes found for this course yet.</p>
+    </div>
+  
+    <!-- Formulaire pour ajouter ou modifier un quiz -->
+    <form (ngSubmit)="onSubmit()" class="mt-4">
+      <!-- Quiz Title -->
+      <div class="mb-3">
+        <label for="titre" class="form-label">Quiz Title</label>
+        <input 
+          type="text" 
+          id="titre" 
+          class="form-control" 
+          [(ngModel)]="newQuiz.titre" 
+          name="titre" 
+          required 
+          placeholder="Enter quiz title" 
+          (input)="validateTitle()" />
+        <div *ngIf="titleError" class="text-danger mt-1">{{ titleError }}</div>
+      </div>
+  
+      <!-- Quiz Description -->
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea 
+          id="description" 
+          class="form-control" 
+          [(ngModel)]="newQuiz.description" 
+          name="description" 
+          required 
+          rows="3" 
+          placeholder="Enter quiz description"
+          (input)="validateDescription()"></textarea>
+        <div *ngIf="descriptionError" class="text-danger mt-1">{{ descriptionError }}</div>
+      </div>
+  
+      <!-- Error Message -->
+      <div *ngIf="errorMessage" class="alert alert-danger mb-3">
+        {{ errorMessage }}
+      </div>
+  
+      <!-- Success Message -->
+      <div *ngIf="successMessage" class="alert alert-success mb-3">
+        {{ successMessage }}
+      </div>
+  
+      <!-- Buttons -->
+      <div class="mb-3">
+        <button 
+          type="submit" 
+          class="btn btn-primary me-2" 
+          [disabled]="!newQuiz.titre || !newQuiz.description || isLoading || titleError || descriptionError">
+          {{ isLoading ? (isEditing ? 'Updating...' : 'Adding...') : (isEditing ? 'Update Quiz' : 'Add Quiz') }}
+        </button>
+        <button 
+          type="button" 
+          class="btn btn-secondary" 
+          (click)="resetForm()">
+          {{ isEditing ? 'Cancel' : 'Reset' }}
+        </button>
+      </div>
+    </form>
+  </div>

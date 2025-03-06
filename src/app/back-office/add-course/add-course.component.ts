@@ -9,11 +9,13 @@ import { Router } from '@angular/router';
 })
 export class AddCourseComponent {
   course: Cours = new Cours();
-  selectedFile?: File; // For the image
+  selectedFile?: File;
   photoPreview: string = '';
-  selectedPdfs: File[] = []; // Array to hold multiple PDFs
+  selectedPdfs: File[] = [];
   isLoading: boolean = false;
   errorMessage: string = '';
+  titleError: string = ''; // Message d'erreur pour le titre
+  descriptionError: string = ''; // Message d'erreur pour la description
 
   constructor(private coursesService: CoursesService, private router: Router) {}
 
@@ -43,23 +45,65 @@ export class AddCourseComponent {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const newPdfs = Array.from(input.files);
-      this.selectedPdfs = [...this.selectedPdfs, ...newPdfs]; // Ajoute les nouveaux PDFs sans écraser les précédents
-      input.value = ''; // Réinitialise l'input pour permettre de resélectionner les mêmes fichiers si besoin
+      this.selectedPdfs = [...this.selectedPdfs, ...newPdfs];
+      input.value = '';
     }
   }
 
   removePdf(pdfToRemove: File): void {
-    this.selectedPdfs = this.selectedPdfs.filter(pdf => pdf !== pdfToRemove); // Supprime le PDF sélectionné
+    this.selectedPdfs = this.selectedPdfs.filter(pdf => pdf !== pdfToRemove);
+  }
+
+  
+  // Validation du titre
+  validateTitle(): boolean {
+    const specialCharRegex = /[*<>%^$!~]/; // Interdit *, <, >, %
+    if (!this.course.titre || this.course.titre.trim() === '') {
+      this.titleError = 'Le titre est requis.';
+      return false;
+    } else if (this.course.titre.trim().length < 2) {
+      this.titleError = 'Le titre doit contenir au moins 2 caractères.';
+      return false;
+    } else if (specialCharRegex.test(this.course.titre)) {
+      this.titleError = 'Le titre ne doit pas contenir les caractères spéciaux *, <, > , % , $ ,^ ,! ou ~';
+      return false;
+    }
+    this.titleError = '';
+    return true;
+  }
+
+  // Validation de la description
+  validateDescription(): boolean {
+    const specialCharRegex = /[*<>%^$!~]/; // Interdit *, <, >, %
+    if (!this.course.description || this.course.description.trim() === '') {
+      this.descriptionError = 'La description est requise.';
+      return false;
+    } else if (this.course.description.trim().length < 10) {
+      this.descriptionError = 'La description doit contenir au moins 10 caractères.';
+      return false;
+    } else if (specialCharRegex.test(this.course.description)) {
+      this.descriptionError = 'La description ne doit pas contenir les caractères spéciaux *, <, > , % , $ ,^ ,! ou ~.';
+      return false;
+    }
+    this.descriptionError = '';
+    return true;
   }
 
   onSubmit(): void {
-    if (!this.course.titre || !this.course.description) {
-      this.errorMessage = 'Title and description are required!';
+    this.errorMessage = '';
+    this.titleError = '';
+    this.descriptionError = '';
+
+    // Vérifier les validations
+    const isTitleValid = this.validateTitle();
+    const isDescriptionValid = this.validateDescription();
+
+    if (!isTitleValid || !isDescriptionValid) {
+      this.errorMessage = 'Veuillez corriger les erreurs dans le formulaire.';
       return;
     }
 
     this.isLoading = true;
-    this.errorMessage = '';
 
     this.coursesService.addCours(this.course.titre, this.course.description, this.selectedFile, this.selectedPdfs)
       .subscribe({
@@ -72,7 +116,7 @@ export class AddCourseComponent {
         error: (error) => {
           console.error('Error adding course:', error);
           this.isLoading = false;
-          this.errorMessage = 'Error adding course: ' + (error.message || 'Unknown error');
+          this.errorMessage = 'Erreur lors de l\'ajout du cours : ' + (error.message || 'Erreur inconnue');
         }
       });
   }
@@ -81,8 +125,10 @@ export class AddCourseComponent {
     this.course = new Cours();
     this.selectedFile = undefined;
     this.photoPreview = '';
-    this.selectedPdfs = []; // Reset PDFs
+    this.selectedPdfs = [];
     this.errorMessage = '';
+    this.titleError = '';
+    this.descriptionError = '';
   }
 }
 

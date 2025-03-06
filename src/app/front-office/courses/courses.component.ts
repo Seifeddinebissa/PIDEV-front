@@ -9,9 +9,11 @@ import { CoursesService } from '../services/courses.service';
 export class CoursesComponent implements OnInit {
   listCours: any[] = []; // Liste complète des cours
   paginatedCours: any[] = []; // Liste paginée pour l'affichage
+  filteredCours: any[] = []; // Liste filtrée selon la recherche
   currentPage: number = 1; // Page actuelle
-  pageSize: number = 6; // 3 cours par page
+  pageSize: number = 6; // 6 cours par page
   totalPages: number = 0; // Nombre total de pages
+  searchTerm: string = ''; // Terme de recherche
 
   constructor(private service: CoursesService) {}
 
@@ -23,6 +25,7 @@ export class CoursesComponent implements OnInit {
     this.service.getAll().subscribe({
       next: (data) => {
         this.listCours = data;
+        this.filteredCours = [...this.listCours]; // Initialise la liste filtrée avec tous les cours
         this.updatePagination(); // Initialise la pagination après chargement
         console.log('Liste des cours récupérée :', this.listCours);
       },
@@ -32,11 +35,24 @@ export class CoursesComponent implements OnInit {
     });
   }
 
+  filterCourses(): void {
+    // Filtrer les cours en fonction du searchTerm
+    if (!this.searchTerm || this.searchTerm.trim() === '') {
+      this.filteredCours = [...this.listCours]; // Si vide, afficher tous les cours
+    } else {
+      this.filteredCours = this.listCours.filter(cours =>
+        cours.titre.toLowerCase().startsWith(this.searchTerm.trim().toLowerCase())
+      );
+    }
+    this.currentPage = 1; // Réinitialiser à la première page après filtrage
+    this.updatePagination(); // Mettre à jour la pagination avec les cours filtrés
+  }
+
   updatePagination(): void {
-    this.totalPages = Math.ceil(this.listCours.length / this.pageSize);
+    this.totalPages = Math.ceil(this.filteredCours.length / this.pageSize);
     const startIndex = (this.currentPage - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
-    this.paginatedCours = this.listCours.slice(startIndex, endIndex);
+    this.paginatedCours = this.filteredCours.slice(startIndex, endIndex);
     console.log('Cours paginés :', this.paginatedCours, 'Page actuelle :', this.currentPage);
   }
 

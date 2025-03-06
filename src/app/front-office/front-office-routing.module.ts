@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FrontOfficeComponent } from './front-office.component';
 import { CoursesComponent } from './courses/courses.component';
 import { LessonsComponent } from './lessons/lessons.component';
+import { QuizComponent } from './quiz/quiz.component';
 
 const routes: Routes = [
   {
@@ -11,6 +12,7 @@ const routes: Routes = [
     children: [
       {path:"courses", component:CoursesComponent} ,
       {path:"lessons/:id", component:LessonsComponent} ,
+      {path:"quiz/:id", component:QuizComponent} ,
       // Add child routes here if needed
     ]
   }

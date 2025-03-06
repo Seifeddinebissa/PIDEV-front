@@ -1,0 +1,19 @@
+.text-success {
+    color: #28a745 !important;
+  }
+  
+  .text-danger {
+    color: #dc3545 !important;
+  }
+  
+  .dashboard__quiz-result {
+    font-weight: bold;
+  }
+  
+  .table th, .table td {
+    vertical-align: middle;
+  }
+  
+  .color-black {
+    color: #000;
+  }

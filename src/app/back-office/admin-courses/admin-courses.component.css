@@ -1,0 +1,13 @@
+   
+  /* Limite la description à une seule ligne */
+  .courses__item-content-two h5.title {
+    margin: 0;
+    white-space: nowrap; /* Empêche le texte de passer à la ligne suivante */
+    overflow: hidden; /* Cache le texte qui dépasse */
+    text-overflow: ellipsis; /* Ajoute "..." pour le texte coupé */
+    font-size: 18px; /* Taille de police cohérente */
+  }
+  
+  
+  
+  

@@ -1,0 +1,189 @@
+<div class="container mt-5">
+  <h2>{{ isEditing ? 'Edit Question' : 'Add New Question' }} to Quiz {{ quizId }}</h2>
+
+  <!-- Liste des questions existantes -->
+  <div class="mt-3" *ngIf="existingQuestions.length > 0">
+    <h3>Existing Questions</h3>
+    <table class="table table-borderless">
+      <thead>
+        <tr>
+          <th>Content</th>
+          <th>Score</th>
+          <th>Correct Answer</th>
+          <th class="text-end">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let question of existingQuestions">
+          <td>{{ question.contenu }}</td>
+          <td>{{ question.score }}</td>
+          <td>{{ question.correctAnswer }}</td>
+          <td class="text-end">
+            <div class="dashboard__review-action">
+              <a href="#" title="Edit" (click)="editQuestion(question); $event.preventDefault()">
+                <i class="skillgro-edit"></i>
+              </a>
+              <a href="#" title="Delete" (click)="deleteQuestion(question.idQuestion); $event.preventDefault()">
+                <i class="skillgro-bin"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="mt-3" *ngIf="existingQuestions.length === 0">
+    <p>No questions found for this quiz yet.</p>
+  </div>
+
+  <!-- Formulaire pour ajouter ou modifier une question avec réponses -->
+  <form (ngSubmit)="onSubmit()" class="mt-4">
+    <!-- Question Content -->
+    <div class="mb-3">
+      <label for="contenu" class="form-label">Question Content</label>
+      <input 
+        type="text" 
+        id="contenu" 
+        class="form-control" 
+        [(ngModel)]="newQuestion.contenu" 
+        name="contenu" 
+        required 
+        placeholder="Enter question content" />
+    </div>
+
+    <!-- Score -->
+    <div class="mb-3">
+      <label for="score" class="form-label">Score</label>
+      <input 
+        type="number" 
+        id="score" 
+        class="form-control" 
+        [(ngModel)]="newQuestion.score" 
+        name="score" 
+        required 
+        placeholder="Enter score" />
+    </div>
+
+    <!-- Réponses -->
+    <div class="mb-3">
+      <label class="form-label">Responses (A, B, C, D)</label>
+      <div class="row">
+        <!-- Réponse A -->
+        <div class="col-md-6 mb-2">
+          <div class="input-group">
+            <span class="input-group-text">A</span>
+            <input 
+              type="text" 
+              class="form-control" 
+              [(ngModel)]="newQuestion.reponses[0].contenu" 
+              name="reponseA" 
+              required 
+              placeholder="Enter response A" />
+            <div class="input-group-text">
+              <input 
+                type="radio" 
+                id="correctA" 
+                name="correctAnswer" 
+                [value]="newQuestion.reponses[0].answernum" 
+                (change)="setCorrectAnswer(0)" 
+                [checked]="newQuestion.reponses[0].isCorrect" />
+            </div>
+          </div>
+        </div>
+        <!-- Réponse B -->
+        <div class="col-md-6 mb-2">
+          <div class="input-group">
+            <span class="input-group-text">B</span>
+            <input 
+              type="text" 
+              class="form-control" 
+              [(ngModel)]="newQuestion.reponses[1].contenu" 
+              name="reponseB" 
+              required 
+              placeholder="Enter response B" />
+            <div class="input-group-text">
+              <input 
+                type="radio" 
+                id="correctB" 
+                name="correctAnswer" 
+                [value]="newQuestion.reponses[1].answernum" 
+                (change)="setCorrectAnswer(1)" 
+                [checked]="newQuestion.reponses[1].isCorrect" />
+            </div>
+          </div>
+        </div>
+        <!-- Réponse C -->
+        <div class="col-md-6 mb-2">
+          <div class="input-group">
+            <span class="input-group-text">C</span>
+            <input 
+              type="text" 
+              class="form-control" 
+              [(ngModel)]="newQuestion.reponses[2].contenu" 
+              name="reponseC" 
+              required 
+              placeholder="Enter response C" />
+            <div class="input-group-text">
+              <input 
+                type="radio" 
+                id="correctC" 
+                name="correctAnswer" 
+                [value]="newQuestion.reponses[2].answernum" 
+                (change)="setCorrectAnswer(2)" 
+                [checked]="newQuestion.reponses[2].isCorrect" />
+            </div>
+          </div>
+        </div>
+        <!-- Réponse D -->
+        <div class="col-md-6 mb-2">
+          <div class="input-group">
+            <span class="input-group-text">D</span>
+            <input 
+              type="text" 
+              class="form-control" 
+              [(ngModel)]="newQuestion.reponses[3].contenu" 
+              name="reponseD" 
+              required 
+              placeholder="Enter response D" />
+            <div class="input-group-text">
+              <input 
+                type="radio" 
+                id="correctD" 
+                name="correctAnswer" 
+                [value]="newQuestion.reponses[3].answernum" 
+                (change)="setCorrectAnswer(3)" 
+                [checked]="newQuestion.reponses[3].isCorrect" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="alert alert-danger mb-3">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Success Message -->
+    <div *ngIf="successMessage" class="alert alert-success mb-3">
+      {{ successMessage }}
+    </div>
+
+    <!-- Buttons -->
+    <div class="mb-3">
+      <button 
+        type="submit" 
+        class="btn btn-primary me-2" 
+        [disabled]="isLoading || !isFormValid()">
+        {{ isLoading ? (isEditing ? 'Updating...' : 'Adding...') : (isEditing ? 'Update Question' : 'Add Question') }}
+      </button>
+      <button 
+        type="button" 
+        class="btn btn-secondary me-2" 
+        (click)="resetForm()">
+        {{ isEditing ? 'Cancel' : 'Reset' }}
+      </button>
+      
+    </div>
+  </form>
+</div>

@@ -9,7 +9,7 @@
                 <div class="tgmenu__wrap">
                     <nav class="tgmenu__nav">
                         
-                         <div class="tgmenu__search d-none d-md-block">
+                        <div class="tgmenu__search d-none d-md-block">
                             <form action="#" class="tgmenu__search-form">
                                 <div class="select-grp">
                                     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -25,14 +25,14 @@
                                 <!-- Zone de recherche -->
                                 <div class="input-grp">
                                     <input type="text" 
-                                           placeholder="Search For Course . . ." 
-                                           [(ngModel)]="searchTitle" 
-                                           [ngModelOptions]="{standalone: true}" 
-                                           (ngModelChange)="searchCourses()">
-                                    <button type="submit" (click)="searchCourses()">
-                                        <i class="flaticon-search"></i>
-                                    </button>
-                                </div>
+                                    placeholder="Search For Course . . ." 
+                                   [(ngModel)]="searchTerm" 
+                                   (input)="filterCourses()"
+                                   [ngModelOptions]="{standalone: true}">
+                                   <button type="submit" (click)="filterCourses()">
+                                   <i class="flaticon-search"></i>
+                                   </button>
+                                   </div>
 
 
 
@@ -65,9 +65,7 @@
                 <div class="dashboard__review-table">
                     <table class="table table-borderless">
                         <thead>
-                            <tr>
-                                <th class="col-20">Course</th>
-                            </tr>
+                           
                         </thead>
                         <tbody>
                             <tr *ngFor="let cours of filteredCours">
@@ -87,14 +85,7 @@
                         </tbody>
                     </table>
                     <!-- Message de feedback -->
-                    <div class="search-feedback mt-3">
-                        <p *ngIf="filteredCours.length > 0" class="text-success">
-                            Cours trouvé : {{ filteredCours[0].titre }}
-                        </p>
-                        <p *ngIf="filteredCours.length === 0 && searchTitle.trim() !== ''" class="text-danger">
-                            Aucun cours trouvé pour "{{ searchTitle }}"
-                        </p>
-                    </div>
+                   
                 </div>
             </div>
         </div>

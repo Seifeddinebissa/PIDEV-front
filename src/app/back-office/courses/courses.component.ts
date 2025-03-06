@@ -12,7 +12,7 @@ export class CoursesComponent implements OnInit {
 
 
   filteredCours: any[] = []; // Liste filtrée pour l'affichage
-  searchTitle: string = '';
+  searchTerm: string = ''; // Terme de recherche
   
 
   constructor(
@@ -54,21 +54,17 @@ export class CoursesComponent implements OnInit {
 
 
 
-  searchCourses(): void {
-    if (this.searchTitle.trim() === '') {
-      this.filteredCours = [...this.listCours];
+  filterCourses(): void {
+    // Filtrer les cours en fonction du searchTerm
+    if (!this.searchTerm || this.searchTerm.trim() === '') {
+      this.filteredCours = [...this.listCours]; // Si vide, afficher tous les cours
     } else {
-      this.service.getCoursByTitre(this.searchTitle).subscribe({
-        next: (cours) => {
-          this.filteredCours = cours ? [cours] : [];
-          console.log('Résultat de la recherche :', this.filteredCours);
-        },
-        error: (error) => {
-          console.error('Erreur lors de la recherche par titre :', error);
-          this.filteredCours = [];
-        }
-      });
+      this.filteredCours = this.listCours.filter(cours =>
+        cours.titre.toLowerCase().startsWith(this.searchTerm.trim().toLowerCase())
+      );
     }
+    
+    
   }
 
   
