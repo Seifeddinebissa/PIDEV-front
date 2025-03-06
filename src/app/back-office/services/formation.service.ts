@@ -9,6 +9,7 @@ import { Formation } from '../models/Formation';
 })
 export class FormationService {
   apiUrl = "http://localhost:8081/api/formations";
+  apiUrlfeedbacks = "http://localhost:8081/api/feedbacks";
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -42,6 +43,6 @@ export class FormationService {
   }
 
   getFeedbacksByFormation(id: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/${id}/feedbacks`);
+    return this.http.get<any[]>(`${this.apiUrlfeedbacks}/formation/${id}/non-hidden`);
   }
 }
