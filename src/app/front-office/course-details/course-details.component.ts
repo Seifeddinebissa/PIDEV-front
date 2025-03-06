@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { FormationService } from '../../back-office/services/formation.service';
 import { Formation } from './../../back-office/models/Formation';
 import { FeedbackService } from '../../back-office/services/feedback.service';
@@ -27,7 +27,7 @@ export class CourseDetailsComponent implements OnInit {
   ) {
     this.feedbackForm = this.fb.group({
       rating: [null, [Validators.required, Validators.min(1), Validators.max(5)]],
-      comment: ['', [Validators.required]]
+      comment: ['', [Validators.required, this.mustContainLetter()]]
     });
   }
 
@@ -123,4 +123,16 @@ export class CourseDetailsComponent implements OnInit {
     imgElement.src = 'assets/img/courses/default.jpg';
     console.warn('Image failed to load, using default image');
   }
+
+  // Custom validator to ensure the title contains at least one letter
+      mustContainLetter(): ValidatorFn {
+        return (control: AbstractControl): { [key: string]: any } | null => {
+          const value = control.value;
+          if (!value) {
+            return null; // Let Validators.required handle empty values
+          }
+          const hasLetter = /[a-zA-Z]/.test(value); // Check for at least one letter
+          return hasLetter ? null : { noLetter: { value: control.value } };
+        };
+      }
 }

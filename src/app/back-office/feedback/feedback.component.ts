@@ -34,4 +34,27 @@ export class FeedbackComponent implements OnInit {
   addFeedback(): void {
     this.router.navigate(['/feedbacks/add']); 
   }
+
+  toggleHidden(feedback: any, event: Event): void {
+    event.preventDefault(); // Prevent default anchor behavior
+    const newHiddenStatus = !feedback.is_hidden;
+    
+    // Update the feedback object locally first for instant UI feedback
+    feedback.is_hidden = newHiddenStatus;
+
+    // Send update to backend
+    this.feedbackService.updateFeedback(feedback.id, feedback).subscribe(
+      (updatedFeedback) => {
+        console.log('Feedback hidden status updated:', updatedFeedback);
+        // Ensure local state matches backend response
+        feedback.is_hidden = updatedFeedback.is_hidden;
+      },
+      (error) => {
+        // Revert on error
+        feedback.is_hidden = !newHiddenStatus;
+        console.error('Error toggling hidden status:', error);
+      }
+    );
+  }
+  
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { FormationService } from '../services/formation.service';
 import { Formation } from '../models/Formation';
 
@@ -22,8 +22,8 @@ export class FormationEditComponent implements OnInit {
     private router: Router
   ) {
     this.formationForm = this.fb.group({
-      title: ['', [Validators.required, Validators.minLength(3)]],
-      description: ['', Validators.required],
+      title: ['', [Validators.required, Validators.minLength(3), this.mustContainLetter()]],
+      description: ['', [Validators.required, this.mustContainLetter()]],
       duration: [0, [Validators.required, Validators.min(1)]],
       price: [0, [Validators.required, Validators.min(0)]],
       is_public: [true, Validators.required]
@@ -96,4 +96,16 @@ export class FormationEditComponent implements OnInit {
     imgElement.src = 'assets/img/courses/default.jpg';
     console.warn('Image failed to load, using default image');
   }
+
+  // Custom validator to ensure the title contains at least one letter
+    mustContainLetter(): ValidatorFn {
+      return (control: AbstractControl): { [key: string]: any } | null => {
+        const value = control.value;
+        if (!value) {
+          return null; // Let Validators.required handle empty values
+        }
+        const hasLetter = /[a-zA-Z]/.test(value); // Check for at least one letter
+        return hasLetter ? null : { noLetter: { value: control.value } };
+      };
+    }
 }

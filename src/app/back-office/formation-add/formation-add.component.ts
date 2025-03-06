@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormationService } from '../services/formation.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 @Component({
   selector: 'app-formation-add',
   templateUrl: './formation-add.component.html',
@@ -18,8 +17,8 @@ export class FormationAddComponent {
     private fb: FormBuilder
   ) {
     this.formationForm = this.fb.group({
-      title: ['', [Validators.required, Validators.minLength(3)]],
-      description: ['', Validators.required],
+      title: ['', [Validators.required, Validators.minLength(3), this.mustContainLetter()]],
+      description: ['', [Validators.required, this.mustContainLetter()]],
       duration: [0, [Validators.required, Validators.min(1)]],
       price: [0, [Validators.required, Validators.min(0)]],
       is_public: [true, Validators.required]
@@ -58,5 +57,16 @@ export class FormationAddComponent {
         console.error('Erreur lors de l’ajout de la formation :', error);
       }
     );
+  }
+  // Custom validator to ensure the title contains at least one letter
+  mustContainLetter(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const value = control.value;
+      if (!value) {
+        return null; // Let Validators.required handle empty values
+      }
+      const hasLetter = /[a-zA-Z]/.test(value); // Check for at least one letter
+      return hasLetter ? null : { noLetter: { value: control.value } };
+    };
   }
 }
