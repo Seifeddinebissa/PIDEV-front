@@ -1,6 +1,7 @@
+// src/app/front-office/add-entreprise/add-entreprise.component.ts
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { EntrepriseService } from '../services/entreprise.service';
+import { EntrepriseService } from '../services/entreprise.service'; // Assuming this service exists
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,6 +14,7 @@ export class AddEntrepriseComponent implements OnInit {
   submitted = false;
   loading = false;
   errorMessage: string = '';
+  selectedFile: File | null = null; // Store the selected image file
 
   constructor(
     private fb: FormBuilder,
@@ -29,38 +31,58 @@ export class AddEntrepriseComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
       website: ['', Validators.required],
+      logo: [null] // Not part of reactive form validation since file input is handled separately
     });
   }
 
   // Getter for easy access to form fields
   get f() { return this.entrepriseForm.controls; }
 
-  onSubmit() {
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      this.selectedFile = input.files[0];
+    }
+  }
+
+  onSubmit(): void {
     this.submitted = true;
 
-    // Stop if the form is invalid
-    if (this.entrepriseForm.invalid) {
+    // Stop if the form is invalid or no file is selected
+    if (this.entrepriseForm.invalid || !this.selectedFile) {
+      this.errorMessage = !this.selectedFile ? 'Please select a logo image.' : 'Please fill all required fields.';
       return;
     }
 
     this.loading = true;
+    this.errorMessage = '';
 
-    // Call the service to create the entreprise
-    this.entrepriseService.addEntreprise(this.entrepriseForm.value).subscribe(
-      (response) => {
+    // Create FormData for multipart request
+    const formData = new FormData();
+    formData.append('name', this.f['name'].value);
+    formData.append('sector', this.f['sector'].value);
+    formData.append('location', this.f['location'].value);
+    formData.append('description', this.f['description'].value);
+    formData.append('email', this.f['email'].value);
+    formData.append('phone', this.f['phone'].value);
+    formData.append('website', this.f['website'].value);
+    formData.append('logo', this.selectedFile);
+
+    // Call the service to create the entreprise with image
+    this.entrepriseService.addEntreprise(formData).subscribe({
+      next: (response) => {
         console.log('Entreprise created:', response);
         this.loading = false;
         this.entrepriseForm.reset();
+        this.selectedFile = null; // Reset file input
         this.submitted = false;
-
-        // Optionally, navigate to another page
         this.router.navigate(['entreprises']);
       },
-      (error) => {
+      error: (error) => {
         console.error('Error creating entreprise:', error);
-        this.errorMessage = 'Failed to create entreprise. Please try again.';
+        this.errorMessage = error.message || 'Failed to create entreprise. Please try again.';
         this.loading = false;
       }
-    );
+    });
   }
 }

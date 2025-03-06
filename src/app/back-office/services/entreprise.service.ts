@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Entreprise } from '../models/Entreprise';
+import { Entreprise, PageResponse } from '../models/Entreprise';
+import { SafeUrl } from '@angular/platform-browser';
+
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +15,16 @@ export class EntrepriseService {
 
   constructor(private http: HttpClient) {}
 
-  getEntreprises(): Observable<Entreprise[]> {
-    return this.http.get<Entreprise[]>(this.apiUrl);
+  getEntreprises(page: number = 0, size: number = 5): Observable<PageResponse<Entreprise>> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+    return this.http.get<PageResponse<Entreprise>>(this.apiUrl, { params });
+  }
+  
+  
+  getEntreprisesLogo(path:string | SafeUrl): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/images${path}`, { responseType: 'blob' });
   }
 
   getEntrepriseById(id: number): Observable<Entreprise> {
@@ -23,7 +35,7 @@ export class EntrepriseService {
     return this.http.post<Entreprise>(this.apiUrl, formData);
   }
 
-  updateEntreprise(id: number, entrepriseData: any): Observable<any> {
+  updateEntreprise(id: number, entrepriseData: FormData): Observable<any> {
     return this.http.put(`${this.apiUrl}/update/${id}`, entrepriseData);
   }
 

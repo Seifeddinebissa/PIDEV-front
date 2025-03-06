@@ -35,3 +35,11 @@ export interface Favorite {
   studentId: number;
   offre: Offre;
 }
+
+export interface Application {
+  id: number;
+  studentId: number;
+  offre: Offre;
+  // cvUrl?: string; // Optional: If your backend stores CV file paths
+  // applicationDate?: string; // Optional: If you want to track when the application was made
+}

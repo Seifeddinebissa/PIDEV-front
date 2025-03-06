@@ -1,73 +1,128 @@
+<!-- src/app/front-office/update-offre/update-offre.component.html -->
 <h2 mat-dialog-title>Update Offer</h2>
 <mat-dialog-content>
-  <form (ngSubmit)="onUpdate()">
-    <mat-form-field>
+  <form [formGroup]="offreForm" (ngSubmit)="onSubmit()">
+    <!-- Title Field -->
+    <mat-form-field appearance="outline">
       <mat-label>Title</mat-label>
-      <input matInput [(ngModel)]="updatedOffer.title" name="title" required />
+      <input matInput formControlName="title" required />
+      <mat-error *ngIf="f['title'].invalid && (f['title'].dirty || f['title'].touched)">
+        Title is required.
+      </mat-error>
     </mat-form-field>
 
-    <mat-form-field>
+    <!-- Description Field -->
+    <mat-form-field appearance="outline">
       <mat-label>Description</mat-label>
-      <textarea matInput [(ngModel)]="updatedOffer.description" name="description" required></textarea>
+      <textarea matInput formControlName="description" required></textarea>
+      <mat-error *ngIf="f['description'].invalid && (f['description'].dirty || f['description'].touched)">
+        Description is required.
+      </mat-error>
     </mat-form-field>
 
-    <mat-form-field>
-        <mat-label>Salary</mat-label>
-        <input matInput [(ngModel)]="updatedOffer.salary" name="salary" required />
-      </mat-form-field>
+    <!-- Salary Field -->
+    <mat-form-field appearance="outline">
+      <mat-label>Salary</mat-label>
+      <input matInput formControlName="salary" type="number" required />
+      <mat-error *ngIf="f['salary'].invalid && (f['salary'].dirty || f['salary'].touched)">
+        Please enter a valid salary (must be >= 0).
+      </mat-error>
+    </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>location</mat-label>
-        <input matInput [(ngModel)]="updatedOffer.location" name="location" required />
-      </mat-form-field>
+    <!-- Location Field -->
+    <mat-form-field appearance="outline">
+      <mat-label>Location</mat-label>
+      <input matInput formControlName="location" required />
+      <mat-error *ngIf="f['location'].invalid && (f['location'].dirty || f['location'].touched)">
+        Location is required.
+      </mat-error>
+    </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>datePosted</mat-label>
-        <input matInput [(ngModel)]="updatedOffer.datePosted" name="datePosted" required />
-      </mat-form-field>
+    <!-- Date Posted Field -->
+    <mat-form-field appearance="outline">
+      <mat-label>Date Posted</mat-label>
+      <input matInput formControlName="datePosted" required />
+      <mat-error *ngIf="f['datePosted'].invalid && (f['datePosted'].dirty || f['datePosted'].touched)">
+        Date posted is required.
+      </mat-error>
+    </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>dateExpiration</mat-label>
-        <input matInput [(ngModel)]="updatedOffer.dateExpiration" name="dateExpiration" required />
-      </mat-form-field>
+    <!-- Date Expiration Field -->
+    <mat-form-field appearance="outline">
+      <mat-label>Date Expiration</mat-label>
+      <input matInput formControlName="dateExpiration" required />
+      <mat-error *ngIf="f['dateExpiration'].invalid && (f['dateExpiration'].dirty || f['dateExpiration'].touched)">
+        Date expiration is required.
+      </mat-error>
+    </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>contractType</mat-label>
-        <input matInput [(ngModel)]="updatedOffer.contractType" name="contractType" required />
-      </mat-form-field>
+    <!-- Contract Type Field -->
+    <mat-form-field appearance="outline">
+      <mat-label>Contract Type</mat-label>
+      <input matInput formControlName="contractType" required />
+      <mat-error *ngIf="f['contractType'].invalid && (f['contractType'].dirty || f['contractType'].touched)">
+        Contract type is required.
+      </mat-error>
+    </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>experienceLevel</mat-label>
-        <input matInput [(ngModel)]="updatedOffer.experienceLevel" name="experienceLevel" required />
-      </mat-form-field>
+    <!-- Experience Level Field -->
+    <mat-form-field appearance="outline">
+      <mat-label>Experience Level</mat-label>
+      <input matInput formControlName="experienceLevel" required />
+      <mat-error *ngIf="f['experienceLevel'].invalid && (f['experienceLevel'].dirty || f['experienceLevel'].touched)">
+        Experience level is required.
+      </mat-error>
+    </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>jobFunction</mat-label>
-        <input matInput [(ngModel)]="updatedOffer.jobFunction" name="jobFunction" required />
-      </mat-form-field>
+    <!-- Job Function Field -->
+    <mat-form-field appearance="outline">
+      <mat-label>Job Function</mat-label>
+      <input matInput formControlName="jobFunction" required />
+      <mat-error *ngIf="f['jobFunction'].invalid && (f['jobFunction'].dirty || f['jobFunction'].touched)">
+        Job function is required.
+      </mat-error>
+    </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>jobType</mat-label>
-        <input matInput [(ngModel)]="updatedOffer.jobType" name="jobType" required />
-      </mat-form-field>
-      
-      <mat-form-field>
-        <mat-label>jobShift</mat-label>
-        <input matInput [(ngModel)]="updatedOffer.jobShift" name="jobShift" required />
-      </mat-form-field>
+    <!-- Job Type Field -->
+    <mat-form-field appearance="outline">
+      <mat-label>Job Type</mat-label>
+      <input matInput formControlName="jobType" required />
+      <mat-error *ngIf="f['jobType'].invalid && (f['jobType'].dirty || f['jobType'].touched)">
+        Job type is required.
+      </mat-error>
+    </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>jobSchedule</mat-label>
-        <input matInput [(ngModel)]="updatedOffer.jobSchedule" name="jobSchedule" required />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>educationLevel</mat-label>
-        <input matInput [(ngModel)]="updatedOffer.educationLevel" name="educationLevel" required />
-      </mat-form-field>
-      
+    <!-- Job Shift Field -->
+    <mat-form-field appearance="outline">
+      <mat-label>Job Shift</mat-label>
+      <input matInput formControlName="jobShift" />
+    </mat-form-field>
+
+    <!-- Job Schedule Field -->
+    <mat-form-field appearance="outline">
+      <mat-label>Job Schedule</mat-label>
+      <input matInput formControlName="jobSchedule" />
+    </mat-form-field>
+
+    <!-- Education Level Field -->
+    <mat-form-field appearance="outline">
+      <mat-label>Education Level</mat-label>
+      <input matInput formControlName="educationLevel" required />
+      <mat-error *ngIf="f['educationLevel'].invalid && (f['educationLevel'].dirty || f['educationLevel'].touched)">
+        Education level is required.
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Error Message -->
+    <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
+    <div class="success-message" *ngIf="successMessage">{{ successMessage }}</div>
+
+    <!-- Dialog Actions -->
     <div mat-dialog-actions>
-      <button mat-button (click)="onNoClick()">Cancel</button>
-      <button mat-button type="submit" color="primary">Update</button>
+      <button mat-button (click)="closeModal()">Cancel</button>
+      <button mat-button type="submit" color="primary" [disabled]="loading">
+        {{ loading ? 'Updating...' : 'Update' }}
+      </button>
     </div>
   </form>
 </mat-dialog-content>

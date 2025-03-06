@@ -67,14 +67,12 @@
     color: #444;
   }
   
-  /* Action Button */
+  /* Action Buttons */
   .offer-actions {
     margin-top: 15px;
   }
   
-  .remove-button {
-    background: #dc3545;
-    color: white;
+  .offer-actions button {
     padding: 8px 15px;
     border: none;
     border-radius: 5px;
@@ -83,8 +81,22 @@
     transition: background 0.3s ease-in-out;
   }
   
-  .remove-button:hover {
-    background: #a71d2a;
+  .offer-actions .btn-danger {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .offer-actions .btn-danger:hover {
+    background-color: #a71d2a;
+  }
+  
+  .offer-actions .btn-success {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .offer-actions .btn-success:hover {
+    background-color: #218838;
   }
   
   /* No Data Template */
@@ -112,7 +124,7 @@
       flex-direction: column;
     }
   
-    .remove-button {
+    .offer-actions button {
       width: 100%;
     }
   }

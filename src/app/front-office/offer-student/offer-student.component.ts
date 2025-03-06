@@ -67,7 +67,9 @@ export class OfferStudentComponent implements OnInit {
         } else {
           offer.favorites.push({ id: Date.now(), studentId: this.staticStudentId, offre: offer });
         }
-      },
+      // Reload the page by navigating to the same route
+      this.loadOffers();
+    },
       // error: (err) => {
       //   console.error('Error toggling favorite:', err);
       //   this.error = 'Failed to toggle favorite.';

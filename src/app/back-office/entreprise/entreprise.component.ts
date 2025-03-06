@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { EntrepriseService } from '../services/entreprise.service';
-import { Entreprise } from '../models/Entreprise';
+import { EntrepriseService} from '../services/entreprise.service';
+import { Entreprise, PageResponse } from '../models/Entreprise';
 import { Router } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-entreprise',
@@ -14,6 +15,11 @@ export class EntrepriseComponent implements OnInit {
   searchTerm: string = ''; // Two-way bound search input
   loading: boolean = true; // To indicate data is being fetched
   error: string = ''; // To display any loading errors
+  baseUrl = 'http://localhost:8081';
+  totalItems: number = 0;
+  totalPages: number = 0;
+  currentPage: number = 0; // 0-based for Spring
+  pageSize: number = 5;
   
   filterEntreprises(): void {
     const term = this.searchTerm.toLowerCase().trim();
@@ -31,16 +37,21 @@ export class EntrepriseComponent implements OnInit {
   deleteEntreprise(id: number): void {
     if (confirm('Are you sure you want to delete this entreprise?')) {
       this.entrepriseService.deleteEntreprise(id).subscribe({
-        next: (response: string) => { // Expect string response
-          this.entreprises = this.entreprises.filter(ent => ent.id !== id);
+        next: (response: string) => {
           console.log(response); // "Entreprise deleted successfully"
+          this.loadEntreprises();  // Reload the list of entreprises after delete
         },
         error: (error) => {
           console.error('Error deleting entreprise', error);
         }
       });
     }
+    
   }
+  
+  
+
+  
   
 editEntreprise(entreprise: Entreprise): void {
   console.log("Navigating to Edit Page with ID:", entreprise.id); // Debugging Log
@@ -49,7 +60,8 @@ editEntreprise(entreprise: Entreprise): void {
   
 
   constructor(private entrepriseService: EntrepriseService,
-    private router: Router
+    private router: Router,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -57,19 +69,45 @@ editEntreprise(entreprise: Entreprise): void {
   }
 
   loadEntreprises(): void {
-    this.loading = true; // Show loading state
-    this.error = ''; // Reset error message
-    this.entrepriseService.getEntreprises().subscribe({
-      next: (data) => {
-        this.entreprises = data || []; // Ensure entreprises is an array even if data is null
-        this.filteredEntreprises = [...this.entreprises]; // Initialize filtered list
-        this.loading = false; // Data loaded successfully
+    this.entrepriseService.getEntreprises(this.currentPage, this.pageSize).subscribe({
+      next: (page: PageResponse<Entreprise>) => {
+        console.log('Raw paginated data:', page);
+        this.entreprises = page.content;
+        this.totalItems = page.totalElements;
+        this.totalPages = page.totalPages;
+        // Load logos for each entreprise
+        this.entreprises.forEach((entreprise, index) => {
+          if (entreprise.logo) {
+            this.entrepriseService.getEntreprisesLogo(entreprise.logo).subscribe({
+              next: (blob: Blob) => {
+                const imageUrl = URL.createObjectURL(blob);
+                entreprise.logo = this.sanitizer.bypassSecurityTrustUrl(imageUrl);
+                console.log(`Loaded logo for ${entreprise.name}: ${imageUrl}`);
+                // Update filteredEntreprises to reflect the change
+                this.filteredEntreprises[index] = entreprise;
+              },
+              error: (err) => {
+                console.warn(`Failed to load logo for ${entreprise.name}: ${err}`);
+                entreprise.logo = null;
+                this.filteredEntreprises[index] = entreprise;
+              }
+            });
+          }
+        });
+        this.filteredEntreprises = [...this.entreprises];
       },
       error: (err) => {
-        this.error = 'Failed to load entreprises. Please try again later.';
-        this.loading = false;
         console.error('Error loading entreprises:', err);
       }
     });
   }
-}
+    changePage(newPage: number): void {
+      if (newPage >= 0 && newPage < this.totalPages) {
+        this.currentPage = newPage;
+        this.loadEntreprises();
+      }
+  }
+  
+  
+ }
+

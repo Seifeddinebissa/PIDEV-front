@@ -1,66 +1,177 @@
-<div class="container">
-  <h2>Create New Job Offer</h2>
+    <div class="card shadow-sm p-4">
+      <h2 class="text-primary mb-4 fw-bold">Create New Job Offer</h2>
 
   <form [formGroup]="offreForm" (ngSubmit)="onSubmit()">
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
 
-    <label for="title">Title:</label>
-    <input id="title" formControlName="title" type="text" required />
-    <div *ngIf="offreForm.controls['title'].invalid && submitted" class="error">Title is required.</div>
+    <div class="form-group">
+      <label for="title" class="form-label">Title:</label>
+      <input id="title" formControlName="title" type="text" class="form-control" 
+             [class.is-invalid]="offreForm.get('title')?.touched && offreForm.get('title')?.invalid" 
+             placeholder="e.g., Frontend Developer" />
+      <div *ngIf="offreForm.get('title')?.touched && offreForm.get('title')?.invalid" class="error invalid-feedback">
+        <div *ngIf="offreForm.get('title')?.errors?.['required']">Title is required.</div>
+        <div *ngIf="offreForm.get('title')?.errors?.['minlength']">Title must be at least 3 characters.</div>
+        <div *ngIf="offreForm.get('title')?.errors?.['maxlength']">Title cannot exceed 100 characters.</div>
+      </div>
+    </div>
 
-    <label for="description">Description:</label>
-    <textarea id="description" formControlName="description" required></textarea>
-    <div *ngIf="offreForm.controls['description'].invalid && submitted" class="error">Description is required.</div>
+    <div class="form-group">
+      <label for="description" class="form-label">Description:</label>
+      <textarea id="description" formControlName="description" class="form-control" 
+                [class.is-invalid]="offreForm.get('description')?.touched && offreForm.get('description')?.invalid" 
+                placeholder="Describe the job..."></textarea>
+      <div *ngIf="offreForm.get('description')?.touched && offreForm.get('description')?.invalid" class="error invalid-feedback">
+        <div *ngIf="offreForm.get('description')?.errors?.['required']">Description is required.</div>
+        <div *ngIf="offreForm.get('description')?.errors?.['minlength']">Description must be at least 10 characters.</div>
+        <div *ngIf="offreForm.get('description')?.errors?.['maxlength']">Description cannot exceed 1000 characters.</div>
+      </div>
+    </div>
 
-    <label for="salary">Salary:</label>
-    <input id="salary" formControlName="salary" type="number" required />
-    <div *ngIf="offreForm.controls['salary'].invalid && submitted" class="error">Salary is required.</div>
+    <div class="form-group">
+      <label for="salary" class="form-label">Salary:</label>
+      <input id="salary" formControlName="salary" type="number" step="0.01" class="form-control" 
+             [class.is-invalid]="offreForm.get('salary')?.touched && offreForm.get('salary')?.invalid" 
+             placeholder="e.g., 50000" />
+      <div *ngIf="offreForm.get('salary')?.touched && offreForm.get('salary')?.invalid" class="error invalid-feedback">
+        <div *ngIf="offreForm.get('salary')?.errors?.['required']">Salary is required.</div>
+        <div *ngIf="offreForm.get('salary')?.errors?.['min']">Salary cannot be negative.</div>
+        <div *ngIf="offreForm.get('salary')?.errors?.['pattern']">Salary must be a valid number (e.g., 50000 or 50000.50).</div>
+      </div>
+    </div>
 
-    <label for="location">Location:</label>
-    <input id="location" formControlName="location" type="text" required />
-    <div *ngIf="offreForm.controls['location'].invalid && submitted" class="error">Location is required.</div>
+    <div class="form-group">
+      <label for="location" class="form-label">Location:</label>
+      <input id="location" formControlName="location" type="text" class="form-control" 
+             [class.is-invalid]="offreForm.get('location')?.touched && offreForm.get('location')?.invalid" 
+             placeholder="e.g., Remote" />
+      <div *ngIf="offreForm.get('location')?.touched && offreForm.get('location')?.invalid" class="error invalid-feedback">
+        <div *ngIf="offreForm.get('location')?.errors?.['required']">Location is required.</div>
+        <div *ngIf="offreForm.get('location')?.errors?.['minlength']">Location must be at least 2 characters.</div>
+        <div *ngIf="offreForm.get('location')?.errors?.['maxlength']">Location cannot exceed 100 characters.</div>
+      </div>
+    </div>
 
-    <label for="datePosted">Date Posted:</label>
-    <input id="datePosted" formControlName="datePosted" type="date" required />
-    <div *ngIf="offreForm.controls['datePosted'].invalid && submitted" class="error">Date Posted is required.</div>
+    <div class="form-group">
+      <label for="datePosted" class="form-label">Date Posted:</label>
+      <input id="datePosted" formControlName="datePosted" type="date" class="form-control" 
+             [class.is-invalid]="offreForm.get('datePosted')?.touched && offreForm.get('datePosted')?.invalid" />
+      <div *ngIf="offreForm.get('datePosted')?.touched && offreForm.get('datePosted')?.invalid" class="error invalid-feedback">
+        <div *ngIf="offreForm.get('datePosted')?.errors?.['required']">Date Posted is required.</div>
+      </div>
+    </div>
 
-    <label for="dateExpiration">Expiration Date:</label>
-    <input id="dateExpiration" formControlName="dateExpiration" type="date" required />
-    <div *ngIf="offreForm.controls['dateExpiration'].invalid && submitted" class="error">Expiration Date is required.</div>
+    <div class="form-group">
+      <label for="dateExpiration" class="form-label">Expiration Date:</label>
+      <input id="dateExpiration" formControlName="dateExpiration" type="date" class="form-control" 
+             [class.is-invalid]="offreForm.get('dateExpiration')?.touched && offreForm.get('dateExpiration')?.invalid" />
+      <div *ngIf="offreForm.get('dateExpiration')?.touched && offreForm.get('dateExpiration')?.invalid" class="error invalid-feedback">
+        <div *ngIf="offreForm.get('dateExpiration')?.errors?.['required']">Expiration Date is required.</div>
+      </div>
+      <div *ngIf="offreForm.errors?.['invalidDateRange'] && offreForm.touched" class="error invalid-feedback">
+        Expiration Date must be after Date Posted.
+      </div>
+    </div>
 
-    <label for="contractType">Contract Type:</label>
-    <input id="contractType" formControlName="contractType" type="text" required />
-    <div *ngIf="offreForm.controls['contractType'].invalid && submitted" class="error">Contract Type is required.</div>
+    <div class="form-group">
+      <label for="contractType" class="form-label">Contract Type:</label>
+      <select id="contractType" formControlName="contractType" class="form-control" 
+              [class.is-invalid]="offreForm.get('contractType')?.touched && offreForm.get('contractType')?.invalid">
+        <option value="">Select Contract Type</option>
+        <option value="Full-Time">Full-Time</option>
+        <option value="Part-Time">Part-Time</option>
+        <option value="Contract">Contract</option>
+      </select>
+      <div *ngIf="offreForm.get('contractType')?.touched && offreForm.get('contractType')?.invalid" class="error invalid-feedback">
+        <div *ngIf="offreForm.get('contractType')?.errors?.['required']">Contract Type is required.</div>
+      </div>
+    </div>
 
-    <label for="experienceLevel">Experience Level:</label>
-    <input id="experienceLevel" formControlName="experienceLevel" type="text" required />
-    <div *ngIf="offreForm.controls['experienceLevel'].invalid && submitted" class="error">Experience Level is required.</div>
+    <div class="form-group">
+      <label for="experienceLevel" class="form-label">Experience Level:</label>
+      <select id="experienceLevel" formControlName="experienceLevel" class="form-control" 
+              [class.is-invalid]="offreForm.get('experienceLevel')?.touched && offreForm.get('experienceLevel')?.invalid">
+        <option value="">Select Experience Level</option>
+        <option value="Entry-Level">Entry-Level</option>
+        <option value="Mid-Level">Mid-Level</option>
+        <option value="Senior-Level">Senior-Level</option>
+      </select>
+      <div *ngIf="offreForm.get('experienceLevel')?.touched && offreForm.get('experienceLevel')?.invalid" class="error invalid-feedback">
+        <div *ngIf="offreForm.get('experienceLevel')?.errors?.['required']">Experience Level is required.</div>
+      </div>
+    </div>
 
-    <label for="jobFunction">Job Function:</label>
-    <input id="jobFunction" formControlName="jobFunction" type="text" required />
-    <div *ngIf="offreForm.controls['jobFunction'].invalid && submitted" class="error">Job Function is required.</div>
+    <div class="form-group">
+      <label for="jobFunction" class="form-label">Job Function:</label>
+      <select id="jobFunction" formControlName="jobFunction" class="form-control" 
+              [class.is-invalid]="offreForm.get('jobFunction')?.touched && offreForm.get('jobFunction')?.invalid">
+        <option value="">Select Job Function</option>
+        <option value="Engineering">Engineering</option>
+        <option value="Marketing">Marketing</option>
+        <option value="Sales">Sales</option>
+      </select>
+      <div *ngIf="offreForm.get('jobFunction')?.touched && offreForm.get('jobFunction')?.invalid" class="error invalid-feedback">
+        <div *ngIf="offreForm.get('jobFunction')?.errors?.['required']">Job Function is required.</div>
+      </div>
+    </div>
 
-    <label for="jobType">Job Type:</label>
-    <input id="jobType" formControlName="jobType" type="text" required />
-    <div *ngIf="offreForm.controls['jobType'].invalid && submitted" class="error">Job Type is required.</div>
+    <div class="form-group">
+      <label for="jobType" class="form-label">Job Type:</label>
+      <select id="jobType" formControlName="jobType" class="form-control" 
+              [class.is-invalid]="offreForm.get('jobType')?.touched && offreForm.get('jobType')?.invalid">
+        <option value="">Select Job Type</option>
+        <option value="Permanent">Permanent</option>
+        <option value="Temporary">Temporary</option>
+        <option value="Internship">Internship</option>
+      </select>
+      <div *ngIf="offreForm.get('jobType')?.touched && offreForm.get('jobType')?.invalid" class="error invalid-feedback">
+        <div *ngIf="offreForm.get('jobType')?.errors?.['required']">Job Type is required.</div>
+      </div>
+    </div>
 
-    <label for="jobShift">Job Shift:</label>
-    <input id="jobShift" formControlName="jobShift" type="text" required />
-    <div *ngIf="offreForm.controls['jobShift'].invalid && submitted" class="error">Job Shift is required.</div>
+    <div class="form-group">
+      <label for="jobShift" class="form-label">Job Shift:</label>
+      <select id="jobShift" formControlName="jobShift" class="form-control" 
+              [class.is-invalid]="offreForm.get('jobShift')?.touched && offreForm.get('jobShift')?.invalid">
+        <option value="">Select Job Shift</option>
+        <option value="Day">Day</option>
+        <option value="Night">Night</option>
+        <option value="Rotating">Rotating</option>
+      </select>
+      <div *ngIf="offreForm.get('jobShift')?.touched && offreForm.get('jobShift')?.invalid" class="error invalid-feedback">
+        <div *ngIf="offreForm.get('jobShift')?.errors?.['required']">Job Shift is required.</div>
+      </div>
+    </div>
 
-    <label for="jobSchedule">Job Schedule:</label>
-    <input id="jobSchedule" formControlName="jobSchedule" type="text" required />
-    <div *ngIf="offreForm.controls['jobSchedule'].invalid && submitted" class="error">Job Schedule is required.</div>
+    <div class="form-group">
+      <label for="jobSchedule" class="form-label">Job Schedule:</label>
+      <select id="jobSchedule" formControlName="jobSchedule" class="form-control" 
+              [class.is-invalid]="offreForm.get('jobSchedule')?.touched && offreForm.get('jobSchedule')?.invalid">
+        <option value="">Select Job Schedule</option>
+        <option value="9-5">9-5</option>
+        <option value="Flexible">Flexible</option>
+        <option value="Shift-Based">Shift-Based</option>
+      </select>
+      <div *ngIf="offreForm.get('jobSchedule')?.touched && offreForm.get('jobSchedule')?.invalid" class="error invalid-feedback">
+        <div *ngIf="offreForm.get('jobSchedule')?.errors?.['required']">Job Schedule is required.</div>
+      </div>
+    </div>
 
-    <label for="educationLevel">Education Level:</label>
-    <input id="educationLevel" formControlName="educationLevel" type="text" required />
-    <div *ngIf="offreForm.controls['educationLevel'].invalid && submitted" class="error">Education Level is required.</div>
+    <div class="form-group">
+      <label for="educationLevel" class="form-label">Education Level:</label>
+      <select id="educationLevel" formControlName="educationLevel" class="form-control" 
+              [class.is-invalid]="offreForm.get('educationLevel')?.touched && offreForm.get('educationLevel')?.invalid">
+        <option value="">Select Education Level</option>
+        <option value="High School">High School</option>
+        <option value="Bachelor’s Degree">Bachelor’s Degree</option>
+        <option value="Master’s Degree">Master’s Degree</option>
+      </select>
+      <div *ngIf="offreForm.get('educationLevel')?.touched && offreForm.get('educationLevel')?.invalid" class="error invalid-feedback">
+        <div *ngIf="offreForm.get('educationLevel')?.errors?.['required']">Education Level is required.</div>
+      </div>
+    </div>
 
-    <label for="entrepriseId">Entreprise Name:</label>
-    <input id="entrepriseId" formControlName="entrepriseId" type="number" required />
-    <div *ngIf="offreForm.controls['entrepriseId'].invalid && submitted" class="error">Entreprise ID is required.</div>
-
-    <button type="submit" [disabled]="loading">Create Offer</button>
-    <div *ngIf="loading">Submitting...</div>
+    <button type="submit" [disabled]="loading || offreForm.invalid" class="submit-button btn-primary">Create</button>
+    <div *ngIf="loading" class="loading">Submitting...</div>
   </form>
 </div>

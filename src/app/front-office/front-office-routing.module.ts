@@ -5,16 +5,25 @@ import { OfferComponent } from './offer/offer.component';
 import { CreateOffreComponent } from './create-offre/create-offre.component';
 import { OfferStudentComponent } from './offer-student/offer-student.component';
 import { FavoritesComponent } from './favorites/favorites.component';
+import { AppliedComponent } from './applied/applied.component';
+import { UpdateOffreModalComponent } from './update-offre-modal/update-offre-modal.component';
+import { ApplyEntrepriseComponent } from './apply-entreprise/apply-entreprise.component';
 
 const routes: Routes = [
   {
     path: '',
     component: FrontOfficeComponent,
     children: [
+      { path: 'offre/:entrepriseId', component: OfferComponent },
       { path: 'offre', component: OfferComponent },
+      {path: 'create-offre/:idEntreprise', component:CreateOffreComponent},
       {path: 'create-offre', component:CreateOffreComponent},
       {path: 'offre-student', component:OfferStudentComponent},
-      {path: 'list-fav', component:FavoritesComponent}
+      {path: 'list-fav', component:FavoritesComponent},
+      {path: 'list-apply', component:AppliedComponent},
+      {path: 'list-apply-entre', component:ApplyEntrepriseComponent},
+      {path: 'update-offre-modal', component:UpdateOffreModalComponent},
+      {path: 'update-offre-modal/:id', component:UpdateOffreModalComponent},
     ]
   }
 ];

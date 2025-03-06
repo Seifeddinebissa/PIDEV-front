@@ -1,16 +1,26 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, Observable, tap, throwError } from 'rxjs';  // Import Observable
-import { Offre } from '../Models/offre.model';
+import { Application, Offre } from '../Models/offre.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OffreService {
+  
 
   private apiUrl = 'http://localhost:8081/offres';  // Spring Boot API URL
 
   constructor(private http: HttpClient) { }
+
+  getOffreById(id: number): Observable<Offre> {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.get<Offre>(url); // Return the Observable directly
+  }
+  getOffresByEntrepriseId(entrepriseId: number): Observable<Offre[]> {
+    return this.http.get<Offre[]>(`${this.apiUrl}/entreprise/${entrepriseId}`);
+  }
+  
 
   // Method to fetch offers from the backend
   getOffres(): Observable<Offre[]> {
@@ -26,10 +36,10 @@ export class OffreService {
     return this.http.delete<void>(`${this.apiUrl}/delete/${id}`, { responseType: 'text' as 'json' });
   }
   applyToOffer(data: { studentId: number; offerId: number }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/apply`, data);
+    return this.http.post(`${this.apiUrl}/apply`, data, { responseType: 'text' as 'json' });
   }
 
-  toggleFavorite(data: { studentId: number; offerId: number }): Observable<any> {
+  toggleFavorite(data: { studentId: number; offerId: number; }, action: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/favorites/add`, data, { responseType: 'text' }) as Observable<string>;
   }
 
@@ -37,7 +47,7 @@ export class OffreService {
     return this.http.post(`${this.apiUrl}/upload-cv`, formData);
   }
   removeFavoris(data: { studentId: number; offerId: number }): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/favorites/remove`, data);
+    return this.http.post<void>(`${this.apiUrl}/favorites/remove`, data, { responseType: 'text' as 'json' });
   }
 
   getAllFavoris(studentId: number): Observable<Offre[]> {
@@ -54,7 +64,17 @@ export class OffreService {
       );
   }
   addFavoris(data: { studentId: number; offerId: number }): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/favorites/add`, data);
+    return this.http.post<void>(`${this.apiUrl}/favorites/add`, data, { responseType: 'text' as 'json' });
+  }
+  getApplications(studentId: number): Observable<Application[]> {
+    const params = new HttpParams().set('studentId', studentId.toString());
+    return this.http.get<Application[]>(`${this.apiUrl}/applications`, { params }).pipe(
+      tap(response => console.log('Applications API Response:', response)),
+      catchError(error => {
+        console.error('Error fetching applications:', error); // Line 64
+        return throwError(error);
+      })
+    );
   }
 }
 export { Offre };

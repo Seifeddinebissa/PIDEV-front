@@ -1,89 +1,98 @@
-<div class="container mt-4">
-  <h2>Add New Entreprise</h2>
-  
-  <form [formGroup]="entrepriseForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <label for="name">Entreprise Name</label>
-      <input
-        type="text"
-        class="form-control"
-        id="name"
-        formControlName="name"
-        [ngClass]="{'is-invalid': submitted && f['name'].errors}"
-      />
-      <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
-        <div *ngIf="f['name'].errors?.['required']">Entreprise Name is required.</div>
+<div class="container mt-5">
+  <div class="card shadow-sm p-4">
+    <h2 class="text-primary mb-4 fw-bold">Add New Entreprise</h2>
+
+    <!-- Error & Loading Messages -->
+    <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+    <div *ngIf="loading" class="alert alert-info">Adding entreprise...</div>
+
+    <form [formGroup]="entrepriseForm" (ngSubmit)="onSubmit()">
+      <div class="row g-3">
+        <!-- Name -->
+        <div class="col-md-6">
+          <label for="name" class="form-label">Name:</label>
+          <input type="text" id="name" formControlName="name" class="form-control" 
+                 [class.is-invalid]="submitted && f['name'].errors">
+          <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+            <div *ngIf="f['name'].errors['required']">Name is required</div>
+          </div>
+        </div>
+
+        <!-- Sector -->
+        <div class="col-md-6">
+          <label for="sector" class="form-label">Sector:</label>
+          <input type="text" id="sector" formControlName="sector" class="form-control" 
+                 [class.is-invalid]="submitted && f['sector'].errors">
+          <div *ngIf="submitted && f['sector'].errors" class="invalid-feedback">
+            <div *ngIf="f['sector'].errors['required']">Sector is required</div>
+          </div>
+        </div>
+
+        <!-- Location -->
+        <div class="col-md-6">
+          <label for="location" class="form-label">Location:</label>
+          <input type="text" id="location" formControlName="location" class="form-control" 
+                 [class.is-invalid]="submitted && f['location'].errors">
+          <div *ngIf="submitted && f['location'].errors" class="invalid-feedback">
+            <div *ngIf="f['location'].errors['required']">Location is required</div>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="col-md-6">
+          <label for="description" class="form-label">Description:</label>
+          <textarea id="description" formControlName="description" class="form-control" rows="3"
+                    [class.is-invalid]="submitted && f['description'].errors"></textarea>
+          <div *ngIf="submitted && f['description'].errors" class="invalid-feedback">
+            <div *ngIf="f['description'].errors['required']">Description is required</div>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="col-md-6">
+          <label for="email" class="form-label">Email:</label>
+          <input type="email" id="email" formControlName="email" class="form-control" 
+                 [class.is-invalid]="submitted && f['email'].errors">
+          <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+            <div *ngIf="f['email'].errors['required']">Email is required</div>
+            <div *ngIf="f['email'].errors['email']">Email must be valid</div>
+          </div>
+        </div>
+
+        <!-- Phone -->
+        <div class="col-md-6">
+          <label for="phone" class="form-label">Phone:</label>
+          <input type="text" id="phone" formControlName="phone" class="form-control" 
+                 [class.is-invalid]="submitted && f['phone'].errors">
+          <div *ngIf="submitted && f['phone'].errors" class="invalid-feedback">
+            <div *ngIf="f['phone'].errors['required']">Phone is required</div>
+          </div>
+        </div>
+
+        <!-- Website -->
+        <div class="col-md-6">
+          <label for="website" class="form-label">Website:</label>
+          <input type="url" id="website" formControlName="website" class="form-control" 
+                 [class.is-invalid]="submitted && f['website'].errors">
+          <div *ngIf="submitted && f['website'].errors" class="invalid-feedback">
+            <div *ngIf="f['website'].errors['required']">Website is required</div>
+          </div>
+        </div>
+
+        <!-- Logo Upload -->
+        <div class="col-md-6">
+          <label for="logo" class="form-label">Logo:</label>
+          <input type="file" id="logo" (change)="onFileSelected($event)" accept="image/*" class="form-control">
+         
+        </div>
       </div>
-    </div>
 
-    <div class="form-group">
-      <label for="sector">Sector</label>
-      <input
-        type="text"
-        class="form-control"
-        id="sector"
-        formControlName="sector"
-      />
-    </div>
-
-    <div class="form-group">
-      <label for="location">Location</label>
-      <input
-        type="text"
-        class="form-control"
-        id="location"
-        formControlName="location"
-      />
-    </div>
-
-    <div class="form-group">
-      <label for="description">Description</label>
-      <textarea
-        class="form-control"
-        id="description"
-        formControlName="description"
-      ></textarea>
-    </div>
-
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input
-        type="email"
-        class="form-control"
-        id="email"
-        formControlName="email"
-        [ngClass]="{'is-invalid': submitted && f['email'].errors}"
-      />
-      <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
-        <div *ngIf="f['email'].errors?.['required']">Email is required.</div>
-        <div *ngIf="f['email'].errors?.['email']">Invalid email format.</div>
+      <!-- Submit Button -->
+      <div class="mt-4 text-end">
+        <button type="submit" class="btn btn-primary" [disabled]="loading">
+          <i class="bi bi-plus-circle"></i> Add Entreprise
+        </button>
       </div>
-    </div>
-
-    <div class="form-group">
-      <label for="phone">Phone</label>
-      <input
-        type="text"
-        class="form-control"
-        id="phone"
-        formControlName="phone"
-      />
-    </div>
-
-    <div class="form-group">
-      <label for="website">Website</label>
-      <input
-        type="url"
-        class="form-control"
-        id="website"
-        formControlName="website"
-      />
-    </div>
-
-    <button type="submit" class="btn btn-primary" [disabled]="loading">
-      <span *ngIf="loading" class="spinner-border spinner-border-sm"></span> 
-      {{loading ? 'Adding...' : 'Add Entreprise'}}
-    </button>
-  </form>
-  <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
+    </form>
+  </div>
 </div>

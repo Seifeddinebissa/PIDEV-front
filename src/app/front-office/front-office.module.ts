@@ -15,6 +15,8 @@ import { OfferComponent } from './offer/offer.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OfferStudentComponent } from './offer-student/offer-student.component';
 import { FavoritesComponent } from './favorites/favorites.component';
+import { AppliedComponent } from './applied/applied.component';
+import { ApplyEntrepriseComponent } from './apply-entreprise/apply-entreprise.component';
 
 
 
@@ -26,6 +28,8 @@ import { FavoritesComponent } from './favorites/favorites.component';
     UpdateOffreModalComponent,
     OfferStudentComponent,
     FavoritesComponent,
+    AppliedComponent,
+    ApplyEntrepriseComponent,
     
     
   ],

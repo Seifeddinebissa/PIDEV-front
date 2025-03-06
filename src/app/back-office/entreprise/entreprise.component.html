@@ -1,57 +1,92 @@
-<div class="container mt-4">
-    <h2 class="mb-3">List of Entreprises</h2>
-    <!-- Search Bar (Updated placeholder) -->
-    <div class="search-bar mb-3">
-      <input
-          type="text"
-          class="form-control"
-          placeholder="Search entreprises by name or email..."
-          [(ngModel)]="searchTerm"
-          (ngModelChange)="filterEntreprises()"
-      />
+<div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold text-primary">Entreprises Directory</h2>
   </div>
-  
-  <table class="table table-striped">
-    <thead class="table-dark">
-        <tr>
-            <th>Logo</th>
-            <th>Name</th>
-            <th>Sector</th>
-            <th>Location</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Website</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let entreprise of filteredEntreprises">
-            <td>
-                <img *ngIf="entreprise.logo" [src]="entreprise.logo" alt="Logo" class="company-logo">
-            </td>
-            <td>{{ entreprise.name }}</td>
-            <td>{{ entreprise.sector }}</td>
-            <td>{{ entreprise.location }}</td>
-            <td>{{ entreprise.email }}</td>
-            <td>{{ entreprise.phone }}</td>
-            <td>
-                <a *ngIf="entreprise.website" [href]="entreprise.website" target="_blank">Visit</a>
-            </td>
-            <td>
-                <button class="btn btn-warning btn-sm me-2" (click)="editEntreprise(entreprise)">Edit</button>
-                <button class="btn btn-danger btn-sm" *ngIf="entreprise.id" (click)="deleteEntreprise(entreprise.id)">Delete</button>
-            </td>
-        </tr>
-    </tbody>
-</table>
 
-<div *ngIf="filteredEntreprises.length === 0" class="alert alert-warning text-center">
-    No entreprises found matching your search.
-</div>
-
-  
-    <div *ngIf="entreprises.length === 0" class="alert alert-warning text-center">
-      No entreprises available at the moment.
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <div class="input-group">
+        <span class="input-group-text bg-white border-end-0">
+          <i class="bi bi-search"></i>
+        </span>
+        <input type="text" class="form-control border-start-0" placeholder="Search by name, email, or sector..." [(ngModel)]="searchTerm" (ngModelChange)="filterEntreprises()" />
+      </div>
     </div>
   </div>
-  
+
+  <div class="card shadow-sm">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead class="bg-primary text-white text-center">
+          <tr>
+            <th scope="col">Logo</th>
+            <th scope="col">Name</th>
+            <th scope="col">Sector</th>
+            <th scope="col">Location</th>
+            <th scope="col">Description</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Website</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let entreprise of filteredEntreprises; let i = index">
+            <td class="text-center">
+              <img [src]="entreprise.logo || 'assets/default-logo.png'" alt="{{ entreprise.name }} logo" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;" />
+            </td>
+            <td class="fw-medium">{{ entreprise.name }}</td>
+            <td>{{ entreprise.sector }}</td>
+            <td>{{ entreprise.location }}</td>
+            <td>{{ entreprise.description }}</td>
+            <td>
+              <a [href]="'mailto:' + entreprise.email" class="text-decoration-none text-primary">{{ entreprise.email }}</a>
+            </td>
+            <td>{{ entreprise.phone }}</td>
+            <td class="text-center">
+              <a *ngIf="entreprise.website" [href]="entreprise.website" target="_blank" class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-globe"></i> Visit Site
+              </a>
+            </td>
+            <td class="text-center">
+              <div class="btn-group">
+                <button class="btn btn-outline-primary btn-sm me-1" (click)="editEntreprise(entreprise)" title="Edit">
+                  <i class="skillgro-edit"></i> 
+                </button>
+                <button class="btn btn-outline-danger btn-sm" (click)="deleteEntreprise(entreprise.id)" title="Delete">
+                  <i class="skillgro-bin"></i> 
+                </button>
+                
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div *ngIf="filteredEntreprises.length === 0 && entreprises.length > 0" class="alert alert-info mt-4 text-center">
+    <i class="bi bi-exclamation-circle me-2"></i> No entreprises match your search criteria.
+  </div>
+  <div *ngIf="entreprises.length === 0" class="alert alert-warning mt-4 text-center">
+    <i class="bi bi-info-circle me-2"></i> No entreprises available. Start by adding some!
+  </div>
+
+  <div class="d-flex justify-content-between align-items-center mt-4" *ngIf="totalItems > 0">
+    <div class="text-muted">Showing page {{ currentPage + 1 }} of {{ totalPages }} ({{ totalItems }} entreprises)</div>
+    <nav>
+      <ul class="pagination mb-0">
+        <li class="page-item" [class.disabled]="currentPage === 0">
+          <button class="page-link" (click)="changePage(currentPage - 1)">
+            <i class="bi bi-chevron-left"></i> Previous
+          </button>
+        </li>
+        <li class="page-item" [class.disabled]="currentPage === totalPages - 1">
+          <button class="page-link" (click)="changePage(currentPage + 1)">
+            Next <i class="bi bi-chevron-right"></i>
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>

@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { OffreService } from '../services/offre.service';  
-import { Offre } from '../Models/offre.model'; 
+import { OffreService } from '../services/offre.service';
+import { Offre } from '../Models/offre.model';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdateOffreModalComponent } from 'src/app/front-office/update-offre-modal/update-offre-modal.component';
-import { Router } from '@angular/router';
-
-
-
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-offre',
@@ -15,95 +12,87 @@ import { Router } from '@angular/router';
 })
 export class OfferComponent implements OnInit {
 
-  
-  offres: Offre[] = []; 
-  loading: boolean = true;  
-  error: string | null = null;  
+  offres: Offre[] = [];
+  fetchingOffers: boolean = true;
+  updatingOffer: boolean = false;
+  deletingOffer: boolean = false;
+  error: string | null = null;
+  entrepriseId: number | null = null;
 
   constructor(
     private offreService: OffreService,
     public dialog: MatDialog,
-    private router: Router
-  ) {} 
-
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   deleteOffre(id: number): void {
     if (confirm('Are you sure you want to delete this offer?')) {
-      this.loading = true;
+      this.deletingOffer = true;
       this.offreService.deleteOffre(id).subscribe(
         (response) => {
-          console.log('Response from backend:', response); 
-          this.offres = this.offres.filter(offer => offer.id !== id);
-          this.loading = false;
+          console.log('Response from backend:', response);
+          this.offres = this.offres.filter((offer) => offer.id !== id);
+          this.deletingOffer = false;
         },
         (error) => {
-          console.error('Failed to delete offer:', error);  
+          console.error('Failed to delete offer:', error);
           this.error = 'Failed to delete offer';
-          this.loading = false;
+          this.deletingOffer = false;
         }
       );
     }
   }
-  
-  openUpdateDialog(offer: Offre): void {
-    const dialogRef = this.dialog.open(UpdateOffreModalComponent, {
-      width: '800px',
-      data: offer, 
-      position: { top: '10%', left: '40%' }, 
-      panelClass: 'custom-dialog-container'
-    });
-  
-    dialogRef.afterClosed().subscribe((result: Offre) => {
-      if (result) {
-        this.updateOffre(result); 
-      }
-    });
-  }
-  
 
-  updateOffre(updatedOffer: Offre): void {
-    this.loading = true;
-
-    this.offreService.updateOffre(updatedOffer.id, updatedOffer).subscribe(
-      (response) => {
-        console.log('Offer updated successfully:', response);
-
-        const index = this.offres.findIndex(offer => offer.id === updatedOffer.id);
-        if (index !== -1) {
-          this.offres[index] = response;  
-        }
-
-        this.loading = false;
-      },
-      (error) => {
-        console.error('Failed to update offer:', error);
-        this.error = 'Failed to update offer';
-        this.loading = false;
-      }
-    );
-  }
-
+  openUpdateDialog(offer: Offre) {
+    this.router.navigate([`/update-offre-modal/${offer.id}`]);
+    }
 
   
 
   goToPage(): void {
-    this.router.navigate(['/create-offre']);  // Replace '/desired-page' with the actual path
+    this.router.navigate(['/create-offre']);
   }
 
   ngOnInit(): void {
-    // Use the service to get the data
-    this.offreService.getOffres().subscribe(
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('entrepriseId');
+      this.entrepriseId = id ? +id : null; // Convert to number if exists
+      if (this.entrepriseId) {
+        this.fetchOffersByEntrepriseId(this.entrepriseId);
+      } else {
+        this.fetchAllOffers();
+      }
+    });
+  }
+
+  fetchOffersByEntrepriseId(entrepriseId: number): void {
+    this.offreService.getOffresByEntrepriseId(entrepriseId).subscribe(
       (data) => {
-        this.offres = data;  // Store the data in the offres array
-        this.loading = false;  // Set loading to false once data is fetched
+        this.offres = data;
+        this.fetchingOffers = false;
       },
       (error) => {
-        console.error('Error fetching data:', error);  // Handle error
-        this.loading = false;  // Set loading to false when there is an error
-        this.error = 'There was an error fetching the offers. Please try again later.';  // Display a user-friendly error message
+        console.error('Error fetching offers by entreprise:', error);
+        this.fetchingOffers = false;
+        this.error = 'Error fetching offers for this entreprise.';
+      }
+    );
+  }
+
+  fetchAllOffers(): void {
+    this.offreService.getOffres().subscribe(
+      (data) => {
+        this.offres = data;
+        this.fetchingOffers = false;
+      },
+      (error) => {
+        console.error('Error fetching all offers:', error);
+        this.fetchingOffers = false;
+        this.error = 'Error fetching offers.';
       }
     );
   }
 }
-export { Offre };
 
+export { Offre };

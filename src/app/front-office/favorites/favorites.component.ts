@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OffreService, Offre } from '../services/offre.service';
 import { Favorite } from '../Models/offre.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-favorites',
@@ -51,17 +52,23 @@ export class FavoritesComponent implements OnInit {
   
 
   removeFavoris(offer: Offre): void {
+    if (!this.staticStudentId || !offer || !offer.id) {
+      console.warn('Invalid student ID or offer provided');
+      return;
+    }
+  
     const favoriteData = {
-      studentId: this.staticStudentId,
+      studentId: this.staticStudentId, // Guaranteed to be a number here
       offerId: offer.id
     };
+  
     this.offreService.removeFavoris(favoriteData).subscribe({
       next: () => {
-        offer.favorites = offer.favorites.filter((fav: Favorite) => fav.studentId !== this.staticStudentId);
-        this.favoriteOffres = this.favoriteOffres.filter(fav => fav.id !== offer.id);
-        console.log('Removed from favorites');
+        console.log('Favorite removed successfully');
+        offer.favorites = offer.favorites?.filter((fav: Favorite) => fav.studentId !== this.staticStudentId) || [];
+        this.favoriteOffres = this.favoriteOffres?.filter(fav => fav.id !== offer.id) || [];
       },
-      error: (error: any) => {
+      error: (error: HttpErrorResponse) => {
         console.error('Error removing favorite:', error);
         this.error = 'Failed to remove favorite.';
       }

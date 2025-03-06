@@ -1,14 +1,16 @@
 <div class="container mt-4">
-  <h2 class="mb-3">List of Offers</h2>
-  <div *ngIf="loading" class="loading-message">Loading offers...</div>
+  <h2 class="mb-3">Student Applied Offers</h2>
+  <div *ngIf="loading" class="loading-message">Loading applied offers...</div>
   <div *ngIf="error" class="error-message">{{ error }}</div>
 
-  <div *ngIf="offres.length > 0; else noData">
-    <div *ngFor="let offer of offres" class="offer-card">
-      <img [src]="'http://localhost:8081/companies/images' + offer.entreprise?.logo" 
-           alt="{{ offer.entreprise?.name }} logo" class="company-logo" />
-
-      <h2 class="entreprise-name">{{ offer.entreprise?.name }}</h2>
+  <div *ngIf="appliedOffres.length > 0; else noApplications">
+    <div *ngFor="let offer of appliedOffres" class="offer-card">
+      <div class="enterprise-info">
+        <img [src]="'http://localhost:8081/companies/images' + offer.entreprise?.logo"
+             alt="{{ offer.entreprise?.name }} logo" class="company-logo" />
+        <h3 class="entreprise-name">{{ offer.entreprise?.name }}</h3>
+      </div>
+      
       <h3 class="offer-title">{{ offer.title }}</h3>
       <p class="offer-description">{{ offer.description }}</p>
       <div class="offer-details">
@@ -26,18 +28,13 @@
       </div>
 
       <div class="offer-actions">
-        <button (click)="toggleFavoris(offer)" class="favorite-button">
-          <i class="star-icon" [class.filled]="isFavorited(offer)" [class.empty]="!isFavorited(offer)"></i>
-          {{ isFavorited(offer) ? 'Remove from Favorites' : 'Add to Favorites' }}
-        </button>
-
-        <button (click)="apllyOffre(offer)" class="apply-button">Apply</button>
-        <button (click)="upload(offer)" class="upload-button">Upload file</button>
+        <button class="btn btn-danger btn-sm" (click)="removeApplication(offer)">Withdraw Application</button>
+        <button class="btn btn-success btn-sm" (click)="AcceptApplication(offer)">Accept Application</button>
       </div>
     </div>
   </div>
 
-  <ng-template #noData>
-    <p class="alert alert-warning text-center">No offers available at the moment.</p>
+  <ng-template #noApplications>
+    <p class="alert alert-warning text-center">No applied offers yet.</p>
   </ng-template>
 </div>

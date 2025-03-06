@@ -1,203 +1,50 @@
-/* update-entreprise.component.css */
-
-.container {
-    max-width: 700px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.mt-4 {
-    margin-top: 2rem;
+.card {
+  border-radius: 10px;
+  background: white;
+  border: none;
 }
 
 h2 {
-    color: #2c3e50;
-    font-family: Arial, sans-serif;
-    font-weight: 600;
-    text-align: center;
-    margin-bottom: 30px;
+  font-weight: bold;
 }
 
-.form-group {
-    margin-bottom: 20px;
-}
-
-label {
-    display: block;
-    color: #555;
-    font-weight: 500;
-    margin-bottom: 8px;
-    font-size: 16px;
-}
-
-label::after {
-    content: " (required)" attr(data-required);
-    color: #dc3545;
-    font-size: 12px;
-    font-weight: normal;
-    margin-left: 5px;
+.form-label {
+  font-weight: 600;
 }
 
 .form-control {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    font-size: 16px;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    box-sizing: border-box;
+  border-radius: 5px;
 }
 
-.form-control:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
-}
-
-textarea.form-control {
-    min-height: 120px;
-    resize: vertical;
-}
-
-.is-invalid {
-    border-color: #dc3545;
+.form-control.is-invalid {
+  border-color: #dc3545;
 }
 
 .invalid-feedback {
-    color: #dc3545;
-    font-size: 14px;
-    margin-top: 5px;
-}
-
-.form-actions {
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-    margin-top: 20px;
-}
-
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+  font-size: 0.875rem;
 }
 
 .btn-primary {
-    background-color: #007bff;
-    color: white;
+  background-color: #007bff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 16px;
 }
 
-.btn-primary:hover:not(:disabled) {
-    background-color: #0069d9;
-    transform: translateY(-2px);
+.btn-primary:hover {
+  background-color: #0056b3;
 }
 
-.btn-primary:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
+.img-thumbnail {
+  border: 2px solid #007bff;
+  border-radius: 5px;
 }
 
-.btn-secondary {
-    background-color: #6c757d;
-    color: white;
+.modal {
+  background: rgba(0, 0, 0, 0.5);
 }
 
-.btn-secondary:hover {
-    background-color: #5a6268;
-    transform: translateY(-2px);
-}
-
-.spinner-border {
-    width: 1rem;
-    height: 1rem;
-    margin-right: 8px;
-    border: 0.25em solid currentColor;
-    border-right-color: transparent;
-}
-
-.alert {
-    padding: 15px;
-    border-radius: 4px;
-    margin-top: 20px;
-}
-
-.alert-danger {
-    background-color: #f8d7da;
-    border: 1px solid #f5c6cb;
-    color: #721c24;
-}
-
-/* Modal Styles */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    animation: fadeIn 0.3s ease;
-}
-
-.modal-container {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    max-width: 700px;
-    width: 90%;
-    max-height: 85vh;
-    overflow-y: auto;
-    padding: 20px;
-    position: relative;
-    animation: slideIn 0.3s ease;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@keyframes slideIn {
-    from { transform: translateY(-20px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-}
-
-/* Responsive Design */
-@media (max-width: 576px) {
-    .container, .modal-container {
-        width: 95%;
-        padding: 15px;
-    }
-
-    h2 {
-        font-size: 1.5rem;
-    }
-
-    .form-control {
-        font-size: 14px;
-    }
-
-    .form-actions {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .btn {
-        width: 100%;
-        padding: 10px;
-        font-size: 14px;
-        margin-bottom: 10px;
-    }
+.modal-content {
+  border-radius: 10px;
 }

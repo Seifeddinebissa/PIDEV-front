@@ -1,3 +1,4 @@
+// src/app/front-office/update-entreprise/update-entreprise.component.ts
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,9 +14,10 @@ export class UpdateEntrepriseComponent implements OnInit {
   submitted = false;
   loading = false;
   errorMessage: string = '';
-  successMessage: string = ''; // Added for success feedback
+  successMessage: string = '';
   entrepriseId!: number;
-  showModal = false; // For modal visibility
+  showModal = false;
+  selectedFile: File | null = null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -25,7 +27,6 @@ export class UpdateEntrepriseComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Initialize the form
     this.entrepriseForm = this.formBuilder.group({
       name: ['', Validators.required],
       sector: ['', Validators.required],
@@ -34,14 +35,14 @@ export class UpdateEntrepriseComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       phone: [''],
       website: [''],
+      logo: [null]
     });
 
-    // Check if we're navigating directly with an ID (optional for standalone page use)
     const idFromRoute = this.route.snapshot.paramMap.get('id');
     if (idFromRoute) {
       this.entrepriseId = +idFromRoute;
       this.getEntrepriseDetails(this.entrepriseId);
-      this.showModal = true; // Auto-open modal if navigated directly
+      this.showModal = true;
     }
   }
 
@@ -49,7 +50,6 @@ export class UpdateEntrepriseComponent implements OnInit {
     return this.entrepriseForm.controls;
   }
 
-  // Method to fetch entreprise details by ID
   getEntrepriseDetails(id: number): void {
     this.entrepriseService.getEntrepriseById(id).subscribe({
       next: (data) => {
@@ -62,14 +62,12 @@ export class UpdateEntrepriseComponent implements OnInit {
     });
   }
 
-  // Method to open modal programmatically (e.g., from another component)
   openModal(entreprise: any): void {
     this.showModal = true;
     this.entrepriseId = entreprise.id;
     this.entrepriseForm.patchValue(entreprise);
   }
 
-  // Method to close modal
   closeModal(event?: MouseEvent): void {
     if (event) event.stopPropagation();
     this.showModal = false;
@@ -77,15 +75,21 @@ export class UpdateEntrepriseComponent implements OnInit {
     this.loading = false;
     this.errorMessage = '';
     this.successMessage = '';
+    this.selectedFile = null;
     this.entrepriseForm.reset();
 
-    // Navigate back to the list if not already there
     if (this.router.url.includes('/update-entreprise')) {
       this.router.navigate(['/entreprises']);
     }
   }
 
-  // Method to handle form submission
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      this.selectedFile = input.files[0];
+    }
+  }
+
   onSubmit(): void {
     this.submitted = true;
     this.errorMessage = '';
@@ -96,21 +100,37 @@ export class UpdateEntrepriseComponent implements OnInit {
     }
 
     this.loading = true;
-    this.entrepriseService
-      .updateEntreprise(this.entrepriseId, this.entrepriseForm.value)
-      .subscribe({
-        next: (response) => {
-          this.loading = false;
-          this.successMessage = 'Entreprise updated successfully!';
-          setTimeout(() => {
-            this.closeModal(); // Close modal and navigate
-          }, 1000); // Brief delay to show success message
-        },
-        error: (error) => {
-          this.loading = false;
-          this.errorMessage = 'Error updating entreprise';
-          console.error(error);
-        }
-      });
+
+    const formData = new FormData();
+    formData.append('name', this.f['name'].value);
+    formData.append('sector', this.f['sector'].value);
+    formData.append('location', this.f['location'].value || '');
+    formData.append('description', this.f['description'].value || '');
+    formData.append('email', this.f['email'].value);
+    formData.append('phone', this.f['phone'].value || '');
+    formData.append('website', this.f['website'].value || '');
+    if (this.selectedFile) {
+      formData.append('logo', this.selectedFile);
+    }
+
+    // Debug FormData contents
+    for (let pair of (formData as any).entries()) {
+      console.log(`${pair[0]}: ${pair[1]}`);
+    }
+
+    this.entrepriseService.updateEntreprise(this.entrepriseId, formData).subscribe({
+      next: (response) => {
+        this.loading = false;
+        this.successMessage = 'Entreprise updated successfully!';
+        setTimeout(() => {
+          this.closeModal();
+        }, 1000);
+      },
+      error: (error) => {
+        this.loading = false;
+        this.errorMessage = 'Error updating entreprise: ' + (error.message || 'Unknown error');
+        console.error(error);
+      }
+    });
   }
 }

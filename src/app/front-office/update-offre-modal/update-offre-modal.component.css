@@ -1,118 +1,99 @@
-/* General Dialog Styling */
-h2 {
-    font-size: 1.8rem;
-    font-weight: bold;
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #1976d2;
-  }
-  
-  /* Centering the form */
+/* Container for the form to ensure proper alignment */
+mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  max-width: 600px;
+  margin: auto;
+}
+
+/* Form field styles */
+mat-form-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+/* Label styles */
+mat-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #555;
+}
+
+/* Error messages styling */
+mat-error {
+  color: #f44336;
+  font-size: 12px;
+}
+
+/* Success message styling */
+.success-message {
+  color: #4caf50;
+  font-size: 14px;
+  margin-top: 16px;
+}
+
+/* Error message styling */
+.error-message {
+  color: #f44336;
+  font-size: 14px;
+  margin-top: 16px;
+}
+
+/* Dialog actions styling */
+mat-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+/* Button styles */
+button {
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 4px;
+}
+
+/* Styling for the submit button when loading */
+button[disabled] {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Focused input styling */
+mat-form-field input:focus,
+mat-form-field textarea:focus {
+  border-color: #3f51b5;
+}
+
+/* Styling for the input and textarea fields */
+input.mat-input-element,
+textarea.mat-input-element {
+  font-size: 14px;
+  padding: 8px;
+}
+
+/* Styling for the textarea to make it more spacious */
+textarea.mat-input-element {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 600px) {
   mat-dialog-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-  }
-  
-  /* Form Field Styling */
-  mat-form-field {
-    width: 100%;
-    margin-bottom: 15px;
-  }
-  
-  /* Enhancing Inputs & Textarea */
-  input, textarea {
-    font-size: 1rem;
     padding: 10px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    transition: border-color 0.3s ease-in-out;
-  }
-  
-  input:focus, textarea:focus {
-    border-color: #1976d2;
-    box-shadow: 0 0 8px rgba(25, 118, 210, 0.2);
-    outline: none;
-  }
-  
-  /* Aligning Buttons */
-  mat-dialog-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
     width: 100%;
   }
-  
-  /* Buttons Styling */
-  button {
-    font-size: 1rem;
-    padding: 10px 18px;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  /* Cancel Button */
-  button:not([color="primary"]) {
-    background-color: #e0e0e0;
-    color: #333;
-  }
-  
-  button:not([color="primary"]):hover {
-    background-color: #d6d6d6;
-  }
-  
-  /* Update Button */
-  button[color="primary"] {
-    background-color: #1976d2;
-    color: white;
-    font-weight: bold;
-  }
-  
-  button[color="primary"]:hover {
-    background-color: #155a9f;
-  }
-  
-  /* Responsiveness */
-  @media (max-width: 600px) {
-    h2 {
-      font-size: 1.5rem;
-    }
-  
-    mat-dialog-content {
-      padding: 15px;
-    }
-  
-    button {
-      width: 100%;
-      margin-top: 10px;
-    }
-  }
-  /* Optional: Custom Dialog Styling */
-.custom-dialog-container {
-  transform: translate(-50%, -50%) !important; /* Ensure it's centered */
-  max-width: 400px; /* Set a max-width for larger screens */
-  width: 90%; /* Make it responsive */
-  position: fixed !important; /* Fix the dialog position */
-  top: 50% !important; /* Position it vertically at the center */
-  left: 50% !important; /* Position it horizontally at the center */
-  z-index: 9999; /* Ensure the dialog stays on top of other content */
-}
 
-/* Override Angular Material's dialog positioning */
-::ng-deep .mat-dialog-container {
-  position: fixed !important; 
-  top: 50% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%) !important; 
-  width: 90% !important;
-  max-width: 400px;
-  z-index: 9999; /* Ensure the dialog stays on top */
-}
+  mat-form-field {
+    margin-bottom: 12px;
+  }
 
-  
-  
+  mat-dialog-actions {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+}

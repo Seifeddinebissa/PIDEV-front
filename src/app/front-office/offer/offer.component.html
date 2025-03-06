@@ -1,15 +1,13 @@
-
-<div *ngIf="loading" class="loading-message">Loading offers...</div> <!-- Show loading message -->
-
 <div *ngIf="error" class="error-message">{{ error }}</div>
 
 <!-- <button (click)="goToPage()" class="action-button go-to-page-button">ADD OFFER</button> -->
 
-
 <div *ngIf="offres.length > 0; else noData">
   <div *ngFor="let offer of offres" class="offer-card">
-    
-    
+    <img [src]="'http://localhost:8081/companies/images' + offer.entreprise?.logo" 
+         alt="{{ offer.entreprise?.name }} logo" 
+         class="company-logo" />
+    <h2 class="Entreprise Name">{{ offer.entreprise?.name }}</h2>
     <h3 class="offer-title">{{ offer.title }}</h3>
     <p class="offer-description">{{ offer.description }}</p>
     
@@ -25,25 +23,15 @@
       <p><strong>Job Shift:</strong> {{ offer.jobShift }}</p>
       <p><strong>Job Schedule:</strong> {{ offer.jobSchedule }}</p>
       <p><strong>Education Level:</strong> {{ offer.educationLevel }}</p>
-      <!-- <p><strong>Entreprise ID:</strong> {{ offer.entrepriseId }}</p> -->
     </div>
 
     <div class="offer-actions">
       <button (click)="openUpdateDialog(offer)">Update</button>
       <button (click)="deleteOffre(offer.id)">Delete</button> 
-      
-      
-      
     </div>
   </div>
-  
 </div>
 
 <ng-template #noData>
   <p>No offers available at the moment.</p>
 </ng-template>
-
-
-
-
-<!-- main-area-end -->
