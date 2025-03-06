@@ -4,4 +4,5 @@ export interface Feedback {
     comment: string;
     date: Date; 
     formation_id: number; 
+    is_hidden?: boolean;
   }
