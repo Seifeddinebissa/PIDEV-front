@@ -6,7 +6,9 @@ import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { BackOfficeModule } from './back-office/back-office.module';
 import { FrontOfficeModule } from './front-office/front-office.module';
-import { ButtonModule } from 'primeng/button';      
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+//import { ButtonModule } from 'primeng/button';      
 
 @NgModule({
   declarations: [
@@ -15,6 +17,8 @@ import { ButtonModule } from 'primeng/button';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule, 
+    FormsModule, // Nécessaire pour HttpClient
     RouterModule.forRoot([
       {
         path: 'back-office',
@@ -27,7 +31,7 @@ import { ButtonModule } from 'primeng/button';
     ]),
     BackOfficeModule,
     FrontOfficeModule,
-    ButtonModule,  
+    //ButtonModule,  
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,150 @@
+<!-- Section Breadcrumb -->
+<section class="breadcrumb__area breadcrumb__bg" data-background="assets/img/bg/breadcrumb_bg.jpg" style="background-image: url('assets/img/bg/breadcrumb_bg.jpg');">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="breadcrumb__content">
+          <h3 class="title">Réclamations</h3>
+          <nav class="breadcrumb">
+            <span property="itemListElement" typeof="ListItem">Soumettre ou consulter vos réclamations</span>
+            <span class="breadcrumb-separator"><i class="fas fa-angle-right"></i></span>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="breadcrumb__shape-wrap">
+    <img src="assets/img/others/breadcrumb_shape01.svg" alt="img" class="alltuchtopdown">
+    <img src="assets/img/others/breadcrumb_shape02.svg" alt="img" data-aos="fade-right" data-aos-delay="300" class="aos-init aos-animate">
+    <img src="assets/img/others/breadcrumb_shape03.svg" alt="img" data-aos="fade-up" data-aos-delay="400" class="aos-init aos-animate">
+    <img src="assets/img/others/breadcrumb_shape04.svg" alt="img" data-aos="fade-down-left" data-aos-delay="400" class="aos-init aos-animate">
+    <img src="assets/img/others/breadcrumb_shape05.svg" alt="img" data-aos="fade-left" data-aos-delay="400" class="aos-init aos-animate">
+  </div>
+</section>
+
+<!-- Contenu principal -->
+<section class="reclamation-section">
+  <div class="container">
+    <!-- Messages -->
+    <div class="message" *ngIf="successMessage" [ngClass]="{ 'success': successMessage }">{{ successMessage }}</div>
+    <div class="message" *ngIf="errorMessage" [ngClass]="{ 'error': errorMessage }">{{ errorMessage }}</div>
+
+    <!-- Boutons de navigation -->
+    <div class="navigation-buttons">
+      <button class="nav-btn" [class.active]="currentView === 'list'" (click)="showList()">Voir les réclamations</button>
+      <button class="nav-btn" [class.active]="currentView === 'add'" (click)="showAddForm()">Ajouter une réclamation</button>
+      <button class="nav-btn export-btn" (click)="exportToPDF()">Exporter en PDF</button>
+      <button class="nav-btn export-btn" (click)="exportToExcel()">Exporter en Excel</button>
+    </div>
+
+    <!-- Vue : Liste des réclamations -->
+    <div *ngIf="currentView === 'list'" class="reclamation-list">
+      <!-- Filters -->
+      <div class="filters">
+        <div class="search-form">
+          <!-- Filtre par statut -->
+          <div class="select-container">
+            <span class="select-icon"></span>
+            <select class="custom-select" [(ngModel)]="filterStatus" (change)="selectStatus(filterStatus)" aria-label="Filtrer par statut">
+              <option value="" selected>Tous</option>
+              <option value="En attente">En attente</option>
+              <option value="En cours">En cours</option>
+              <option value="Résolu">Résolu</option>
+            </select>
+          </div>
+          <!-- Barre de recherche -->
+          <div class="search-container">
+            <input type="text" id="searchTerm" [(ngModel)]="searchTerm" name="searchTerm" placeholder="Rechercher par sujet..." (input)="onSearchInput($event)">
+            <button type="button" class="search-button" (click)="loadReclamations()">
+              <svg width="70" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19.7071 18.2929L15.0455 13.6313C16.3978 12.001 17.1929 9.82088 17.1929 7.5C17.1929 3.35786 13.835 0 9.69286 0C5.55072 0 2.19286 3.35786 2.19286 7.5C2.19286 11.6421 5.55072 15 9.69286 15C12.013 15 14.1931 14.2049 15.8234 12.8525L20.485 17.5141C20.7782 17.8073 20.7782 18.2797 20.485 18.5729C20.1918 18.8661 19.7194 18.8661 19.4262 18.5729L19.7071 18.2929ZM9.69286 14C6.21107 14 3.19286 10.9818 3.19286 7.5C3.19286 4.01821 6.21107 1 9.69286 1C13.1746 1 16.1929 4.01821 16.1929 7.5C16.1929 10.9818 13.1746 14 9.69286 14Z" fill="#6a5acd" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tableau des réclamations -->
+      <table class="reclamation-table">
+        <thead>
+          <tr>
+            <th (click)="sort('dateSubmitted')">Date <span *ngIf="sortField === 'dateSubmitted'">{{ sortDirection === 'asc' ? '↑' : '↓' }}</span></th>
+            <th (click)="sort('subject')">Sujet <span *ngIf="sortField === 'subject'">{{ sortDirection === 'asc' ? '↑' : '↓' }}</span></th>
+            <th (click)="sort('description')">Description <span *ngIf="sortField === 'description'">{{ sortDirection === 'asc' ? '↑' : '↓' }}</span></th>
+            <th (click)="sort('status')">Statut <span *ngIf="sortField === 'status'">{{ sortDirection === 'asc' ? '↑' : '↓' }}</span></th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let reclamation of filteredReclamations">
+            <td>{{ reclamation.dateSubmitted | date: 'dd MMMM, yyyy' }}</td>
+            <td>{{ reclamation.subject }}</td>
+            <td>{{ reclamation.description }}</td>
+            <td>
+              <span class="status" [ngClass]="{
+                'pending': reclamation.status === 'En attente',
+                'in-progress': reclamation.status === 'En cours',
+                'resolved': reclamation.status === 'Résolu'
+              }">
+                {{ reclamation.status }}
+              </span>
+            </td>
+            <td>
+              <button class="action-btn" (click)="editReclamation(reclamation)">Modifier</button>
+            </td>
+          </tr>
+          <tr *ngIf="filteredReclamations.length === 0">
+            <td colspan="5">Aucune réclamation à afficher pour le moment.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Pagination -->
+      <div class="pagination" *ngIf="totalPages > 1">
+        <button (click)="previousPage()" [disabled]="currentPage === 0">⬅️ Précédent</button>
+        <ng-container *ngFor="let page of [].constructor(totalPages); let i = index">
+          <button (click)="goToPage(i)" [class.active]="i === currentPage">{{ i + 1 }}</button>
+        </ng-container>
+        <button (click)="nextPage()" [disabled]="currentPage + 1 === totalPages">Suivant ➡️</button>
+      </div>
+    </div>
+
+    <!-- Vue : Formulaire d'ajout -->
+    <div *ngIf="currentView === 'add'" class="form-container">
+      <h4>Ajouter une réclamation</h4>
+      <form (ngSubmit)="addReclamation()">
+        <div class="form-group">
+          <label for="subject">Sujet</label>
+          <input type="text" id="subject" [(ngModel)]="newReclamation.subject" name="subject" placeholder="Entrez le sujet" required maxlength="100" />
+        </div>
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea id="description" [(ngModel)]="newReclamation.description" name="description" placeholder="Décrivez votre réclamation" required maxlength="500"></textarea>
+        </div>
+        <!-- Statut non affiché ni modifiable, fixé à "En attente" côté TS -->
+        <button type="submit" class="btn submit-btn">Soumettre</button>
+      </form>
+    </div>
+
+    <!-- Formulaire de modification -->
+    <div *ngIf="selectedReclamation" class="form-container update-form">
+      <h4>Modifier la réclamation</h4>
+      <form (ngSubmit)="updateReclamation()">
+        <div class="form-group">
+          <label for="editSubject">Sujet</label>
+          <input type="text" id="editSubject" [(ngModel)]="selectedReclamation.subject" name="editSubject" placeholder="Entrez le sujet" required maxlength="100" />
+        </div>
+        <div class="form-group">
+          <label for="editDescription">Description</label>
+          <textarea id="editDescription" [(ngModel)]="selectedReclamation.description" name="editDescription" placeholder="Décrivez votre réclamation" required maxlength="500"></textarea>
+        </div>
+        <!-- Statut affiché mais non modifiable -->
+        <span class="status-display">Statut actuel : {{ selectedReclamation.status }}</span>
+        <div class="form-actions">
+          <button type="submit" class="btn submit-btn">Mettre à jour</button>
+          <button type="button" class="btn cancel-btn" (click)="cancelEdit()">Annuler</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

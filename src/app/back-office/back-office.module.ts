@@ -6,15 +6,22 @@ import { BackOfficeComponent } from './back-office.component';
 import { RouterModule } from '@angular/router';
 import { PaiementComponent } from './paiement/paiement.component';
 import { HttpClientModule } from '@angular/common/http';
+//import { ReclamationComponent } from './reclamation/reclamation.Component';
+import { FormsModule } from '@angular/forms';
+
+import { ListreclamationComponent } from './listreclamation/listreclamation.component';
 
 
 @NgModule({
   declarations: [
     BackOfficeComponent,
-    PaiementComponent
+    PaiementComponent,
+   
+    ListreclamationComponent
   ],
   imports: [
     CommonModule,
+    FormsModule,
     /*RouterModule.forChild([
       {
         path: '',
