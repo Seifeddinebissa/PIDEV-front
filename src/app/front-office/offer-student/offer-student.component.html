@@ -26,13 +26,15 @@
       </div>
 
       <div class="offer-actions">
-        <button (click)="toggleFavoris(offer)" class="favorite-button">
-          <i class="star-icon" [class.filled]="isFavorited(offer)" [class.empty]="!isFavorited(offer)"></i>
-          {{ isFavorited(offer) ? 'Remove from Favorites' : 'Add to Favorites' }}
+        <button (click)="toggleFavoris(offer)" class="favorite-button" [ngClass]="{'favorited': isFavorited(offer)}">
+          <i class="bi" [ngClass]="{'bi-star': !isFavorited(offer), 'bi-star-fill': isFavorited(offer)}"></i>
+          {{ isFavorited(offer) ? '' : '' }}
         </button>
+      
 
-        <button (click)="apllyOffre(offer)" class="apply-button">Apply</button>
-        <button (click)="upload(offer)" class="upload-button">Upload file</button>
+        <button (click)="apllyOffre(offer)" class="apply-button">
+          <i class="bi bi-send me-2"></i>
+        </button>
       </div>
     </div>
   </div>

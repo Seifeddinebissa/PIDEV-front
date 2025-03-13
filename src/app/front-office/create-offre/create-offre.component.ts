@@ -25,13 +25,15 @@ export class CreateOffreComponent implements OnInit {
   ngOnInit(): void {
     this.idEntreprise = Number(this.route.snapshot.paramMap.get('idEntreprise'));
     console.log('Retrieved idEntreprise:', this.idEntreprise);
+
+    const currentDate = new Date().toISOString().split('T')[0]; // Formats as 'YYYY-MM-DD'
+
     this.offreForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
       description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(1000)]],
       salary: ['', [Validators.required, Validators.min(0), Validators.pattern(/^\d+(\.\d{1,2})?$/)]],
       location: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
-      datePosted: ['', [Validators.required]],
-      dateExpiration: ['', Validators.required],
+      datePosted: [{ value: currentDate, disabled: true }, [Validators.required]], // Disabled and set to current date      dateExpiration: ['', Validators.required],
       contractType: ['', Validators.required],
       experienceLevel: ['', Validators.required],
       jobFunction: ['', Validators.required],

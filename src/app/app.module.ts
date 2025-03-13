@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { BackOfficeModule } from './back-office/back-office.module';
 import { FrontOfficeModule } from './front-office/front-office.module';
-import { ButtonModule } from 'primeng/button';      
+import { ButtonModule } from 'primeng/button';     
 
 
 @NgModule({
@@ -29,6 +29,7 @@ import { ButtonModule } from 'primeng/button';
     BackOfficeModule,
     FrontOfficeModule,
     ButtonModule,  
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

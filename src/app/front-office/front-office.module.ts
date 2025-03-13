@@ -32,6 +32,8 @@ import { ApplyEntrepriseComponent } from './apply-entreprise/apply-entreprise.co
     ApplyEntrepriseComponent,
     
     
+    
+    
   ],
   imports: [
     BrowserAnimationsModule,
@@ -43,7 +45,8 @@ import { ApplyEntrepriseComponent } from './apply-entreprise/apply-entreprise.co
     MatFormFieldModule, 
     MatInputModule, 
     RouterModule,
-    FrontOfficeRoutingModule
+    FrontOfficeRoutingModule,
+    
   ],
   exports: [FrontOfficeComponent]
 })

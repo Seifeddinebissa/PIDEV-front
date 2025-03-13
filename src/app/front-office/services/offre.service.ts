@@ -7,6 +7,9 @@ import { Application, Offre } from '../Models/offre.model';
   providedIn: 'root'
 })
 export class OffreService {
+  removeApplication(offer: Offre, applicationId: number) {
+    throw new Error('Method not implemented.');
+  }
   
 
   private apiUrl = 'http://localhost:8081/offres';  // Spring Boot API URL
@@ -76,6 +79,16 @@ export class OffreService {
       })
     );
   }
+  getFavoriteAnalytics(limit: number = 5): Observable<FavoriteStats[]> {
+    const params = new HttpParams().set('limit', limit.toString());
+    return this.http.get<FavoriteStats[]>(`${this.apiUrl}/favorites/analytics`, { params });
+  }
 }
+
+export interface FavoriteStats {
+  offre: Offre;
+  favoriteCount: number;
+}
+
 export { Offre };
 

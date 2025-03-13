@@ -131,3 +131,21 @@
     }
   }
   
+  
+
+
+  .apply-button {
+    background: #007bff;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+  }
+  
+  .apply-button:hover {
+    background: #007bff;
+  }
+  

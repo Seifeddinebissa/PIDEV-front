@@ -28,7 +28,13 @@
       </div>
 
       <div class="offer-actions">
-        <button class="remove-button" (click)="removeFavoris(offer)">Remove from Favorites</button>
+        <button (click)="removeFavoris(offer)" class="remove-button">
+          <i class="bi bi-trash me-2"></i>
+        </button>        
+        <button (click)="apllyOffre(offer)" class="apply-button">
+          <i class="bi bi-send me-2"></i>
+        
+        </button>
       </div>
     </div>
   </div>
@@ -36,4 +42,15 @@
   <ng-template #noFavorites>
     <p class="alert alert-warning text-center">No favorite offers yet.</p>
   </ng-template>
+<h2 class="mt-5">Top Favorited Offers</h2>
+  <div *ngIf="topFavorited.length > 0; else noAnalytics">
+    <div *ngFor="let stat of topFavorited" class="offer-card">
+      <h3>{{ stat.offre.title }}</h3>
+      <p>{{ stat.offre.description }}</p>
+      <p><strong>Salary:</strong> {{ stat.offre.salary | currency }}</p>
+      <p><strong>Location:</strong> {{ stat.offre.location }}</p>
+      <p><strong>Favorited by:</strong> {{ stat.favoriteCount }} students</p>
+    </div>
+  </div>
+  <ng-template #noAnalytics><p>No analytics data available yet.</p></ng-template>
 </div>

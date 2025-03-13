@@ -1,6 +1,6 @@
 // src/app/front-office/favorites/favorites.component.ts
 import { Component, OnInit } from '@angular/core';
-import { OffreService, Offre } from '../services/offre.service';
+import { OffreService, Offre, FavoriteStats } from '../services/offre.service';
 import { Favorite } from '../Models/offre.model';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -10,15 +10,18 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./favorites.component.css']
 })
 export class FavoritesComponent implements OnInit {
+
   favoriteOffres: Offre[] = [];
   loading: boolean = true;
   error: string | null = null;
   staticStudentId: number = 123;
+  topFavorited: FavoriteStats[] = [];
 
   constructor(private offreService: OffreService) {}
 
   ngOnInit(): void {
     this.loadFavorites();
+    this.loadTopFavorited();
   }
 
   loadFavorites(): void {
@@ -75,16 +78,17 @@ export class FavoritesComponent implements OnInit {
     });
   }
 
-  // applyOffer(offer: Offre): void {
-  //   const applicationData = {
-  //     studentId: this.staticStudentId,
-  //     offerId: offer.id
-  //   };
-  //   this.offreService.uploadCV(formData).subscribe({
-  //     next: () => alert('Application submitted successfully!'),
-  //     error: (error: any) => this.error = 'Failed to submit application.'
-  //   });
-  // }
+  apllyOffre(offer: Offre): void {
+    const applicationData = { studentId: this.staticStudentId, offerId: offer.id };
+
+    this.offreService.applyToOffer(applicationData).subscribe({
+      next: () => alert('Application submitted successfully!'),
+      error: (err) => {
+        console.error('Error applying:', err);
+        this.error = 'Failed to apply.';
+      }
+    });
+  }
 
   // uploadCV(offer: Offre): void {
   //   const fileInput = document.createElement('input');
@@ -106,4 +110,12 @@ export class FavoritesComponent implements OnInit {
   //   };
   //   fileInput.click();
   // }
+
+  loadTopFavorited(): void {
+    this.offreService.getFavoriteAnalytics(5).subscribe({
+      next: (data) => this.topFavorited = data,
+      error: (err) => console.error('Error fetching top favorited:', err)
+    });
+  }
+  
 }

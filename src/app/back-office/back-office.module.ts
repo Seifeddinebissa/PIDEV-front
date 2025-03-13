@@ -11,6 +11,8 @@ import { AddEntrepriseComponent } from './add-entreprise/add-entreprise.componen
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UpdateEntrepriseComponent } from './update-entreprise/update-entreprise.component';
+import { StatOffreComponent } from './stat-offre/stat-offre.component';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import { UpdateEntrepriseComponent } from './update-entreprise/update-entreprise
     PaiementComponent,
     EntrepriseComponent,
     AddEntrepriseComponent,
-    UpdateEntrepriseComponent
+    UpdateEntrepriseComponent,
+    StatOffreComponent
   ],
   imports: [
     CommonModule,
@@ -32,7 +35,8 @@ import { UpdateEntrepriseComponent } from './update-entreprise/update-entreprise
     BackOfficeRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgChartsModule
     
   ],
   exports: [BackOfficeComponent]
