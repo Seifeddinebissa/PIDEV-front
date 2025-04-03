@@ -2,12 +2,8 @@
 <button class="scroll__top scroll-to-target" data-target="html">
     <i class="tg-flaticon-arrowhead-up"></i>
 </button>
-<!-- Scroll-top-end-->
 
-<!-- main-area -->
 <main class="main-area fix">
-
-    <!-- breadcrumb-area -->
     <section class="breadcrumb__area breadcrumb__bg" data-background="../assets/img/bg/breadcrumb_bg.jpg">
         <div class="container">
             <div class="row">
@@ -33,29 +29,34 @@
             <img src="assets/img/others/breadcrumb_shape05.svg" alt="img" data-aos="fade-left" data-aos-delay="400">
         </div>
     </section>
-    <!-- breadcrumb-area-end -->
 
-    <!-- all-courses -->
     <section class="all-courses-area section-py-120">
         <div class="container">
             <div class="row">
                 <div class="col-xl-3 col-lg-4 order-2 order-lg-0">
                     <aside class="courses__sidebar">
                         <div class="courses-widget">
-                            <h4 class="widget-title">Price</h4>
+                            <h4 class="widget-title">Advanced Filters</h4>
                             <div class="courses-cat-list">
-                                <ul class="list-wrap">
-                                    <li *ngFor="let priceOption of priceOptions">
-                                        <div class="form-check">
-                                            <input class="form-check-input price-filter" 
-                                                   type="radio" 
-                                                   [value]="priceOption.value" 
-                                                   [(ngModel)]="selectedPrice" 
-                                                   (change)="filterCourses()">
-                                            <label class="form-check-label">{{ priceOption.label }}</label>
-                                        </div>
-                                    </li>
-                                </ul>
+                                <div class="mb-3">
+                                    <label class="form-label">Price Range ($)</label>
+                                    <div class="d-flex gap-2">
+                                        <input type="number" class="form-control" placeholder="Min" [(ngModel)]="minPrice" (input)="applySortAndFilter()">
+                                        <input type="number" class="form-control" placeholder="Max" [(ngModel)]="maxPrice" (input)="applySortAndFilter()">
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Duration Range (hours)</label>
+                                    <div class="d-flex gap-2">
+                                        <input type="number" class="form-control" placeholder="Min" [(ngModel)]="minDuration" (input)="applySortAndFilter()">
+                                        <input type="number" class="form-control" placeholder="Max" [(ngModel)]="maxDuration" (input)="applySortAndFilter()">
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Search by Title</label>
+                                    <input type="text" class="form-control" placeholder="Enter title" [(ngModel)]="searchTitle" (input)="applySortAndFilter()">
+                                </div>
+                                <button class="btn btn-secondary w-100" (click)="clearFilters()">Clear Filters</button>
                             </div>
                         </div>
                     </aside>
@@ -63,6 +64,23 @@
                 <div class="col-xl-9 col-lg-8">
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="grid" role="tabpanel" aria-labelledby="grid-tab">
+                            <div class="mb-3 d-flex justify-content-between align-items-center">
+                                <div>
+                                    <label class="form-label me-2">Sort by:</label>
+                                    <select class="form-select d-inline-block w-auto" [(ngModel)]="sortBy" (change)="updateSort(sortBy)">
+                                        <option value="none">None</option>
+                                        <option value="title">Title</option>
+                                        <option value="price">Price</option>
+                                        <option value="duration">Duration</option>
+                                        <option value="reviews">Reviews</option>
+                                    </select>
+                                    <button class="btn btn-outline-secondary ms-2" style="padding: 12px 18px; font-size: 12px; border-radius: 25%; margin-bottom: 5px;" (click)="updateSort(sortBy)">
+                                        <i class="fas" [ngClass]="sortDirection === 'asc' ? 'fa-arrow-up' : 'fa-arrow-down'"></i>
+                                    </button>
+                                </div>
+                                <span>{{ publicFormationCount }} courses found</span>
+                            </div>
+
                             <div class="row courses__grid-wrap row-cols-1 row-cols-xl-3 row-cols-lg-2 row-cols-md-2 row-cols-sm-1">
                                 <div *ngFor="let formation of paginatedFormations">
                                     <div class="courses__item shine__animate-item">
@@ -103,7 +121,6 @@
                                 </div>
                             </div>
 
-                            <!-- PAGINATION -->
                             <nav class="pagination__wrap mt-30" *ngIf="totalPages > 1">
                                 <ul class="list-wrap">
                                     <li *ngFor="let page of getPages()" [class.active]="currentPage === page">
@@ -117,7 +134,4 @@
             </div>
         </div>
     </section>
-    <!-- all-courses-end -->
-
 </main>
-<!-- main-area-end -->
