@@ -1,66 +1,90 @@
 <div class="dashboard__content-wrap">
-    <div class="dashboard__content-title d-flex justify-content-between align-items-center">
-      <h4 class="title">Trainings</h4>
-      <form class="tgmenu__search-form" (ngSubmit)="searchCourses()">
-        <div class="input-grp">
-          <input type="text" [(ngModel)]="searchQuery" placeholder="Search For Course . . ." name="searchQuery">
-          <button type="submit"><i class="flaticon-search"></i></button>
-        </div>
-      </form>
+  <div class="dashboard__content-title d-flex justify-content-between align-items-center">
+    <h4 class="title">Trainings</h4>
+    <form class="tgmenu__search-form" (ngSubmit)="searchCourses()">
+      <div class="input-grp">
+        <input type="text" [(ngModel)]="searchQuery" placeholder="Search For Course . . ." name="searchQuery">
+        <button type="submit"><i class="flaticon-search"></i></button>
+      </div>
+    </form>
+    <div>
+      <button (click)="exportToCsv()" class="btn">
+        Export to CSV <i class="skillgro-download"></i>
+      </button>
       <button (click)="addFormation()" class="btn btn-primary">
         <i class="skillgro-plus"></i> Add a Training
       </button>
     </div>
-  
-    <div class="row mt-25">
-      <div class="col-12">
-        <div class="dashboard__review-table">
-          <table class="table table-borderless">
-            <thead>
-              <tr>
-                <th>&nbsp;</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Duration</th>
-                <th>Price</th>
-                <th>Public</th>
-                <th>&nbsp;</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let formation of filteredFormation">
-                <td>
-                  <img [src]="formation.image" alt="Course Image" width="50" height="50">
-                </td>
-                <td>
-                  {{ formation.title.length > 20 ? (formation.title | slice:0:20) + '...' : formation.title }}
-                </td>
-                <td>
-                  {{ formation.description.length > 25 ? (formation.description | slice:0:25) + '...' : formation.description }}
-                </td>
-                <td>
-                  {{ formation.duration }} hours
-                </td>
-                <td>
-                  {{ formation.price }} $
-                </td>
-                <td>
-                  <span class="sub-title">
-                    {{ formation.is_public ? 'Yes' : 'No' }}
-                  </span>
-                </td>
-                <td>
-                  <div class="dashboard__review-action">
-                    <a [routerLink]="['/formations/edit/', formation.id]" title="Edit"><i class="skillgro-edit"></i></a>
-                    <a href="#" title="Delete" (click)="deleteFormation(formation.id, $event)">
-                      <i class="skillgro-bin"></i>
-                    </a>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+  </div>
+
+  <div class="row mt-25">
+    <div class="col-12">
+      <div class="dashboard__review-table">
+        <table class="table table-borderless">
+          <thead>
+            <tr>
+              <th> </th>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Duration</th>
+              <th>Price</th>
+              <th>Public</th>
+              <th> </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let formation of paginatedFormation">
+              <td>
+                <img [src]="formation.image" alt="Course Image" width="50" height="50">
+              </td>
+              <td>
+                {{ formation.title.length > 20 ? (formation.title | slice:0:20) + '...' : formation.title }}
+              </td>
+              <td>
+                {{ formation.description.length > 25 ? (formation.description | slice:0:25) + '...' : formation.description }}
+              </td>
+              <td>
+                {{ formation.duration }} hours
+              </td>
+              <td>
+                {{ formation.price }} $
+              </td>
+              <td>
+                <span class="sub-title">
+                  {{ formation.is_public ? 'Yes' : 'No' }}
+                </span>
+              </td>
+              <td>
+                <div class="dashboard__review-action">
+                  <a [routerLink]="['/formations/edit/', formation.id]" title="Edit"><i class="skillgro-edit"></i></a>
+                  <a href="#" title="Delete" (click)="deleteFormation(formation.id, $event)">
+                    <i class="skillgro-bin"></i>
+                  </a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Pagination -->
+        <nav class="pagination__wrap mt-30" *ngIf="totalPages > 1">
+          <ul class="list-wrap d-flex justify-content-center align-items-center">
+            <li>
+              <a href="#" (click)="changePage(currentPage - 1, $event)" [class.disabled]="currentPage === 1">
+                <i class="fas fa-arrow-left"></i>
+              </a>
+            </li>
+            <li *ngFor="let page of getPages()" [class.active]="currentPage === page">
+              <a href="#" (click)="changePage(page, $event)">{{ page }}</a>
+            </li>
+            <li>
+              <a href="#" (click)="changePage(currentPage + 1, $event)" [class.disabled]="currentPage === totalPages">
+                <i class="fas fa-arrow-right"></i>
+              </a>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
   </div>
+</div>
