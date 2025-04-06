@@ -16,5 +16,8 @@ export class PaiementService {
   getAllPaiement():Observable<any[]>{
     return this.http.get<any[]>(this.apiUrl+"/get-all");  
   }
+  AddPaiement(p:Paiement):Observable<Paiement>{
+    return this.http.post<Paiement>(this.apiUrl,p);  
+  }
 
 }

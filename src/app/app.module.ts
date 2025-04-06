@@ -4,13 +4,18 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
-import { BackOfficeModule } from './back-office/back-office.module';
 import { FrontOfficeModule } from './front-office/front-office.module';
-import { ButtonModule } from 'primeng/button';      
+import { ButtonModule } from 'primeng/button';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';      
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BackOfficeModule } from './back-office/back-office.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +32,9 @@ import { ButtonModule } from 'primeng/button';
     ]),
     BackOfficeModule,
     FrontOfficeModule,
-    ButtonModule,  
+    ButtonModule, 
+    FormsModule,
+    ReactiveFormsModule 
   ],
   providers: [],
   bootstrap: [AppComponent]

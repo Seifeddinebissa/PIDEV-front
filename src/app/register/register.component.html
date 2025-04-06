@@ -1,0 +1,77 @@
+<main class="main-area fix">
+
+    <!-- breadcrumb-area -->
+    <section class="breadcrumb__area breadcrumb__bg" data-background="assets/img/bg/breadcrumb_bg.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb__content">
+                        <h3 class="title">Student SingUp</h3>
+                        <nav class="breadcrumb">
+                            <span property="itemListElement" typeof="ListItem">
+                                <a href="index.html">Home</a>
+                            </span>
+                            <span class="breadcrumb-separator"><i class="fas fa-angle-right"></i></span>
+                            <span property="itemListElement" typeof="ListItem">SingUp</span>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="breadcrumb__shape-wrap">
+            <img src="assets/img/others/breadcrumb_shape01.svg" alt="img" class="alltuchtopdown">
+            <img src="assets/img/others/breadcrumb_shape02.svg" alt="img" data-aos="fade-right" data-aos-delay="300">
+            <img src="assets/img/others/breadcrumb_shape03.svg" alt="img" data-aos="fade-up" data-aos-delay="400">
+            <img src="assets/img/others/breadcrumb_shape04.svg" alt="img" data-aos="fade-down-left" data-aos-delay="400">
+            <img src="assets/img/others/breadcrumb_shape05.svg" alt="img" data-aos="fade-left" data-aos-delay="400">
+        </div>
+    </section>
+    <!-- breadcrumb-area-end -->
+
+    <!-- singUp-area -->
+    <section class="singUp-area section-py-120">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-6 col-lg-8">
+                    <div class="singUp-wrap">
+                        <h2 class="title">Create Your Account</h2>
+                        <p>Hey there! Ready to join the party? We just need a few details from you to get <br> started. Let's do this!</p>
+                        
+                        <form (ngSubmit)="onSubmit()" #registerForm="ngForm" class="account__form">
+                            <div class="row gutter-20">
+                                <div class="col-md-6">
+                                    <div class="form-grp">
+                                        <label for="username">Username</label>
+                                        <input type="text"  id="username" [(ngModel)]="username" name="username" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-grp">
+                                        <label for="email">Email</label>
+                                        <input type="email"  id="email" [(ngModel)]="email" name="email" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-grp">
+                                <label for="password">Password</label>
+                                <input type="password" id="password" [(ngModel)]="password" name="password" required>
+                            </div>
+                            <div class="form-grp">
+                                <label for="image">Profile Image</label>
+                                <input type="file" id="image" (change)="onFileChange($event)" name="image" required>
+                              </div>
+                           
+                            <button type="submit" [disabled]="registerForm.invalid" class="btn btn-two arrow-btn">Sign Up<img src="assets/img/icons/right_arrow.svg" alt="img" class="injectable"></button>
+                        </form>
+                        <div class="account__switch">
+                            <p>Already have an account?<a routerLink="/login">Login</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- singUp-area-end -->
+
+</main>

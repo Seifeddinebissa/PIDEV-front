@@ -6,12 +6,23 @@ import { BackOfficeComponent } from './back-office.component';
 import { RouterModule } from '@angular/router';
 import { PaiementComponent } from './paiement/paiement.component';
 import { HttpClientModule } from '@angular/common/http';
+import { AddPaiementComponent } from './paiement/add-paiement/add-paiement.component';
+import { FormsModule } from '@angular/forms';
+import { PaypalPaymentComponent } from './paiement/paypal-payment/paypal-payment.component';
+import { SuccessPageComponent } from './paiement/paypal-payment/success-page/success-page.component';
+import { CancelPageComponent } from './paiement/paypal-payment/cancel-page/cancel-page.component';
+import { ProfileComponent } from './profile/profile.component';
 
 
 @NgModule({
   declarations: [
     BackOfficeComponent,
-    PaiementComponent
+    PaiementComponent,
+    AddPaiementComponent,
+    PaypalPaymentComponent,
+    SuccessPageComponent,
+    CancelPageComponent,
+    ProfileComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +35,7 @@ import { HttpClientModule } from '@angular/common/http';
     RouterModule,
     BackOfficeRoutingModule,
     HttpClientModule,
-    
+    FormsModule
   ],
   exports: [BackOfficeComponent]
 })

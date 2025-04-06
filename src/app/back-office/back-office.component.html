@@ -90,13 +90,13 @@
                 <nav class="dashboard__sidebar-menu">
                     <ul class="list-wrap">
                         <li>
-                            <a href="instructor-setting.html">
+                            <a routerLink="/profile">
                                 <i class="skillgro-settings"></i>
                                 Settings
                             </a>
                         </li>
                         <li>
-                            <a href="index.html">
+                            <a >
                                 <i class="skillgro-logout"></i>
                                 Logout
                             </a>
@@ -106,26 +106,22 @@
             </div>
         </div>
 
-<div class="col-lg-9">
-    <div class="dashboard__instructor-info-left" style="padding-bottom: 2%;">
-        <div class="thumb">
-            <img src="assets/img/courses/details_instructors02.jpg" alt="img">
+<div class="col-lg-9" >
+    <div class="dashboard__instructor-info-left" style="padding-bottom: 2%;margin-left: 70%;" >
+        <div class="thumb" >
+            <img [src]="imageUrl" alt="Profile Image" style="width: 70px; height: 70px;margin-left: 70%;"  *ngIf="imageUrl">
         </div>
-        <div class="content">
-            <h4 class="title" style="color: black;">Emily Hannah</h4>
-            <ul class="list-wrap">
-                <li style="color: black;">
-                    <img src="assets/img/icons/course_icon03.svg" alt="img" class="injectable">
-                    10 Courses Enrolled
-                </li>
-                <li style="color: black;">
-                    <img src="assets/img/icons/course_icon05.svg" alt="img" class="injectable">
-                    7 Certificate
-                </li>
+        <div class="content" >
+            <div class="tgmenu__navbar-wrap tgmenu__main-menu d-none d-xl-flex" >
+                <ul class="navigation">
+            <h4 class="title" style="color: black;margin-left: -50px;margin-top: -30px;" >{{user?.username}}</h4>
+               
             </ul>
+            </div>
         </div>
 
     </div>
+    
     <router-outlet></router-outlet>
 </div>
 </div></div>

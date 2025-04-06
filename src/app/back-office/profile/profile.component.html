@@ -1,0 +1,9 @@
+
+<div class="container" *ngIf="user">
+    <h2>Profile</h2>
+    <p>Username: {{ user.username }}</p>
+    <p>Email: {{ user.email }}</p>
+    <p>Roles: {{ user.roles.join(', ') }}</p>
+    <img [src]="imageUrl" alt="Profile Image" class="img-fluid" style="max-width: 200px;" *ngIf="imageUrl">
+    <button class="btn btn-danger" (click)="logout()">Logout</button>
+  </div>
