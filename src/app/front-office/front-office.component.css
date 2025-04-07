@@ -1,0 +1,49 @@
+.dropdown-menu {
+    max-height: 300px;
+    overflow-y: auto; /* Défilement si trop de favoris */
+    width: 300px; /* Largeur fixe pour uniformité */
+  }
+  
+  .dropdown-item {
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Espacement uniforme entre éléments */
+    width: 100%;
+  }
+  
+  .favorite-img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+  
+  .favorite-title {
+    flex-grow: 1;
+    text-decoration: none;
+    color: #333;
+    white-space: nowrap; /* Empêche le texte de passer à la ligne */
+    overflow: hidden; /* Cache le texte qui dépasse */
+    text-overflow: ellipsis; /* Ajoute "..." pour les longs titres */
+    max-width: 180px; /* Limite la largeur du titre */
+  }
+  
+  .favorite-title:hover {
+    color: #007bff;
+  }
+  
+  .favorite-delete {
+    flex-shrink: 0; /* Empêche l’icône de rétrécir */
+    margin-left: 10px;
+  }
+  
+  .favorite-delete .fa-trash-alt {
+    color: #dc3545;
+    font-size: 16px;
+  }
+  
+  .favorite-delete:hover .fa-trash-alt {
+    color: #a71d2a;
+  }

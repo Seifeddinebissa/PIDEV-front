@@ -14,25 +14,24 @@ export class FormationsListComponent implements OnInit {
   paginatedFormations: Formation[] = [];
   feedbackCounts: { [key: number]: number } = {};
   publicFormationCount: number = 0;
+  favorites: number[] = []; // IDs des formations favorites
 
-  // Pagination variables
   currentPage: number = 1;
   itemsPerPage: number = 6;
 
-  // Advanced filter variables
   minPrice: number | null = null;
   maxPrice: number | null = null;
   minDuration: number | null = null;
   maxDuration: number | null = null;
   searchTitle: string = '';
 
-  // Sort variables
-  sortBy: string = 'none'; // Default to 'none' (no sorting)
+  sortBy: string = 'none';
   sortDirection: 'asc' | 'desc' = 'asc';
 
   constructor(private formationService: FormationService, private http: HttpClient) {}
 
   ngOnInit(): void {
+    this.loadFavorites();
     this.formationService.getAllFormation().subscribe(
       (data) => {
         this.formations = data.filter(f => f.is_public);
@@ -60,7 +59,6 @@ export class FormationsListComponent implements OnInit {
   }
 
   applySortAndFilter(): void {
-    // Step 1: Apply filters
     let result = this.formations.filter(f => {
       const price = Number(f.price);
       const duration = Number(f.duration);
@@ -79,7 +77,6 @@ export class FormationsListComponent implements OnInit {
       return priceValid && durationValid && titleValid;
     });
 
-    // Step 2: Apply sorting only if sortBy is not 'none'
     if (this.sortBy !== 'none') {
       result.sort((a, b) => {
         let comparison = 0;
@@ -109,10 +106,8 @@ export class FormationsListComponent implements OnInit {
 
   updateSort(field: string): void {
     if (this.sortBy === field && field !== 'none') {
-      // Toggle direction if same field (except for 'none')
       this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
     } else {
-      // New field, default to ascending (unless 'none')
       this.sortBy = field;
       this.sortDirection = 'asc';
     }
@@ -153,5 +148,29 @@ export class FormationsListComponent implements OnInit {
     const imgElement = event.target as HTMLImageElement;
     imgElement.src = 'assets/img/courses/default.jpg';
     console.warn('Image failed to load, using default image');
+  }
+
+  // Gestion des favoris
+  loadFavorites(): void {
+    const savedFavorites = localStorage.getItem('favorites');
+    this.favorites = savedFavorites ? JSON.parse(savedFavorites) : [];
+  }
+
+  toggleFavorite(formationId: number): void {
+    const index = this.favorites.indexOf(formationId);
+    if (index === -1) {
+      this.favorites.push(formationId);
+    } else {
+      this.favorites.splice(index, 1);
+    }
+    localStorage.setItem('favorites', JSON.stringify(this.favorites));
+  }
+
+  isFavorite(formationId: number): boolean {
+    return this.favorites.includes(formationId);
+  }
+
+  getFavoriteFormations(): Formation[] {
+    return this.formations.filter(f => this.favorites.includes(f.id));
   }
 }
