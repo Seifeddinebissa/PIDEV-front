@@ -9,14 +9,15 @@
     <button class="nav-btn" [class.active]="currentView === 'list'" (click)="showList()">View Complaints</button>
     <button class="nav-btn" [class.active]="currentView === 'add'" (click)="showAddForm()">Add Complaint</button>
     <button class="nav-btn export-btn" (click)="exportToPDF()">Export to PDF</button>
-    <button class="nav-btn export-btn" (click)="exportToExcel()">Export to Excel</button>
+    <button class="nav-btn export-btn" (click)="exportToExcel()">Export to Excel </button>
+    
     
     <button class="nav-btn" (click)="stopSpeech()" *ngIf="isSpeaking">Stop Reading</button>
   </div>
   <!-- View: Complaints list in table format -->
   <div *ngIf="currentView === 'list'">
     <!-- Statistics by status -->
-    <div class="stats-spacer"></div> <!-- Spacing between buttons and statistics -->
+    <div class=""></div> <!-- Spacing between buttons and statistics -->
     <div class="stats-section">
       <h3>Complaint Statistics</h3>
       <div class="stats-container">
@@ -46,7 +47,7 @@
     <div class="filters">
       <div class="search-form">
         <div class="select-container">
-          <span class="select-icon">📋</span>
+          <span class="select-icon"></span>
           <select class="custom-select" [(ngModel)]="filterStatus" (change)="selectStatus(filterStatus)" aria-label="Filter by status">
             <option value="" selected>All</option>
             <option value="En attente">Pending</option>
@@ -134,28 +135,27 @@
       </table>
     </div>
 
-    <!-- Pagination -->
-    <nav class="pagination__wrap">
+    <!-- Nouvelle pagination avec le style demandé -->
+    <nav class="pagination__wrap mt-30" *ngIf="totalPages > 1">
       <ul class="list-wrap">
-        <li *ngFor="let page of [].constructor(totalPages); let i = index" [class.active]="i === currentPage">
-          <a href="#" (click)="goToPage(i); $event.preventDefault()">{{ i + 1 }}</a>
-        </li>
+          <li [class.active]="currentPage === 0">
+              
+          </li>
+          <li *ngFor="let page of [].constructor(totalPages); let i = index" [class.active]="i === currentPage">
+              <a href="#" (click)="goToPage(i); $event.preventDefault()">{{ i + 1 }}</a>
+          </li>
+          <li [class.active]="currentPage + 1 === totalPages">
+              
+          </li>
       </ul>
-    </nav>
+  </nav>
 
     <!-- Update form -->
     <div *ngIf="currentView === 'list' && selectedReclamation" class="form-container">
       <h2 class="form-title">Edit Complaint</h2>
       <form (ngSubmit)="updateReclamation()">
         <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
-        <div class="form-group">
-          <label for="editSubject">Subject</label>
-          <input type="text" id="editSubject" [(ngModel)]="selectedReclamation.subject" name="editSubject" placeholder="Subject" required />
-        </div>
-        <div class="form-group">
-          <label for="editDescription">Description</label>
-          <textarea id="editDescription" [(ngModel)]="selectedReclamation.description" name="editDescription" placeholder="Description" required></textarea>
-        </div>
+   
         <div class="form-group">
           <label for="editStatus">Status</label>
           <select id="editStatus" [(ngModel)]="selectedReclamation.status" name="editStatus" required>

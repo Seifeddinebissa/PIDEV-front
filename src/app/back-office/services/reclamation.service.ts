@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { map, Observable } from 'rxjs';
 import { Reclamation } from '../models/Reclamation';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
 providedIn: 'root'
@@ -10,6 +11,7 @@ providedIn: 'root'
 export class ReclamationService {
 
 apiUrl ="http://localhost:8083/reclamation";
+
 // Mise à jour du type pour inclure totalElements
 getReclamationsWithPagination(page: number, size: number, status?: string, subject?: string,description?: string ,sortField?: string,sortDirection?: 'asc' | 'desc'): Observable<{ content: Reclamation[], totalPages: number, totalElements: number }> {
   let params = new HttpParams()
@@ -74,6 +76,23 @@ exportToExcel(): Observable<Blob> {
   return this.http.get(`${this.apiUrl}/export/excel`, { responseType: 'blob' });
 }
 
+/*
+
+generateResponse(prompt: string, userId: number = 1): Observable<string> {
+  const headers = new HttpHeaders().set('Content-Type', 'application/json');
+  const body = { prompt, userId }; // Inclure prompt et userId dans le corps
+  return this.http.post(`${this.apiUrl}/generate`, body, { headers, responseType: 'text' });
+}
+
+*/
+
+/*
+generateResponse(prompt: string): Observable<string> {
+  const headers = new HttpHeaders().set('Content-Type', 'application/json');
+  const body = { prompt: prompt }; // Matches the GenerateRequest DTO
+  return this.http.post(`${this.apiUrl}/generate`, body, { headers, responseType: 'text' });
+}
+*/
 }
 
 

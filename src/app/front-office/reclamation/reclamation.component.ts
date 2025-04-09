@@ -26,7 +26,7 @@ throw new Error('Method not implemented.');
   pageSize: number = 5; // Taille de la page
   totalPages: number = 0; // Nombre total de pages
   totalElements: number = 0; // Nombre total d'éléments
-  currentView: string = 'list'; // Vue actuelle ('list' ou 'add')
+  currentView: string = ''; // Vue actuelle ('list' ou 'add')
   statsByStatus = { enAttente: 0, enCours: 0, resolu: 0, total: 0 }; // Statistiques par statut
   filterStatus: string = ''; // Filtre par statut
   searchTerm: string = ''; // Terme de recherche

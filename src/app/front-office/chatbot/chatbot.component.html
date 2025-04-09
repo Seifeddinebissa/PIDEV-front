@@ -1,0 +1,80 @@
+<div class="chat-container">
+  <!-- Titre du Chatbot -->
+  <h2>Salut.
+    Comment puis-je vous aider aujourd'hui ?</h2>
+
+  <!-- Afficher les erreurs -->
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <!-- Boutons Nouvelle Conversation et Historique -->
+  <div class="chat-actions">
+    <button (click)="startNewConversation()">
+      Nouvelle conversation
+    </button>
+    <button (click)="toggleHistory()">
+      {{ showHistory ? 'Masquer l\'historique' : 'Afficher l\'historique' }}
+    </button>
+  </div>
+
+  <!-- Section des messages (historique et messages actuels) -->
+  <div class="response-section">
+    <!-- Historique des chats (affiché uniquement si showHistory est true) -->
+    <div *ngIf="showHistory">
+      <div *ngIf="chatHistory.length === 0" class="bot-message">
+        Aucun message dans l'historique.
+      </div>
+      <div *ngFor="let chat of chatHistory">
+        <div class="user-message">
+          {{ chat.prompt }}
+          <div class="timestamp">
+            {{ chat.timestamp | date: 'dd/MM/yyyy HH:mm:ss' }}
+          </div>
+        </div>
+        <div class="bot-message">
+          {{ chat.response }}
+          <div class="timestamp">
+            {{ chat.timestamp | date: 'dd/MM/yyyy HH:mm:ss' }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Messages actuels de la session -->
+    <div *ngIf="currentMessages.length === 0 && !loading" class="bot-message">
+      Commencez une nouvelle conversation !
+    </div>
+    <div *ngFor="let message of currentMessages">
+      <div class="user-message">
+        {{ message.prompt }}
+        <div class="timestamp">
+          {{ message.timestamp | date: 'dd/MM/yyyy HH:mm:ss' }}
+        </div>
+      </div>
+      <div *ngIf="message.response" class="bot-message">
+        {{ message.response }}
+        <div class="timestamp">
+          {{ message.timestamp | date: 'dd/MM/yyyy HH:mm:ss' }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Indicateur de chargement -->
+    <div *ngIf="loading" class="typing">
+      Le chatbot est en train de répondre...
+    </div>
+  </div>
+
+  <!-- Section d'entrée -->
+  <div class="input-section">
+    <textarea
+      [(ngModel)]="prompt"
+      placeholder="Entrez votre message..."
+      (keyup.enter)="sendMessage()"
+    ></textarea>
+    <button [disabled]="loading" (click)="sendMessage()">
+      {{ loading ? 'Envoi...' : 'Envoyer' }}
+    </button>
+  </div>
+</div>

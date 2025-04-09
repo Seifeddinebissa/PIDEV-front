@@ -24,6 +24,7 @@
 
 /* Styles pour la navigation et les boutons */
 .navigation-buttons {
+  color: #f39c12;
   display: flex;
   justify-content: center;
   gap: 10px; /* Espacement horizontal entre les boutons */
@@ -36,7 +37,7 @@
   border-radius: 25px; /* Coins arrondies pour les boutons */
   font-size: 14px;
   cursor: pointer;
-  background-color: #6a5acd; /* Violet pour les boutons */
+  background-color: #f39c12; /* Violet pour les boutons */
   color: #fff;
   transition: background-color 0.3s ease, transform 0.2s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre légère */
@@ -48,11 +49,11 @@
 }
 
 .nav-btn.active {
-  background-color: #007bff; /* Bleu pour le bouton actif */
+  background-color: #f39c12; /* Bleu pour le bouton actif */
 }
 
 .nav-btn.export-btn {
-  background-color: #6a5acd; /* Violet pour les boutons d’exportation */
+  background-color: #f39c12; /* Violet pour les boutons d’exportation */
 }
 
 /* Espacement entre les boutons et les statistiques */
@@ -61,14 +62,15 @@
 }
 
 /* Styles pour les statistiques */
-.stats-section {
-  max-width: 600px;
-  margin: 0 auto 20px; /* Centre les statistiques et ajoute un espacement en bas */
-  padding: 15px;
-  background-color: #fff; /* Fond blanc */
-  border-radius: 10px; /* Coins arrondis */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre légère */
-  border: 1px solid #e0e0e0; /* Bordure légère */
+.row {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    display: flex
+;
+    flex-wrap: wrap;
+    margin-top: calc(-1* var(--bs-gutter-y));
+    margin-right: calc(-.5* var(--bs-gutter-x));
+    margin-left: calc(-.5* var(--bs-gutter-x));
 }
 
 .stats-section h3 {
@@ -215,7 +217,7 @@
 }
 
 .status-icon.pending {
-  background-color: hsl(37, 90%, 51%);
+  background-color: #f39c12;
 }
 
 .status-icon.in-progress {
@@ -474,10 +476,73 @@
 }
 
 
-.dashboard__review-action a.disabled {
-  color: #ccc;
-  pointer-events: none; /* Désactive les clics */
-  cursor: not-allowed;
+dashboard__review-action a {
+  font-size: 30px;
+  height: 30px;
+  line-height: 0;
+  font-size: 14px;
+  padding: 0 14px;
+  background: rgba(47, 87, 239, 0.1294117647);
+  color: var(--tg-theme-primary);
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex
+;
+  align-items: center;
+  justify-content: center;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  -o-border-radius: 30px;
+  -ms-border-radius: 30px;
+  border-radius: 30px;
 }
 
 
+
+.dashboard__content-wrap {
+  padding: 30px;
+  overflow: hidden;
+  background: var(--tg-common-color-white);
+  border-radius: 15px;
+  border: 1px solid var(--tg-border-7);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard__review-table {
+  /* Add any additional table-specific styling if needed */
+}
+
+.table-borderless th,
+.table-borderless td {
+  border: none;
+}
+
+/* Status badge styling */
+.dashboard__quiz-result {
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.dashboard__quiz-result.processing {
+  background-color: #ffd700; /* Example color for "In Progress" */
+  color: #000;
+}
+
+.dashboard__quiz-result.hold {
+  background-color: #ff8c00; /* Example color for "Pending" */
+  color: #fff;
+}
+
+.dashboard__quiz-result.fail {
+  background-color: #ff4500; /* Example color for "Resolved" */
+  color: #fff;
+}
+
+/* Success style from the original */
+.dashboard__quiz-result:not(.processing):not(.hold):not(.fail) {
+  background-color: #28a745; /* Example color for "Success" */
+  color: #fff;
+}

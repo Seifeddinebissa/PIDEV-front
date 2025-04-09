@@ -48,7 +48,7 @@ h4 {
 
 .btn.submit-btn {
   padding: 10px 20px;
-  background-color: #28a745;
+  background-color: #ffc224;
   color: white;
   border: none;
   border-radius: 4px;
@@ -62,7 +62,7 @@ h4 {
 
 .btn.cancel-btn {
   padding: 10px 20px;
-  background-color: #dc3545;
+  background-color: #ffc224;
   color: white;
   border: none;
   border-radius: 4px;
@@ -315,4 +315,32 @@ h4 {
 
 .search-button svg path {
   fill: white; /* Couleur de la loupe en blanc */
+}
+
+
+.banner__btn-wrap {
+  display: flex;
+  flex-direction: column; /* Boutons alignés verticalement */
+  gap: 10px; /* Espace de 10px entre les boutons */
+}
+
+
+
+/* Style pour le lien et l'icône "Modifier" */
+.table-borderless td a {
+  text-decoration: none; /* Supprime le soulignement par défaut */
+  color: #6a5acd; /* Couleur violette cohérente avec votre thème */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.table-borderless td a:hover {
+  color: #5a4ab8; /* Couleur au survol */
+}
+
+/* Style pour l'icône "skillgro-edit" */
+.skillgro-edit {
+  font-size: 18px; /* Taille de l'icône */
+  line-height: 1;
 }

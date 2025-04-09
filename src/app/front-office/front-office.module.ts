@@ -8,10 +8,13 @@ import { ReclamationComponent } from './reclamation/reclamation.component';
 import { HttpClientModule } from '@angular/common/http';
 import { Reclamation } from '../back-office/models/Reclamation';
 import { ReclamationService } from '../back-office/services/reclamation.service';
+import { ChatbotComponent } from './chatbot/chatbot.component';
 @NgModule({
   declarations: [
     FrontOfficeComponent,
-    ReclamationComponent
+    ReclamationComponent,
+    ChatbotComponent,
+    
   ],
   imports: [
     CommonModule,
