@@ -1,0 +1,72 @@
+<!-- Breadcrumb Section -->
+<section class="breadcrumb__area breadcrumb__bg" [style.backgroundImage]="'url(assets/img/bg/breadcrumb_bg.jpg)'">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb__content">
+                    <h3 class="title">All Events</h3>
+                    <nav class="breadcrumb">
+                        <span property="itemListElement" typeof="ListItem">
+                            <a href="index.html">Home</a>
+                        </span>
+                        <span class="breadcrumb-separator"><i class="fas fa-angle-right"></i></span>
+                        <span property="itemListElement" typeof="ListItem">Events</span>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="breadcrumb__shape-wrap">
+        <img src="assets/img/others/breadcrumb_shape01.svg" alt="img" class="alltuchtopdown">
+        <img src="assets/img/others/breadcrumb_shape02.svg" alt="img" data-aos="fade-right" data-aos-delay="300">
+        <img src="assets/img/others/breadcrumb_shape03.svg" alt="img" data-aos="fade-up" data-aos-delay="400">
+        <img src="assets/img/others/breadcrumb_shape04.svg" alt="img" data-aos="fade-down-left" data-aos-delay="400">
+        <img src="assets/img/others/breadcrumb_shape05.svg" alt="img" data-aos="fade-left" data-aos-delay="400">
+    </div>
+</section>
+
+<!-- Events Display Section -->
+<section class="events__area section-py-120">
+    <div class="container">
+        <!-- Toggle Button -->
+        <div class="text-center mb-4">
+            <button class="btn btn-primary" (click)="displayEvents()">
+                {{ showEvents ? 'Hide Events' : 'Show Events' }}
+            </button>
+        </div>
+
+        <!-- Error Message -->
+        <div *ngIf="error" class="alert alert-danger mb-4">
+            {{ error }}
+        </div>
+
+        <!-- Loading Spinner -->
+        <div *ngIf="loading" class="text-center mb-4">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+
+        <!-- Event List -->
+        <div *ngIf="showEvents && !loading" class="row g-4">
+            <div *ngIf="events?.length === 0" class="col-12">
+                <div class="alert alert-warning text-center">No events available.</div>
+            </div>
+            <div *ngFor="let event of events" class="col-lg-4 col-md-6">
+                <div class="card h-100">
+                    <img [src]="event.imageUrl || 'assets/img/default-event.jpg'" class="card-img-top" alt="Event imageUrl" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ event.eventName }}</h5>
+                        <p class="card-text">
+                            <strong>ID:</strong> {{ event.idEvent }}<br>
+                            <strong>Location:</strong> {{ event.location }}<br>
+                            <strong>Capacity:</strong> {{ event.capacity }}<br>
+                            <strong>Start Date:</strong> {{ event.start_Date  }}<br>
+                            <strong>End Date:</strong> {{ event.end_Date  }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

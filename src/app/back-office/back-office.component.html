@@ -1,52 +1,50 @@
-
 <div class="dashboard__inner-wrap">
-    
     <div class="row">
         <div class="col-lg-3">
             <div class="dashboard__sidebar-wrap">
                 <div class="dashboard__sidebar-title mb-20">
-                    <h6 class="title">Welcome, Jone Due</h6>
+                    <h6 class="title">Welcome , Jamila Ben Abdelkader</h6>
                 </div>
                 <nav class="dashboard__sidebar-menu">
                     <ul class="list-wrap">
                         <li class="active">
-                            <a href="instructor-dashboard.html">
+                            <a routerLink="./" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                                 <i class="fas fa-home"></i>
                                 Dashboard
                             </a>
                         </li>
                         <li>
-                            <a href="instructor-profile.html">
+                            <a routerLink="instructor-profile" routerLinkActive="active">
                                 <i class="skillgro-avatar"></i>
                                 My Profile
                             </a>
                         </li>
                         <li>
-                            <a href="instructor-enrolled-courses.html">
+                            <a routerLink="instructor-enrolled-courses" routerLinkActive="active">
                                 <i class="skillgro-book"></i>
                                 Enrolled Courses
                             </a>
                         </li>
                         <li>
-                            <a href="instructor-wishlist.html">
+                            <a routerLink="instructor-wishlist" routerLinkActive="active">
                                 <i class="skillgro-label"></i>
                                 Wishlist
                             </a>
                         </li>
                         <li>
-                            <a href="instructor-review.html">
+                            <a routerLink="instructor-review" routerLinkActive="active">
                                 <i class="skillgro-book-2"></i>
                                 Reviews
                             </a>
                         </li>
                         <li>
-                            <a href="instructor-attempts.html">
+                            <a routerLink="instructor-attempts" routerLinkActive="active">
                                 <i class="skillgro-question"></i>
                                 My Quiz Attempts
                             </a>
                         </li>
                         <li>
-                            <a href="instructor-history.html">
+                            <a routerLink="instructor-history" routerLinkActive="active">
                                 <i class="skillgro-satchel"></i>
                                 Order History
                             </a>
@@ -59,25 +57,25 @@
                 <nav class="dashboard__sidebar-menu">
                     <ul class="list-wrap">
                         <li>
-                            <a href="instructor-courses.html">
+                            <a routerLink="instructor-courses" routerLinkActive="active">
                                 <i class="skillgro-video-tutorial"></i>
                                 My Courses
                             </a>
                         </li>
                         <li>
-                            <a href="instructor-announcement.html">
+                            <a routerLink="instructor-announcement" routerLinkActive="active">
                                 <i class="skillgro-marketing"></i>
                                 Announcements
                             </a>
                         </li>
                         <li>
-                            <a href="instructor-quiz.html">
+                            <a routerLink="instructor-quiz" routerLinkActive="active">
                                 <i class="skillgro-chat"></i>
                                 Quiz Attempts
                             </a>
                         </li>
                         <li>
-                            <a href="instructor-assignment.html">
+                            <a routerLink="instructor-assignment" routerLinkActive="active">
                                 <i class="skillgro-list"></i>
                                 Assignments
                             </a>
@@ -90,13 +88,13 @@
                 <nav class="dashboard__sidebar-menu">
                     <ul class="list-wrap">
                         <li>
-                            <a href="instructor-setting.html">
+                            <a routerLink="instructor-setting" routerLinkActive="active">
                                 <i class="skillgro-settings"></i>
                                 Settings
                             </a>
                         </li>
                         <li>
-                            <a href="index.html">
+                            <a routerLink="index" routerLinkActive="active">
                                 <i class="skillgro-logout"></i>
                                 Logout
                             </a>
@@ -106,26 +104,27 @@
             </div>
         </div>
 
-<div class="col-lg-9">
-    <div class="dashboard__instructor-info-left" style="padding-bottom: 2%;">
-        <div class="thumb">
-            <img src="assets/img/courses/details_instructors02.jpg" alt="img">
-        </div>
-        <div class="content">
-            <h4 class="title" style="color: black;">Emily Hannah</h4>
-            <ul class="list-wrap">
-                <li style="color: black;">
-                    <img src="assets/img/icons/course_icon03.svg" alt="img" class="injectable">
-                    10 Courses Enrolled
-                </li>
-                <li style="color: black;">
-                    <img src="assets/img/icons/course_icon05.svg" alt="img" class="injectable">
-                    7 Certificate
-                </li>
-            </ul>
-        </div>
+        <div class="col-lg-9">
+            <div class="dashboard__instructor-info-left" style="padding-bottom: 2%;">
+                <div class="thumb">
+                    <img src="assets/img/courses/details_instructors02.jpg" alt="img">
+                </div>
+                <div class="content">
+                    <h4 class="title" style="color: black;">Jamila Ben Abdelkader </h4>
+                    <ul class="list-wrap">
+                        <li style="color: black;">
+                            <img src="assets/img/icons/course_icon03.svg" alt="img" class="injectable">
+                            10 Courses Enrolled
+                        </li>
+                        <li style="color: black;">
+                            <img src="assets/img/icons/course_icon05.svg" alt="img" class="injectable">
+                            7 Certificate
+                        </li>
+                    </ul>
+                </div>
 
+            </div>
+            <router-outlet></router-outlet>
+        </div>
     </div>
-    <router-outlet></router-outlet>
 </div>
-</div></div>

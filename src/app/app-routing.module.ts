@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
+import { EventDetailsComponent } from './front-office/event-details/event-details.component';
+import { ListEventComponent } from './back-office/list-event/list-event.component';
+ 
 const routes: Routes = [
-  { path: 'back-office', loadChildren: () => import('./back-office/back-office.module').then(m => m.BackOfficeModule) },
-  { path: 'front-office', loadChildren: () => import('./front-office/front-office.module').then(m => m.FrontOfficeModule) },
-  { path: '', redirectTo: '/front-office', pathMatch: 'full' }
+  { path: 'events', component: ListEventComponent },
+  { path: 'event-details/:idEvent', component: EventDetailsComponent }, // Route for event details
+  { path: '', redirectTo: '/events', pathMatch: 'full' },
+  { path: '**', redirectTo: '/events' }
 ];
 
 @NgModule({

@@ -1,20 +1,31 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
-import { BackOfficeModule } from './back-office/back-office.module';
-import { FrontOfficeModule } from './front-office/front-office.module';
-import { ButtonModule } from 'primeng/button';      
-
+import { ToastrModule } from 'ngx-toastr';
+ import { CommonModule } from '@angular/common'; 
+ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
     AppComponent
+   //  NotificationComponent  
   ],
-  imports: [
+  imports: [ 
+    CommonModule,
     BrowserModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
     AppRoutingModule,
+    ToastrModule.forRoot({
+      progressBar: true,
+      closeButton: true,
+      newestOnTop: true, 
+      tapToDismiss: true,
+      positionClass: 'toast-bottom-right',
+      timeOut: 8000
+    }),
     RouterModule.forRoot([
       {
         path: 'back-office',
@@ -24,12 +35,9 @@ import { ButtonModule } from 'primeng/button';
         path: 'front-office',
         loadChildren: () => import('./front-office/front-office.module').then(m => m.FrontOfficeModule)
       }
-    ]),
-    BackOfficeModule,
-    FrontOfficeModule,
-    ButtonModule,  
+    ])
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { } 

@@ -24,9 +24,12 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "styles": [
-              "src/styles.css"
-            ],
+           "styles": [
+  "node_modules/bootstrap/dist/css/bootstrap.min.css",
+  "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+  "node_modules/ngx-toastr/toastr.css",
+  "src/styles.css"
+],
             "scripts": []
           },
           "configurations": {
@@ -58,6 +61,9 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "proxyConfig": "proxy.conf.json"
+          },
           "configurations": {
             "production": {
               "browserTarget": "codingfactory:build:production"
@@ -86,13 +92,18 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "styles": [
-              "src/styles.css"
+            "styles": [ 
+            "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+            "./node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+            "src/styles.css"              
             ],
             "scripts": []
           }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

@@ -1,1 +1,10 @@
-/* You can add global styles to this file, and also import other style files */
+@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+@import "../node_modules/@fortawesome/fontawesome-free/css/all.min.css";
+@import "../node_modules/ngx-toastr/toastr.css";
+.login-container {
+    width: 800px !important;
+    margin-top: 15%;
+}
+.cursor-pointer {
+    cursor: pointer;
+}

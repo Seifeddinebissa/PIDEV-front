@@ -1,0 +1,52 @@
+.container {
+    max-width: 90%;
+    margin: auto;
+    padding: 20px;
+  }
+  
+  h2 {
+    color: #343a40;
+    font-weight: bold;
+  }
+  
+  button {
+    transition: all 0.3s ease-in-out;
+  }
+  
+  button:hover {
+    transform: scale(1.05);
+  }
+  
+  .table {
+    margin-top: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .table th {
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+  }
+  
+  .table td {
+    text-align: center;
+    vertical-align: middle;
+  }
+  
+  .btn-danger {
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .btn-danger:hover {
+    background-color: #c82333;
+  }
+  
+  .alert {
+    font-weight: bold;
+  }
+  
+  .spinner-border {
+    width: 3rem;
+    height: 3rem;
+  }  
