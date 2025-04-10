@@ -1,0 +1,25 @@
+<div class="container mt-5">
+    <h2 class="text-primary mb-4">Interview Schedule</h2>
+  
+    <!-- Loading and Error States -->
+    <div *ngIf="loading" class="alert alert-info text-center">
+      <i class="fas fa-spinner fa-spin"></i> Loading interview details...
+    </div>
+    <div *ngIf="error" class="alert alert-danger text-center">
+      <i class="fas fa-exclamation-circle"></i> {{ error }}
+    </div>
+  
+    <!-- Interview Details -->
+    <div *ngIf="!loading && !error" class="interview-card">
+      <h3 class="interview-title">Interview for {{ interview.application.offre.title }}</h3>
+      <div class="interview-details">
+        <p><strong>Enterprise:</strong> {{ interview.application.offre.entreprise.name }}</p>
+        <p><strong>Student:</strong> {{ interview.studentName }}</p>
+        <p><strong>Interview Date:</strong> {{ interview.interviewDate | date: 'medium' }}</p>
+        <p><strong>Interview URL:</strong> <a [href]="interview.interviewUrl" target="_blank">{{ interview.interviewUrl }}</a></p>
+      </div>
+      <div class="interview-actions">
+        <button class="btn btn-primary" (click)="joinInterview()">Join Interview</button>
+      </div>
+    </div>
+  </div>

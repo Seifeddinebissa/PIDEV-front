@@ -8,6 +8,8 @@ import { FavoritesComponent } from './favorites/favorites.component';
 import { AppliedComponent } from './applied/applied.component';
 import { UpdateOffreModalComponent } from './update-offre-modal/update-offre-modal.component';
 import { ApplyEntrepriseComponent } from './apply-entreprise/apply-entreprise.component';
+import { MapComponent } from './map/map.component';
+import { InterviewScheduleComponent } from './interview-schedule/interview-schedule.component';
 
 const routes: Routes = [
   {
@@ -24,6 +26,8 @@ const routes: Routes = [
       {path: 'list-apply-entre', component:ApplyEntrepriseComponent},
       {path: 'update-offre-modal', component:UpdateOffreModalComponent},
       {path: 'update-offre-modal/:id', component:UpdateOffreModalComponent},
+      { path: 'interview/:id', component: InterviewScheduleComponent },
+      {path: 'map', component:MapComponent},
     ]
   }
 ];

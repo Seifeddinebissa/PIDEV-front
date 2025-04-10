@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { OffreService } from '../services/offre.service';
 import { Application, Offre } from '../Models/offre.model';
 import { HttpErrorResponse } from '@angular/common/http';
+import { NotificationService } from '../services/NotificationService';
 
 @Component({
   selector: 'app-applied',
@@ -14,19 +15,30 @@ export class AppliedComponent implements OnInit {
   loading: boolean = true;
   error: string | null = null;
   staticStudentId: number = 123;
+  applications: Application[] = [];
 
-  constructor(private offreService: OffreService) {}
+
+  constructor(private offreService: OffreService,
+    private notificationService: NotificationService
+  ) {}
 
   ngOnInit(): void {
     this.loadAppliedOffers();
+    
   }
 
   loadAppliedOffers(): void {
     this.offreService.getApplications(this.staticStudentId).subscribe({
       next: (applications: Application[]) => {
         console.log('Applications fetched:', applications);
+  
+        // Keep applied offers and store applications separately
         this.appliedOffres = applications.map(app => app.offre);
+        this.applications = applications; // Store applications separately
+  
         console.log('Applied offers:', this.appliedOffres);
+        console.log('Applications:', this.applications);
+  
         this.loading = false;
       },
       error: (err: any) => {
@@ -36,6 +48,32 @@ export class AppliedComponent implements OnInit {
       }
     });
   }
+  
+  
+
+  updateStatus(Id: number, status: string) {
+    this.offreService.updateApplicationStatus(Id, status).subscribe(
+      () => {
+        this.notificationService.showNotification(`Application status updated to ${status}`);
+        this.loadAppliedOffers();
+      },
+      (error) => {
+        this.notificationService.showNotification('Error updating status');
+      }
+    );
+  }
+  
+  selectedStatus: string = '';
+
+filteredOffres(): Offre[] {
+  return this.appliedOffres.filter(offer => {
+    const app = this.applications.find(a => a.offre.id === offer.id);
+    if (!this.selectedStatus) return true;
+    if (this.selectedStatus === 'pending') return !app?.status;
+    return app?.status === this.selectedStatus;
+  });
+}
+
 
   // Optional: Uncomment if you want to allow withdrawing applications
   /*

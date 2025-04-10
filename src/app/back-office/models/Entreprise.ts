@@ -10,9 +10,12 @@ export interface Entreprise {
     phone: string;
     website?: string;
     logo?: string | SafeUrl;
+    latitude?:number;
+    longitude?: number;
   }
 
   export interface PageResponse<T> {
+    forEach(arg0: (entreprise: any) => void): unknown;
     content: T[];
     totalElements: number;
     totalPages: number;

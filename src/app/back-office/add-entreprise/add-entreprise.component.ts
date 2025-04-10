@@ -31,7 +31,9 @@ export class AddEntrepriseComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
       website: ['', Validators.required],
-      logo: [null] // Not part of reactive form validation since file input is handled separately
+      logo: [null],
+      latitude: [null, Validators.required], // Add required validation
+      longitude: [null, Validators.required] // Not part of reactive form validation since file input is handled separately
     });
   }
 
@@ -67,6 +69,9 @@ export class AddEntrepriseComponent implements OnInit {
     formData.append('phone', this.f['phone'].value);
     formData.append('website', this.f['website'].value);
     formData.append('logo', this.selectedFile);
+    formData.append('latitude', this.f['latitude'].value);
+    formData.append('longitude', this.f['longitude'].value);
+
 
     // Call the service to create the entreprise with image
     this.entrepriseService.addEntreprise(formData).subscribe({

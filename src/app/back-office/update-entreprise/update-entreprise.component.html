@@ -38,6 +38,34 @@
       <input type="text" class="form-control" id="location" formControlName="location" />
     </div>
 
+    <div class="form-group">
+      <label for="latitude">Latitude</label>
+      <input 
+        type="number" 
+        id="latitude" 
+        class="form-control" 
+        formControlName="latitude" 
+        placeholder="Enter latitude" 
+        [ngClass]="{'is-invalid': f['latitude'].touched && f['latitude'].invalid}">
+      <div *ngIf="f['latitude'].touched && f['latitude'].invalid" class="invalid-feedback">
+        <small *ngIf="f['latitude'].hasError('required')">Latitude is required.</small>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label for="longitude">Longitude</label>
+      <input 
+        type="number" 
+        id="longitude" 
+        class="form-control" 
+        formControlName="longitude" 
+        placeholder="Enter longitude" 
+        [ngClass]="{'is-invalid': f['longitude'].touched && f['longitude'].invalid}">
+      <div *ngIf="f['longitude'].touched && f['longitude'].invalid" class="invalid-feedback">
+        <small *ngIf="f['longitude'].hasError('required')">Longitude is required.</small>
+      </div>
+    </div>
+
     <!-- Description -->
     <div class="form-group">
       <label for="description">Description</label>
@@ -125,6 +153,34 @@
           <div class="form-group mb-3">
             <label for="location">Location</label>
             <input type="text" class="form-control" id="location" formControlName="location">
+          </div>
+
+          <div class="form-group">
+            <label for="latitude">Latitude</label>
+            <input 
+              type="number" 
+              id="latitude" 
+              class="form-control" 
+              formControlName="latitude" 
+              placeholder="Enter latitude" 
+              [ngClass]="{'is-invalid': f['latitude'].touched && f['latitude'].invalid}">
+            <div *ngIf="f['latitude'].touched && f['latitude'].invalid" class="invalid-feedback">
+              <small *ngIf="f['latitude'].hasError('required')">Latitude is required.</small>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="longitude">Longitude</label>
+            <input 
+              type="number" 
+              id="longitude" 
+              class="form-control" 
+              formControlName="longitude" 
+              placeholder="Enter longitude" 
+              [ngClass]="{'is-invalid': f['longitude'].touched && f['longitude'].invalid}">
+            <div *ngIf="f['longitude'].touched && f['longitude'].invalid" class="invalid-feedback">
+              <small *ngIf="f['longitude'].hasError('required')">Longitude is required.</small>
+            </div>
           </div>
 
           <!-- Description -->

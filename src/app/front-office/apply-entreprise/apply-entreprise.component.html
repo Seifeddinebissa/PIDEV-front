@@ -4,13 +4,23 @@
   <div *ngIf="error" class="error-message">{{ error }}</div>
 
   <div *ngIf="appliedOffres.length > 0; else noApplications">
-    <div *ngFor="let offer of appliedOffres" class="offer-card">
+    <div *ngFor="let offer of appliedOffres" class="offer-card position-relative">
+      <!-- Remove Application Button -->
+      <ng-container *ngFor="let application of applications">
+        <button *ngIf="application.offre.id === offer.id"
+                class="btn-remove-application position-absolute top-0 end-0 m-2"
+                (click)="removeApplicationNow(application.id)"
+                title="Remove Application">
+          &times;
+        </button>
+      </ng-container>
+
       <div class="enterprise-info">
         <img [src]="'http://localhost:8081/companies/images' + offer.entreprise?.logo"
              alt="{{ offer.entreprise?.name }} logo" class="company-logo" />
         <h3 class="entreprise-name">{{ offer.entreprise?.name }}</h3>
       </div>
-      
+
       <h3 class="offer-title">{{ offer.title }}</h3>
       <p class="offer-description">{{ offer.description }}</p>
       <div class="offer-details">
@@ -28,8 +38,13 @@
       </div>
 
       <div class="offer-actions">
-        <button class="btn btn-danger btn-sm" (click)="removeApplication(offer)">Withdraw Application</button>
-        <button class="btn btn-success btn-sm" (click)="AcceptApplication(offer)">Accept Application</button>
+        <!-- Show buttons for the corresponding application -->
+        <div *ngFor="let application of applications">
+          <div *ngIf="application.offre.id === offer.id">
+            <button class="btn btn-danger btn-sm" (click)="updateStatus(application.id, 'accepted')" [disabled]="application.status === 'accepted'">Accept Application</button>
+            <button class="btn btn-success btn-sm" (click)="updateStatus(application.id, 'rejected')" [disabled]="application.status === 'rejected'">Withdraw Application</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

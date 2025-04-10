@@ -17,6 +17,12 @@ import { OfferStudentComponent } from './offer-student/offer-student.component';
 import { FavoritesComponent } from './favorites/favorites.component';
 import { AppliedComponent } from './applied/applied.component';
 import { ApplyEntrepriseComponent } from './apply-entreprise/apply-entreprise.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ToastrModule } from 'ngx-toastr';
+import { MapComponent } from './map/map.component';
+import { InterviewScheduleComponent } from './interview-schedule/interview-schedule.component';
+
+
 
 
 
@@ -30,6 +36,8 @@ import { ApplyEntrepriseComponent } from './apply-entreprise/apply-entreprise.co
     FavoritesComponent,
     AppliedComponent,
     ApplyEntrepriseComponent,
+    MapComponent,
+    InterviewScheduleComponent,
     
     
     
@@ -46,7 +54,20 @@ import { ApplyEntrepriseComponent } from './apply-entreprise/apply-entreprise.co
     MatInputModule, 
     RouterModule,
     FrontOfficeRoutingModule,
-    
+    MatSnackBarModule,
+    ToastrModule.forRoot({
+      timeOut: 5000, // Duration in milliseconds
+      positionClass: 'toast-top-right',// Position of the toast
+      preventDuplicates: true,
+      progressBar: true, // Show a progress bar
+      closeButton: true, // Show a close button
+      toastClass: 'ngx-toastr', // Default class
+      titleClass: 'toast-title', // Class for the title
+      messageClass: 'toast-message', // Class for the message
+      tapToDismiss: true, // Dismiss on click
+      enableHtml: true, // Allow HTML in the message
+    }),
+  
   ],
   exports: [FrontOfficeComponent]
 })

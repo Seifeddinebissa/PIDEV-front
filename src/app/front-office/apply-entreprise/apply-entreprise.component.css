@@ -142,4 +142,59 @@
       font-size: 12px;
     }
   }
+
+  
+ /* Customize success toast */
+.ngx-toastr.toast-success {
+  background: linear-gradient(135deg, #007bff, #e6f0fa) !important; /* Gradient matching SkillGro theme */
+  color: white !important;
+  border-radius: 10px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Customize error toast */
+.ngx-toastr.toast-error {
+  background: linear-gradient(135deg, #dc3545, #f8d7da) !important;
+  color: white !important;
+  border-radius: 10px !important;
+}
+
+/* Customize info toast */
+.ngx-toastr.toast-info {
+  background: linear-gradient(135deg, #17a2b8, #d1ecf1) !important;
+  color: white !important;
+  border-radius: 10px !important;
+}
+
+/* Style the title */
+.toast-title {
+  font-size: 18px !important;
+  font-weight: 600 !important;
+}
+
+/* Style the message */
+.toast-message {
+  font-size: 16px !important;
+  display: flex;
+  align-items: center;
+}
+
+/* Style the icon */
+.toast-message i {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+/* Style the progress bar */
+.toast-progress {
+  background-color: #ffffff !important;
+  opacity: 0.8 !important;
+}
+
+/* Style the close button */
+.toast-close-button {
+  color: white !important;
+  font-size: 16px !important;
+}
+
   
