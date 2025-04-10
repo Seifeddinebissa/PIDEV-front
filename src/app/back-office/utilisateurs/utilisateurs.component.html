@@ -1,0 +1,207 @@
+
+<div class="dashboard__content-wrap">
+    <div class="dashboard__content-title">
+        <h4 class="title">Users List</h4>
+        <button class="btn btn-primary mb-3" (click)="openModal()" data-bs-toggle="modal" data-bs-target="#userModal">Add New User</button>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-text">Search</span>
+                <input type="text" class="form-control" placeholder="Search by username, name, or email" 
+                       [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-text">Filter by Role</span>
+                <select class="form-control" [(ngModel)]="selectedRole" (ngModelChange)="onRoleChange()">
+                    <option value="">All Roles</option>
+                    <option *ngFor="let role of availableRoles" [value]="role">{{ role }}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="dashboard__review-table">
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Address</th>
+                            <th>Cin</th>
+                            <th>Account locked</th>
+                            <th>Enabled</th>
+                            <th>Roles</th>
+                            <th> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let user of paginatedUsers"> <!-- Changed to paginatedUsers -->
+                            <td>{{user.username}}</td>
+                            <td>{{user.firstName}}</td>
+                            <td>{{user.lastName}}</td>
+                            <td>{{user.email}}</td>
+                            <td>{{user.address}}</td>
+                            <td>{{user.cin}}</td>
+                            <td>{{user.accountLocked ? 'Yes' : 'No'}}</td>
+                            <td>{{user.enabled ? 'Yes' : 'No'}}</td>
+                            <td>{{user.roles ? user.roles.join(', ') : 'No roles'}}</td>
+                            <td>
+                                <div class="dashboard__review-action">
+                                    <a (click)="unblock(user.id)" title="Edit"><i class="fas fa-lock-open"></i></a>
+                                    <a (click)="block(user.id)" title="Delete"><i class="fas fa-ban"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination Controls -->
+            <div class="d-flex justify-content-between align-items-center mt-3" *ngIf="filteredUsers.length > 0">
+                <div>
+                    Showing {{((currentPage - 1) * pageSize) + 1}} to 
+                    {{currentPage * pageSize > filteredUsers.length ? filteredUsers.length : currentPage * pageSize}} 
+                    of {{filteredUsers.length}} entries
+                </div>
+                <nav>
+                    <ul class="pagination">
+                        <li class="page-item" [class.disabled]="currentPage === 1">
+                            <a class="page-link" (click)="previousPage()">Previous</a>
+                        </li>
+                        <li class="page-item" *ngFor="let page of [].constructor(totalPages); let i = index"
+                            [class.active]="currentPage === i + 1">
+                            <a class="page-link" (click)="goToPage(i + 1)">{{i + 1}}</a>
+                        </li>
+                        <li class="page-item" [class.disabled]="currentPage === totalPages">
+                            <a class="page-link" (click)="nextPage()">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal for Adding a User -->
+<div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="userModalLabel">Add User</h5>
+              <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form #userForm="ngForm" (ngSubmit)="save()">
+                  <div class="mb-3">
+                      <label for="username" class="form-label">Username</label>
+                      <input type="text" class="form-control" id="username" [(ngModel)]="newUser.username" 
+                          name="username" #usernameCtrl="ngModel" required minlength="4" maxlength="20"
+                          pattern="[a-zA-Z0-9_]+" [class.is-invalid]="usernameCtrl.invalid && usernameCtrl.touched">
+                      <div class="invalid-feedback" *ngIf="usernameCtrl.touched && usernameCtrl.invalid">
+                          <div *ngIf="usernameCtrl.errors?.['required']">Username is required</div>
+                          <div *ngIf="usernameCtrl.errors?.['minlength']">Minimum 4 characters</div>
+                          <div *ngIf="usernameCtrl.errors?.['maxlength']">Maximum 20 characters</div>
+                          <div *ngIf="usernameCtrl.errors?.['pattern']">Only alphanumeric and underscore allowed</div>
+                      </div>
+                  </div>
+                  <div class="mb-3">
+                      <label for="password" class="form-label">Password</label>
+                      <input type="password" class="form-control" id="password" [(ngModel)]="newUser.password" 
+                          name="password" #passwordCtrl="ngModel" required minlength="8"
+                          pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*"
+                          [class.is-invalid]="passwordCtrl.invalid && passwordCtrl.touched">
+                      <div class="invalid-feedback" *ngIf="passwordCtrl.touched && passwordCtrl.invalid">
+                          <div *ngIf="passwordCtrl.errors?.['required']">Password is required</div>
+                          <div *ngIf="passwordCtrl.errors?.['minlength']">Minimum 8 characters</div>
+                          <div *ngIf="passwordCtrl.errors?.['pattern']">Must contain uppercase, lowercase, number, and special character</div>
+                      </div>
+                  </div>
+                  <div class="mb-3">
+                      <label for="email" class="form-label">Email</label>
+                      <input type="email" class="form-control" id="email" [(ngModel)]="newUser.email" 
+                          name="email" #emailCtrl="ngModel" required email
+                          [class.is-invalid]="emailCtrl.invalid && emailCtrl.touched">
+                      <div class="invalid-feedback" *ngIf="emailCtrl.touched && emailCtrl.invalid">
+                          <div *ngIf="emailCtrl.errors?.['required']">Email is required</div>
+                          <div *ngIf="emailCtrl.errors?.['email']">Invalid email format</div>
+                      </div>
+                  </div>
+                  <div class="mb-3">
+                      <label for="roles" class="form-label">Roles</label>
+                      <select multiple class="form-control" id="roles" [(ngModel)]="newUser.roles" 
+                          name="roles" #rolesCtrl="ngModel" required
+                          [class.is-invalid]="rolesCtrl.invalid && rolesCtrl.touched">
+                          <option *ngFor="let role of availableRoles" [value]="role">{{ role }}</option>
+                      </select>
+                      <div class="invalid-feedback" *ngIf="rolesCtrl.touched && rolesCtrl.invalid">
+                          <div *ngIf="rolesCtrl.errors?.['required']">At least one role is required</div>
+                      </div>
+                      <small class="form-text text-muted">Hold Ctrl (or Cmd) to select multiple roles.</small>
+                  </div>
+                  <div class="mb-3">
+                      <label for="firstName" class="form-label">First Name</label>
+                      <input type="text" class="form-control" id="firstName" [(ngModel)]="newUser.firstName" 
+                          name="firstName" #firstNameCtrl="ngModel" required minlength="2" maxlength="50"
+                          pattern="[a-zA-Z\s-]+" [class.is-invalid]="firstNameCtrl.invalid && firstNameCtrl.touched">
+                      <div class="invalid-feedback" *ngIf="firstNameCtrl.touched && firstNameCtrl.invalid">
+                          <div *ngIf="firstNameCtrl.errors?.['required']">First name is required</div>
+                          <div *ngIf="firstNameCtrl.errors?.['minlength']">Minimum 2 characters</div>
+                          <div *ngIf="firstNameCtrl.errors?.['pattern']">Only letters, spaces, and hyphens</div>
+                      </div>
+                  </div>
+                  <div class="mb-3">
+                      <label for="lastName" class="form-label">Last Name</label>
+                      <input type="text" class="form-control" id="lastName" [(ngModel)]="newUser.lastName" 
+                          name="lastName" #lastNameCtrl="ngModel" required minlength="2" maxlength="50"
+                          pattern="[a-zA-Z\s-]+" [class.is-invalid]="lastNameCtrl.invalid && lastNameCtrl.touched">
+                      <div class="invalid-feedback" *ngIf="lastNameCtrl.touched && lastNameCtrl.invalid">
+                          <div *ngIf="lastNameCtrl.errors?.['required']">Last name is required</div>
+                          <div *ngIf="lastNameCtrl.errors?.['minlength']">Minimum 2 characters</div>
+                          <div *ngIf="lastNameCtrl.errors?.['pattern']">Only letters, spaces, and hyphens</div>
+                      </div>
+                  </div>
+                  <div class="mb-3">
+                      <label for="cin" class="form-label">CIN</label>
+                      <input type="text" class="form-control" id="cin" [(ngModel)]="newUser.cin" 
+                          name="cin" #cinCtrl="ngModel" required pattern="[A-Za-z0-9]{8,12}"
+                          [class.is-invalid]="cinCtrl.invalid && cinCtrl.touched">
+                      <div class="invalid-feedback" *ngIf="cinCtrl.touched && cinCtrl.invalid">
+                          <div *ngIf="cinCtrl.errors?.['required']">CIN is required</div>
+                          <div *ngIf="cinCtrl.errors?.['pattern']">CIN must be 8-12 alphanumeric characters</div>
+                      </div>
+                  </div>
+                  <div class="mb-3">
+                      <label for="address" class="form-label">Address</label>
+                      <input type="text" class="form-control" id="address" [(ngModel)]="newUser.address" 
+                          name="address" #addressCtrl="ngModel" required minlength="5" maxlength="100"
+                          [class.is-invalid]="addressCtrl.invalid && addressCtrl.touched">
+                      <div class="invalid-feedback" *ngIf="addressCtrl.touched && addressCtrl.invalid">
+                          <div *ngIf="addressCtrl.errors?.['required']">Address is required</div>
+                          <div *ngIf="addressCtrl.errors?.['minlength']">Minimum 5 characters</div>
+                      </div>
+                  </div>
+                  <div class="mb-3">
+                      <label for="image" class="form-label">Profile Photo</label>
+                      <input type="file" class="form-control" id="image" (change)="onFileChange($event)" 
+                          name="image" #imageCtrl="ngModel" ngModel required
+                          [class.is-invalid]="imageCtrl.invalid && imageCtrl.touched">
+                      <div class="invalid-feedback" *ngIf="imageCtrl.touched && imageCtrl.invalid">
+                          <div *ngIf="imageCtrl.errors?.['required']">Profile photo is required</div>
+                          <div *ngIf="imageCtrl.errors?.['invalidType']">Only JPEG, PNG, or GIF allowed</div>
+                          <div *ngIf="imageCtrl.errors?.['invalidSize']">Image must be less than 5MB</div>
+                      </div>
+                  </div>
+              </form>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+              <button type="button" (click)="save()" form="userForm" class="btn btn-primary" [disabled]="userForm.invalid">Save</button>
+          </div>
+      </div>
+  </div>
+</div>

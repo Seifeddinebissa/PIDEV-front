@@ -17,3 +17,11 @@
     opacity: 0.6;
     cursor: not-allowed;
   }
+  
+  .alert {
+    margin-bottom: 20px;
+  }
+  
+  .submit-btn {
+    text-align: right;
+  }

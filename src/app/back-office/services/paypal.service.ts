@@ -10,7 +10,7 @@ import { PaymentResponse } from '../models/PaymentResponse';
 })
 export class PaypalService {
 
-  apiUrl = "http://localhost:8080/api/payment";
+  apiUrl = "http://localhost:8081/api/payment";
   paymentRequest:PaymentRequest = new PaymentRequest();
   constructor(private http:HttpClient) { }
 

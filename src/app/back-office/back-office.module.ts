@@ -12,6 +12,8 @@ import { PaypalPaymentComponent } from './paiement/paypal-payment/paypal-payment
 import { SuccessPageComponent } from './paiement/paypal-payment/success-page/success-page.component';
 import { CancelPageComponent } from './paiement/paypal-payment/cancel-page/cancel-page.component';
 import { ProfileComponent } from './profile/profile.component';
+import { EditProfileComponent } from './profile/edit-profile/edit-profile.component';
+import { UtilisateursComponent } from './utilisateurs/utilisateurs.component';
 
 
 @NgModule({
@@ -22,7 +24,9 @@ import { ProfileComponent } from './profile/profile.component';
     PaypalPaymentComponent,
     SuccessPageComponent,
     CancelPageComponent,
-    ProfileComponent
+    ProfileComponent,
+    EditProfileComponent,
+    UtilisateursComponent
   ],
   imports: [
     CommonModule,
