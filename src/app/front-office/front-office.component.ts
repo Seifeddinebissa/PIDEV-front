@@ -1,45 +1,69 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FormationService } from '../back-office/services/formation.service';
 import { Formation } from 'src/app/back-office/models/Formation';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-front-office',
   templateUrl: './front-office.component.html',
   styleUrls: ['./front-office.component.css']
 })
-export class FrontOfficeComponent implements OnInit {
+export class FrontOfficeComponent implements OnInit, OnDestroy {
   favorites: number[] = [];
   formations: Formation[] = [];
+  userId: number = 1; // Replace with actual user ID from authentication service
 
-  constructor(private formationService: FormationService) {}
+  private favoritesSubscription: Subscription | undefined;
+
+  constructor(
+    private formationService: FormationService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
-    this.loadFavorites();
-    this.formationService.getAllFormation().subscribe(
-      (data) => {
+    // Subscribe to favorites updates
+    this.favoritesSubscription = this.formationService.favorites$.subscribe(favorites => {
+      console.log('FrontOfficeComponent received favorites:', favorites);
+      this.favorites = favorites;
+      this.cdr.detectChanges(); // Force change detection to update the UI
+    });
+
+    // Load initial favorites after a slight delay to ensure subscription is active
+    setTimeout(() => {
+      this.formationService.loadFavorites(this.userId);
+    }, 0);
+
+    // Load formations
+    this.formationService.getAllFormation().subscribe({
+      next: (data) => {
         this.formations = data.filter(f => f.is_public);
       },
-      (error) => {
-        console.error('Error loading formations', error);
+      error: (error) => {
+        console.error('Error loading formations:', error);
       }
-    );
+    });
   }
 
-  loadFavorites(): void {
-    const savedFavorites = localStorage.getItem('favorites');
-    this.favorites = savedFavorites ? JSON.parse(savedFavorites) : [];
+  ngOnDestroy(): void {
+    // Unsubscribe to prevent memory leaks
+    if (this.favoritesSubscription) {
+      this.favoritesSubscription.unsubscribe();
+    }
   }
 
   getFavoriteFormations(): Formation[] {
     return this.formations.filter(f => this.favorites.includes(f.id));
   }
 
-  // Nouvelle méthode pour supprimer un favori
   removeFavorite(formationId: number): void {
-    const index = this.favorites.indexOf(formationId);
-    if (index !== -1) {
-      this.favorites.splice(index, 1);
-      localStorage.setItem('favorites', JSON.stringify(this.favorites));
-    }
+    console.log(`Removing favorite formation ${formationId}, current favorites:`, this.favorites);
+    this.formationService.removeFromFavorites(this.userId, formationId).subscribe({
+      next: () => {
+        console.log(`Removed formation ${formationId} from favorites`);
+      },
+      error: (error) => {
+        console.error('Error removing favorite:', error);
+      }
+    });
   }
 }

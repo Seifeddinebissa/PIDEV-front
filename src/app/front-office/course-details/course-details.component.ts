@@ -5,6 +5,7 @@ import { FormationService } from '../../back-office/services/formation.service';
 import { Formation } from './../../back-office/models/Formation';
 import { FeedbackService } from '../../back-office/services/feedback.service';
 import { Feedback } from '../../back-office/models/Feedback';
+import { OpenLibraryService } from '../../back-office/services/open-library.service';
 
 @Component({
   selector: 'app-course-details',
@@ -18,16 +19,21 @@ export class CourseDetailsComponent implements OnInit {
   averageRating: number = 0;
   ratingDistribution: { [key: number]: number } = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
   feedbackForm: FormGroup;
+  books: any[] = [];
+
+  // Liste des mots interdits (tu peux la personnaliser)
+  private badWords: string[] = ['hello', 'hate'];
 
   constructor(
     private route: ActivatedRoute,
     private formationService: FormationService,
     private feedbackService: FeedbackService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private openLibraryService: OpenLibraryService
   ) {
     this.feedbackForm = this.fb.group({
       rating: [null, [Validators.required, Validators.min(1), Validators.max(5)]],
-      comment: ['', [Validators.required, this.mustContainLetter()]]
+      comment: ['', [Validators.required, this.mustContainLetter(), this.noBadWords(this.badWords)]]
     });
   }
 
@@ -42,11 +48,28 @@ export class CourseDetailsComponent implements OnInit {
       (formation: Formation) => {
         this.formation = formation;
         this.loadFeedbackDetails(id);
+        this.loadRecommendedBooks(formation.title);
       },
       (error) => {
         console.error('Erreur lors du chargement de la formation:', error);
       }
     );
+  }
+
+  private loadRecommendedBooks(title: string): void {
+    this.openLibraryService.getBooks(title).subscribe(
+      (response) => {
+        this.books = response.docs.slice(0, 3);
+      },
+      (error) => {
+        console.error(`Erreur lors du chargement des livres pour ${title}`, error);
+        this.books = [];
+      }
+    );
+  }
+
+  getBookCoverUrl(coverId: number | undefined): string {
+    return this.openLibraryService.getCoverUrl(coverId);
   }
 
   private loadFeedbackDetails(formation_id: number): void {
@@ -117,22 +140,34 @@ export class CourseDetailsComponent implements OnInit {
     );
   }
 
-  // Gestion des erreurs de chargement d'image
   onImageError(event: Event): void {
     const imgElement = event.target as HTMLImageElement;
     imgElement.src = 'assets/img/courses/default.jpg';
     console.warn('Image failed to load, using default image');
   }
 
-  // Custom validator to ensure the title contains at least one letter
-      mustContainLetter(): ValidatorFn {
-        return (control: AbstractControl): { [key: string]: any } | null => {
-          const value = control.value;
-          if (!value) {
-            return null; // Let Validators.required handle empty values
-          }
-          const hasLetter = /[a-zA-Z]/.test(value); // Check for at least one letter
-          return hasLetter ? null : { noLetter: { value: control.value } };
-        };
+  // Validateur pour vérifier qu’il y a au moins une lettre
+  mustContainLetter(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const value = control.value;
+      if (!value) {
+        return null;
       }
+      const hasLetter = /[a-zA-Z]/.test(value);
+      return hasLetter ? null : { noLetter: { value: control.value } };
+    };
+  }
+
+  // Nouveau validateur pour détecter les mauvais mots
+  noBadWords(badWords: string[]): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const value = control.value;
+      if (!value) {
+        return null; // Laisser Validators.required gérer le cas vide
+      }
+      const lowerCaseValue = value.toLowerCase();
+      const foundBadWord = badWords.find(badWord => lowerCaseValue.includes(badWord.toLowerCase()));
+      return foundBadWord ? { badWord: { value: control.value, word: foundBadWord } } : null;
+    };
+  }
 }

@@ -8,6 +8,7 @@ import { FormationAddComponent } from './formation-add/formation-add.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { FeedbackEditComponent } from './feedback-edit/feedback-edit.component';
 import { FeedbackAddComponent } from './feedback-add/feedback-add.component';
+import { FeedbackStatsComponent } from './feedback-stats/feedback-stats.component';
 
 const routes: Routes = [
   {
@@ -20,7 +21,8 @@ const routes: Routes = [
       { path: 'formations/add', component: FormationAddComponent },
       { path: 'feedbacks', component: FeedbackComponent },
       { path: 'feedbacks/edit/:id', component: FeedbackEditComponent },
-      { path: 'feedbacks/add', component: FeedbackAddComponent }
+      { path: 'feedbacks/add', component: FeedbackAddComponent },
+      { path: 'feedback-stats', component: FeedbackStatsComponent }
     ]
   }
 ];

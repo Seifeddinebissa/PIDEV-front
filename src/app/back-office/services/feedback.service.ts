@@ -39,4 +39,18 @@ export class FeedbackService {
     const url = `${this.apiUrl}?formation_id=${formation_id}`; // Ajout du paramètre formation_id
     return this.http.post<any>(url, feedback);
   }
+
+  getAllFormationsFeedbackStats(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/stats`);
+  }
+
+  // src/app/back-office/services/feedback.service.ts
+  exportStatsToPDF(): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/stats/export/pdf`, { responseType: 'blob' });
+  }
+
+  getTopRatedFormations(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/top-rated`);
+  }
+
 }

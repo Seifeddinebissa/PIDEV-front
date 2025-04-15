@@ -13,6 +13,8 @@ import { FeedbackComponent } from './feedback/feedback.component';
 import { FeedbackEditComponent } from './feedback-edit/feedback-edit.component';
 import { FeedbackAddComponent } from './feedback-add/feedback-add.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FeedbackStatsComponent } from './feedback-stats/feedback-stats.component';
+import { ChartModule } from 'primeng/chart';
 
 
 @NgModule({
@@ -24,7 +26,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     FormationEditComponent,
     FeedbackComponent,
     FeedbackEditComponent,
-    FeedbackAddComponent
+    FeedbackAddComponent,
+    FeedbackStatsComponent
   ],
   imports: [
     CommonModule,
@@ -38,7 +41,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     BackOfficeRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ChartModule
   ],
   exports: [BackOfficeComponent]
 })

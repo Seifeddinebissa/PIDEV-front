@@ -1,215 +1,232 @@
-    <!-- main-area -->
-    <main class="main-area fix">
-
-        <!-- breadcrumb-area -->
-        <div class="breadcrumb__area breadcrumb__bg breadcrumb__bg-two" data-background="assets/img/bg/breadcrumb_bg.jpg">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="breadcrumb__content">
-                            <nav class="breadcrumb">
-                                <span property="itemListElement" typeof="ListItem">
-                                    <a href="index.html">Home</a>
-                                </span>
-                                <span class="breadcrumb-separator"><i class="fas fa-angle-right"></i></span>
-                                <span property="itemListElement" typeof="ListItem">
-                                    <a [routerLink]="['/formation']">Training</a>
-                                </span>
-                                <span class="breadcrumb-separator"><i class="fas fa-angle-right"></i></span>
-                                <span property="itemListElement" typeof="ListItem">{{formation?.title}}</span>
-                            </nav>
-                        </div>
+<!-- main-area -->
+<main class="main-area fix">
+    <!-- breadcrumb-area -->
+    <section class="breadcrumb__area breadcrumb__bg breadcrumb__bg-two" data-background="assets/img/bg/breadcrumb_bg.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb__content">
+                        <nav class="breadcrumb">
+                            <span property="itemListElement" typeof="ListItem">
+                                <a href="index.html">Home</a>
+                            </span>
+                            <span class="breadcrumb-separator"><i class="fas fa-angle-right"></i></span>
+                            <span property="itemListElement" typeof="ListItem">
+                                <a [routerLink]="['/formation']">Training</a>
+                            </span>
+                            <span class="breadcrumb-separator"><i class="fas fa-angle-right"></i></span>
+                            <span property="itemListElement" typeof="ListItem">{{ formation?.title }}</span>
+                        </nav>
                     </div>
                 </div>
             </div>
-            <div class="breadcrumb__shape-wrap">
-                <img src="assets/img/others/breadcrumb_shape01.svg" alt="img" class="alltuchtopdown">
-                <img src="assets/img/others/breadcrumb_shape02.svg" alt="img" data-aos="fade-right" data-aos-delay="300">
-                <img src="assets/img/others/breadcrumb_shape03.svg" alt="img" data-aos="fade-up" data-aos-delay="400">
-                <img src="assets/img/others/breadcrumb_shape04.svg" alt="img" data-aos="fade-down-left" data-aos-delay="400">
-                <img src="assets/img/others/breadcrumb_shape05.svg" alt="img" data-aos="fade-left" data-aos-delay="400">
-            </div>
         </div>
-        <!-- breadcrumb-area-end -->
+        <div class="breadcrumb__shape-wrap">
+            <img src="assets/img/others/breadcrumb_shape01.svg" alt="img" class="alltuchtopdown">
+            <img src="assets/img/others/breadcrumb_shape02.svg" alt="img" data-aos="fade-right" data-aos-delay="300">
+            <img src="assets/img/others/breadcrumb_shape03.svg" alt="img" data-aos="fade-up" data-aos-delay="400">
+            <img src="assets/img/others/breadcrumb_shape04.svg" alt="img" data-aos="fade-down-left" data-aos-delay="400">
+            <img src="assets/img/others/breadcrumb_shape05.svg" alt="img" data-aos="fade-left" data-aos-delay="400">
+        </div>
+    </section>
 
-        <!-- courses-details-area -->
-        <section class="courses__details-area section-py-120">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-9 col-lg-8">
-                        <div class="courses__details-thumb">
-                            <img [src]="formation?.image || 'assets/img/courses/default.jpg'" 
-     alt="{{ formation?.title || 'Course Image' }}" 
-     (error)="onImageError($event)" height="600px" width="1200px">
-                        </div>
-                        <div class="courses__details-content">
-                            <ul class="courses__item-meta list-wrap">
-                                <li class="courses__item-tag">
-                                    <a href="course.html">Development</a>
-                                </li>
-                                <li class="avg-rating"><i class="fas fa-star"></i> {{ averageRating | number: '1.1-1' }} Feedbacks</li>
-                            </ul>
-                            <h1 class="title">{{formation?.title}}</h1>
-                            <ul class="nav nav-tabs mt-40" id="myTab" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview-tab-pane" type="button" role="tab" aria-controls="overview-tab-pane" aria-selected="true">Overview</button>
-                                </li>
-
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews-tab-pane" type="button" role="tab" aria-controls="reviews-tab-pane" aria-selected="false">Feedbacks</button>
-                                </li>
-                            </ul>
-                            <div class="tab-content" id="myTabContent">
-                                <div class="tab-pane fade show active" id="overview-tab-pane" role="tabpanel" aria-labelledby="overview-tab" tabindex="0">
-                                    <div class="courses__overview-wrap">
-                                        <li class="about__info-list-item">
-                                            <i class="flaticon-angle-right"></i>
-                                            <h4 class="content">Training description</h4>
-                                        </li>
-                                        <p>{{ formation?.description}}</p>
-                                        </div>
+    <!-- courses-details-area -->
+    <section class="courses__details-area section-py-120">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-9 col-lg-8">
+                    <div class="courses__details-thumb">
+                        <img [src]="formation?.image || 'assets/img/courses/default.jpg'" 
+                             alt="{{ formation?.title || 'Course Image' }}" 
+                             (error)="onImageError($event)" height="600px" width="1200px">
+                    </div>
+                    <div class="courses__details-content">
+                        <ul class="courses__item-meta list-wrap">
+                            <li class="courses__item-tag">
+                                <a href="course.html">Development</a>
+                            </li>
+                            <li class="avg-rating">
+                                <i class="fas fa-star"></i> {{ averageRating | number: '1.1-1' }} Feedbacks
+                            </li>
+                        </ul>
+                        <h1 class="title">{{ formation?.title }}</h1>
+                        <ul class="nav nav-tabs mt-40" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab" aria-controls="overview" aria-selected="true">Overview</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab" aria-controls="reviews" aria-selected="false">Feedbacks</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="resources-tab" data-bs-toggle="tab" data-bs-target="#resources" type="button" role="tab" aria-controls="resources" aria-selected="false">Resources</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab" tabindex="0">
+                                <div class="courses__overview-wrap">
+                                    <div class="about__info-list-item">
+                                        <i class="flaticon-angle-right"></i>
+                                        <h4 class="content">Training description</h4>
+                                    </div>
+                                    <p>{{ formation?.description }}</p>
                                 </div>
-                                <div class="tab-pane fade" id="reviews-tab-pane" role="tabpanel" aria-labelledby="reviews-tab" tabindex="0">
-                                    <div class="comment-respond mb-25">
-                                        <h4 class="comment-reply-title mb-25">Post a feedback</h4>
-                                        <form [formGroup]="feedbackForm" (ngSubmit)="submitFeedback()" class="comment-form mt-30">
-                                          <div class="row">
+                            </div>
+                            <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab" tabindex="0">
+                                <div class="comment-respond mb-25">
+                                    <h4 class="comment-reply-title mb-25">Post a feedback</h4>
+                                    <form [formGroup]="feedbackForm" (ngSubmit)="submitFeedback()" class="comment-form mt-30">
+                                        <div class="row">
                                             <div class="col-lg-12">
-                                              <div class="comment-field">
-                                                <input formControlName="rating" type="number" placeholder="Rating (1-5)" min="1" max="5" />
-                                                <div class="error" *ngIf="feedbackForm.get('rating')?.invalid && feedbackForm.get('rating')?.touched">
-                                                  <span *ngIf="feedbackForm.get('rating')?.hasError('required')">La note est obligatoire.</span>
-                                                  <span *ngIf="feedbackForm.get('rating')?.hasError('min')">La note doit être au moins 1.</span>
-                                                  <span *ngIf="feedbackForm.get('rating')?.hasError('max')">La note ne peut pas dépasser 5.</span>
+                                                <div class="comment-field">
+                                                    <input formControlName="rating" type="number" placeholder="Rating (1-5)" min="1" max="5" />
+                                                    <div class="error" *ngIf="feedbackForm.get('rating')?.invalid && feedbackForm.get('rating')?.touched">
+                                                        <span *ngIf="feedbackForm.get('rating')?.hasError('required')">La note est obligatoire.</span>
+                                                        <span *ngIf="feedbackForm.get('rating')?.hasError('min')">La note doit être au moins 1.</span>
+                                                        <span *ngIf="feedbackForm.get('rating')?.hasError('max')">La note ne peut pas dépasser 5.</span>
+                                                    </div>
                                                 </div>
-                                              </div>
                                             </div>
-                                          </div>
-                                      
-                                          <div class="comment-field">
+                                        </div>
+                                        <div class="comment-field">
                                             <textarea formControlName="comment" placeholder="Comment"></textarea>
                                             <div class="error" *ngIf="feedbackForm.get('comment')?.invalid && feedbackForm.get('comment')?.touched">
-                                              <span *ngIf="feedbackForm.get('comment')?.hasError('required')">Le commentaire est obligatoire.</span>
-                                              <span *ngIf="feedbackForm.get('comment')?.hasError('minlength')">Le commentaire doit contenir au moins 10 caractères.</span>
+                                                <span *ngIf="feedbackForm.get('comment')?.hasError('required')">Le commentaire est obligatoire.</span>
+                                                <span *ngIf="feedbackForm.get('comment')?.hasError('noLetter')">Le commentaire doit contenir au moins une lettre.</span>
+                                                <span *ngIf="feedbackForm.get('comment')?.hasError('badWord')">Le commentaire contient un mot interdit : {{ feedbackForm.get('comment')?.errors?.['badWord']?.word }}.</span>
                                             </div>
-                                          </div>
-                                      
-                                          <button type="submit" class="btn btn-two arrow-btn" [disabled]="feedbackForm.invalid">
+                                        </div>
+                                        <button type="submit" class="btn btn-two arrow-btn" [disabled]="feedbackForm.invalid">
                                             Post Feedback
-                                          </button>
-                                        </form>
-                                      </div>
-                                    <div class="courses__rating-wrap">
-                                        <h2 class="title">Reviews</h2>
-                                        <div class="course-rate">
-                                            <div class="course-rate__summary">
-                                                <div class="course-rate__summary-value">{{ averageRating | number: '1.1-1' }}</div>
-                                                <div class="course-rate__summary-stars">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                </div>
-                                                <div class="course-rate__summary-text">
-                                                    {{ feedbackCount }} Feedbacks
-                                                </div>
+                                        </button>
+                                    </form>
+                                </div>
+                                <div class="courses__rating-wrap">
+                                    <h2 class="title">Reviews</h2>
+                                    <div class="course-rate">
+                                        <div class="course-rate__summary">
+                                            <div class="course-rate__summary-value">{{ averageRating | number: '1.1-1' }}</div>
+                                            <div class="course-rate__summary-stars">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
                                             </div>
-                                            <div class="course-rate__details">
-                                                <div *ngFor="let rating of [5, 4, 3, 2, 1]" class="course-rate__details-row">
-                                                  <div class="course-rate__details-row-star">
+                                            <div class="course-rate__summary-text">
+                                                {{ feedbackCount }} Feedbacks
+                                            </div>
+                                        </div>
+                                        <div class="course-rate__details">
+                                            <div *ngFor="let rating of [5, 4, 3, 2, 1]" class="course-rate__details-row">
+                                                <div class="course-rate__details-row-star">
                                                     {{ rating }}
                                                     <i class="fas fa-star"></i>
-                                                  </div>
-                                                  <div class="course-rate__details-row-value">
+                                                </div>
+                                                <div class="course-rate__details-row-value">
                                                     <div class="rating-gray"></div>
                                                     <div class="rating" [style.width]="(ratingDistribution[rating] / feedbacks.length) * 100 + '%'" 
                                                          [title]="(ratingDistribution[rating] / feedbacks.length) * 100 + '%'">
                                                     </div>
                                                     <span class="rating-count">{{ ratingDistribution[rating] }}</span>
-                                                  </div>
                                                 </div>
-                                              </div>
+                                            </div>
                                         </div>
-                                        <div class="course-review-head" *ngFor="let feedback of feedbacks">
-                                            <div class="review-author-thumb">
-                                                <img src="assets/img/courses/review-author.png" alt="img">
-                                            </div>
-                                            <div class="review-author-content">
-                                                <div class="author-name">
-                                                    <h5 class="name"> <span>{{ feedback.date }}</span></h5>
-                                                    <div class="author-rating">
-                                                        <i *ngFor="let star of [].constructor(feedback.rating)" class="fas fa-star"></i>
-                                                    </div>
+                                    </div>
+                                    <div class="course-review-head" *ngFor="let feedback of feedbacks">
+                                        <div class="review-author-thumb">
+                                            <img src="assets/img/courses/review-author.png" alt="img">
+                                        </div>
+                                        <div class="review-author-content">
+                                            <div class="author-name">
+                                                <h5 class="name"><span>{{ feedback.date }}</span></h5>
+                                                <div class="author-rating">
+                                                    <i *ngFor="let star of [].constructor(feedback.rating)" class="fas fa-star"></i>
                                                 </div>
-                                                <h4 class="title">username</h4>
-                                                <p>{{ feedback.comment }}</p>
                                             </div>
+                                            <h4 class="title">username</h4>
+                                            <p>{{ feedback.comment }}</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-4">
-                        <div class="courses__details-sidebar">
-                            <div class="courses__cost-wrap">
-                                <span>This Course Fee:</span>
-                                <h2 class="title">$ {{ formation?.price}}</h2>
-                            </div>
-                            <div class="courses__information-wrap">
-                                <h5 class="title">Course includes:</h5>
-                                <ul class="list-wrap">
-                                    <li>
-                                        <img src="assets/img/icons/course_icon02.svg" alt="img" class="injectable">
-                                        Duration
-                                        <span>{{ formation?.duration}} Hours</span>
-                                    </li>
-                                    <li>
-                                        <img src="assets/img/icons/course_icon03.svg" alt="img" class="injectable">
-                                        Lessons
-                                        <span>12</span>
-                                    </li>
-                                    <li>
-                                        <img src="assets/img/icons/course_icon04.svg" alt="img" class="injectable">
-                                        Quizzes
-                                        <span>145</span>
-                                    </li>
-                                    <li>
-                                        <img src="assets/img/icons/course_icon05.svg" alt="img" class="injectable">
-                                        Certifications
-                                        <span>Yes</span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="courses__payment">
-                                <h5 class="title">Secure Payment:</h5>
-                                <img src="assets/img/others/payment.png" alt="img">
-                            </div>
-                            <div class="courses__details-social">
-                                <h5 class="title">Share this course:</h5>
-                                <ul class="list-wrap">
-                                    <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-whatsapp"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-youtube"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="courses__details-enroll">
-                                <div class="tg-button-wrap">
-                                    <a href="courses.html" class="btn btn-two arrow-btn">
-                                        Join Training
-                                        <img src="assets/img/icons/right_arrow.svg" alt="img" class="injectable">
-                                    </a>
+                            <div class="tab-pane fade" id="resources" role="tabpanel" aria-labelledby="resources-tab" tabindex="0">
+                                <div class="courses__resources-wrap">
+                                    <h2 class="title">Recommended Resources</h2>
+                                    <ul class="list-wrap" *ngIf="books.length > 0; else noBooks">
+                                        <li *ngFor="let book of books" class="d-flex align-items-center mb-3">
+                                            <img [src]="getBookCoverUrl(book.cover_i)" 
+                                                 alt="{{ book.title }}" 
+                                                 class="book-cover">
+                                            <div class="book-info">
+                                                <h5>{{ book.title }}</h5>
+                                                <p>{{ book.author_name?.join(', ') || 'Auteur inconnu' }}</p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <ng-template #noBooks>
+                                        <p>No recommended resources found for this training.</p>
+                                    </ng-template>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="col-xl-3 col-lg-4">
+                    <div class="courses__details-sidebar">
+                        <div class="courses__cost-wrap">
+                            <span>This Course Fee:</span>
+                            <h2 class="title">$ {{ formation?.price }}</h2>
+                        </div>
+                        <div class="courses__information-wrap">
+                            <h5 class="title">Course includes:</h5>
+                            <ul class="list-wrap">
+                                <li>
+                                    <img src="assets/img/icons/course_icon02.svg" alt="img" class="injectable">
+                                    Duration
+                                    <span>{{ formation?.duration }} Hours</span>
+                                </li>
+                                <li>
+                                    <img src="assets/img/icons/course_icon03.svg" alt="img" class="injectable">
+                                    Lessons
+                                    <span>12</span>
+                                </li>
+                                <li>
+                                    <img src="assets/img/icons/course_icon04.svg" alt="img" class="injectable">
+                                    Quizzes
+                                    <span>145</span>
+                                </li>
+                                <li>
+                                    <img src="assets/img/icons/course_icon05.svg" alt="img" class="injectable">
+                                    Certifications
+                                    <span>Yes</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="courses__payment">
+                            <h5 class="title">Secure Payment:</h5>
+                            <img src="assets/img/others/payment.png" alt="img">
+                        </div>
+                        <div class="courses__details-social">
+                            <h5 class="title">Share this course:</h5>
+                            <ul class="list-wrap">
+                                <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                <li><a href="#"><i class="fab fa-whatsapp"></i></a></li>
+                                <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                                <li><a href="#"><i class="fab fa-youtube"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="courses__details-enroll">
+                            <div class="tg-button-wrap">
+                                <a href="courses.html" class="btn btn-two arrow-btn">
+                                    Join Training
+                                    <img src="assets/img/icons/right_arrow.svg" alt="img" class="injectable">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
         </section>
-        <!-- courses-details-area-end -->
-
     </main>
-    <!-- main-area-end -->

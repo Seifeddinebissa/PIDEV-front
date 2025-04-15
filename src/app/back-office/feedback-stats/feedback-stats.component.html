@@ -1,0 +1,43 @@
+<!-- src/app/back-office/feedback-stats/feedback-stats.component.html -->
+<div class="container">
+    <div class="dashboard__content-wrap">
+      <div class="dashboard__content-title d-flex justify-content-between align-items-center">
+        <h4 class="title">Statistiques des Feedbacks par Formation</h4>
+        <button class="btn btn-primary" (click)="exportToPDF()">Exporter en PDF</button>
+      </div>
+      <div class="row mt-25">
+        <div class="col-12">
+          <div class="dashboard__stats-grid">
+            <div class="row">
+              <div class="col-lg-4 col-md-6 mb-20" *ngFor="let stat of stats">
+                <div class="stats-card">
+                  <div class="stats-card-header">
+                    <div class="stats-image-circle">
+                      <img [src]="stat?.image || 'assets/img/courses/default.jpg'" alt="{{ stat.title }}" class="stats-image">
+                    </div>
+                    <h5>{{ stat.title }}</h5>
+                  </div>
+                  <div class="stats-card-body">
+                    <p><strong>Moyenne :</strong> {{ stat.average }}</p>
+                    <p><strong>Écart-type :</strong> {{ stat.stdDev }}</p>
+                    <p><strong>Total :</strong> {{ stat.totalFeedbacks }}</p>
+                    <div class="chart-container">
+                      <p><strong>Distribution :</strong></p>
+                      <p-chart type="doughnut"
+                               [data]="stat.chartData"
+                               [options]="chartOptions"
+                               height="150px">
+                      </p-chart>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12" *ngIf="stats.length === 0">
+                <p class="text-center">Aucune statistique disponible pour le moment.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
