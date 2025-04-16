@@ -12,6 +12,7 @@ import { FormationService } from '../services/formation.service';
 export class FeedbackAddComponent implements OnInit {
   feedbackForm!: FormGroup;
   formations: any[] = [];
+  userId: number = 1; // Hardcoded for now; replace with authenticated user ID if available
 
   constructor(
     private fb: FormBuilder,
@@ -25,7 +26,6 @@ export class FeedbackAddComponent implements OnInit {
     this.getFormations();
   }
 
-  // Initialisation du formulaire avec validation
   initForm() {
     this.feedbackForm = this.fb.group({
       comment: ['', [Validators.required]],
@@ -35,7 +35,6 @@ export class FeedbackAddComponent implements OnInit {
     });
   }
 
-  // Charger la liste des formations
   getFormations() {
     this.formationService.getAllFormation().subscribe(
       (response) => {
@@ -47,10 +46,9 @@ export class FeedbackAddComponent implements OnInit {
     );
   }
 
-  // Envoyer le feedback
   addFeedback() {
     if (this.feedbackForm.invalid) {
-      this.feedbackForm.markAllAsTouched();  // Marquer tous les champs pour afficher les erreurs
+      this.feedbackForm.markAllAsTouched();
       console.log('Formulaire invalide:', this.feedbackForm.value);
       return;
     }
@@ -58,7 +56,8 @@ export class FeedbackAddComponent implements OnInit {
     const feedbackData = this.feedbackForm.value;
     console.log('Données du feedback:', feedbackData);
 
-    this.feedbackService.addFeedback(feedbackData, feedbackData.formationId).subscribe(
+    // Pass userId to addFeedback
+    this.feedbackService.addFeedback(feedbackData, feedbackData.formationId, this.userId).subscribe(
       (response) => {
         console.log('Feedback ajouté avec succès:', response);
         this.router.navigate(['/feedbacks']);

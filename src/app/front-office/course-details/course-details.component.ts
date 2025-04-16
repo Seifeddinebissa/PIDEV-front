@@ -20,8 +20,8 @@ export class CourseDetailsComponent implements OnInit {
   ratingDistribution: { [key: number]: number } = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
   feedbackForm: FormGroup;
   books: any[] = [];
+  userId: number = 1; 
 
-  // Liste des mots interdits (tu peux la personnaliser)
   private badWords: string[] = ['hello', 'hate'];
 
   constructor(
@@ -74,25 +74,26 @@ export class CourseDetailsComponent implements OnInit {
 
   private loadFeedbackDetails(formation_id: number): void {
     this.formationService.getFeedbackCountByFormation(formation_id).subscribe(
-      (count: number) => {
-        this.feedbackCount = count;
-      },
-      (error) => {
-        console.error(`Erreur lors du chargement du nombre de feedbacks pour la formation ${formation_id}:`, error);
-      }
+        (count: number) => {
+            this.feedbackCount = count;
+        },
+        (error) => {
+            console.error(`Erreur lors du chargement du nombre de feedbacks pour la formation ${formation_id}:`, error);
+        }
     );
 
     this.formationService.getFeedbacksByFormation(formation_id).subscribe(
-      (feedbacks: Feedback[]) => {
-        this.feedbacks = feedbacks;
-        this.calculateAverageRating(feedbacks);
-        this.calculateRatingDistribution(feedbacks);
-      },
-      (error) => {
-        console.error(`Erreur lors du chargement des feedbacks pour la formation ${formation_id}:`, error);
-      }
+        (feedbacks: Feedback[]) => {
+            console.log('Feedbacks received:', feedbacks); // Add logging
+            this.feedbacks = feedbacks;
+            this.calculateAverageRating(feedbacks);
+            this.calculateRatingDistribution(feedbacks);
+        },
+        (error) => {
+            console.error(`Erreur lors du chargement des feedbacks pour la formation ${formation_id}:`, error);
+        }
     );
-  }
+}
 
   private calculateAverageRating(feedbacks: Feedback[]): void {
     if (!feedbacks || feedbacks.length === 0) {
@@ -117,27 +118,66 @@ export class CourseDetailsComponent implements OnInit {
       console.error('Formulaire invalide');
       return;
     }
-    
+
+    const formationId = Number(this.route.snapshot.paramMap.get('id'));
     const newFeedback: Feedback = {
       id: 0,
       rating: this.feedbackForm.value.rating,
       comment: this.feedbackForm.value.comment,
       date: new Date(),
-      formation_id: Number(this.route.snapshot.paramMap.get('id'))
+      formation_id: formationId
     };
 
-    this.feedbackService.addFeedback(newFeedback, newFeedback.formation_id).subscribe(
-      (response) => {
-        console.log('Feedback ajouté avec succès', response);
-        this.feedbacks.push(response);
-        this.calculateAverageRating(this.feedbacks);
-        this.calculateRatingDistribution(this.feedbacks);
-        this.feedbackForm.reset();
+    // Check if feedback exists for this user and formation
+    this.feedbackService.checkFeedbackExists(this.userId, formationId).subscribe({
+      next: (existingFeedback: Feedback) => {
+        if (existingFeedback) {
+          // Feedback exists, show confirmation alert
+          const confirmUpdate = window.confirm(
+            'You already submitted a feedback for this formation. Do you want to update it?'
+          );
+          if (confirmUpdate) {
+            // Update existing feedback
+            existingFeedback.rating = newFeedback.rating;
+            existingFeedback.comment = newFeedback.comment;
+            existingFeedback.date = newFeedback.date;
+            this.feedbackService.updateFeedback(existingFeedback.id, existingFeedback).subscribe({
+              next: (updatedFeedback: Feedback) => {
+                console.log('Feedback updated successfully', updatedFeedback);
+                // Update the local feedbacks list
+                const index = this.feedbacks.findIndex(f => f.id === updatedFeedback.id);
+                if (index !== -1) {
+                  this.feedbacks[index] = updatedFeedback;
+                }
+                this.calculateAverageRating(this.feedbacks);
+                this.calculateRatingDistribution(this.feedbacks);
+                this.feedbackForm.reset();
+              },
+              error: (error) => {
+                console.error('Erreur lors de la mise à jour du feedback:', error);
+              }
+            });
+          }
+        } else {
+          // No existing feedback, create a new one
+          this.feedbackService.addFeedback(newFeedback, formationId, this.userId).subscribe({
+            next: (response: Feedback) => {
+              console.log('Feedback ajouté avec succès', response);
+              this.feedbacks.push(response);
+              this.calculateAverageRating(this.feedbacks);
+              this.calculateRatingDistribution(this.feedbacks);
+              this.feedbackForm.reset();
+            },
+            error: (error) => {
+              console.error('Erreur lors de l’ajout du feedback:', error);
+            }
+          });
+        }
       },
-      (error) => {
-        console.error('Erreur lors de l’ajout du feedback:', error);
+      error: (error) => {
+        console.error('Erreur lors de la vérification du feedback existant:', error);
       }
-    );
+    });
   }
 
   onImageError(event: Event): void {
@@ -146,7 +186,6 @@ export class CourseDetailsComponent implements OnInit {
     console.warn('Image failed to load, using default image');
   }
 
-  // Validateur pour vérifier qu’il y a au moins une lettre
   mustContainLetter(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const value = control.value;
@@ -158,12 +197,11 @@ export class CourseDetailsComponent implements OnInit {
     };
   }
 
-  // Nouveau validateur pour détecter les mauvais mots
   noBadWords(badWords: string[]): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const value = control.value;
       if (!value) {
-        return null; // Laisser Validators.required gérer le cas vide
+        return null;
       }
       const lowerCaseValue = value.toLowerCase();
       const foundBadWord = badWords.find(badWord => lowerCaseValue.includes(badWord.toLowerCase()));

@@ -8,11 +8,10 @@ import { Feedback } from '../models/Feedback';
 })
 export class FeedbackService {
 
-  private apiUrl = 'http://localhost:8081/api/feedbacks'; 
+  private apiUrl = 'http://localhost:8081/api/feedbacks';
 
   constructor(private http: HttpClient) { }
 
-  // Récupérer tous les feedbacks
   getAllFeedbacks(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);
   }
@@ -21,30 +20,33 @@ export class FeedbackService {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
 
-  updateFeedback(id: number, formation: Feedback): Observable<Feedback> {
-            return this.http.put<Feedback>(`${this.apiUrl}/${id}`, formation);
+  updateFeedback(id: number, feedback: Feedback): Observable<Feedback> {
+    return this.http.put<Feedback>(`${this.apiUrl}/${id}`, feedback);
   }
 
-   // Méthode pour obtenir les feedbacks d'une formation
-   getFeedbacksForFormation(formationId: number): Observable<any[]> {
+  getFeedbacksForFormation(formationId: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/formation/${formationId}`);
   }
 
-  // Supprimer un feedback par ID
   deleteFeedback(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
-  addFeedback(feedback: any, formation_id: number): Observable<any> {
-    const url = `${this.apiUrl}?formation_id=${formation_id}`; // Ajout du paramètre formation_id
+  addFeedback(feedback: any, formation_id: number, user_id: number): Observable<any> {
+    const url = `${this.apiUrl}?formation_id=${formation_id}&user_id=${user_id}`;
     return this.http.post<any>(url, feedback);
+  }
+
+  // Added method to check if feedback exists for a user and formation
+  checkFeedbackExists(userId: number, formationId: number): Observable<any> {
+    const url = `${this.apiUrl}/check?userId=${userId}&formationId=${formationId}`;
+    return this.http.get<any>(url);
   }
 
   getAllFormationsFeedbackStats(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/stats`);
   }
 
-  // src/app/back-office/services/feedback.service.ts
   exportStatsToPDF(): Observable<Blob> {
     return this.http.get(`${this.apiUrl}/stats/export/pdf`, { responseType: 'blob' });
   }
@@ -52,5 +54,4 @@ export class FeedbackService {
   getTopRatedFormations(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/top-rated`);
   }
-
 }
