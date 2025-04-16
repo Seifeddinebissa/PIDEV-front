@@ -1,0 +1,59 @@
+<div class="dashboard__content-wrap">
+    <div class="dashboard__content-title d-flex justify-content-between align-items-center">
+      <h4 class="title">Feedbacks</h4>
+      <button (click)="addFeedback()" class="btn btn-primary">
+        <i class="skillgro-plus"></i> Add Feedback
+      </button>
+    </div>
+    <div class="row mt-25">
+      <div class="col-12">
+        <div class="dashboard__review-table">
+          <table class="table table-borderless">
+            <thead>
+              <tr>
+                <th>Rating</th>
+                <th>Comment</th>
+                <th>Date</th>
+                <th>Hidden</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let feedback of paginatedFeedback">
+                <td>{{ feedback.rating }}</td>
+                <td>{{ feedback.comment }}</td>
+                <td>{{ feedback.date | date:'shortDate' }}</td>
+                <td>{{ feedback.is_hidden }}</td>
+                <td>
+                  <div class="dashboard__review-action">
+                    <a href="#" (click)="toggleHidden(feedback, $event)">
+                      {{ feedback.is_hidden ? 'Unhide' : 'Hide' }}
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+  
+          <!-- Pagination -->
+          <nav class="pagination__wrap mt-30" *ngIf="totalPages > 1">
+            <ul class="list-wrap d-flex justify-content-center align-items-center">
+              <li>
+                <a href="#" (click)="changePage(currentPage - 1, $event)" [class.disabled]="currentPage === 1">
+                  <i class="fas fa-arrow-left"></i>
+                </a>
+              </li>
+              <li *ngFor="let page of getPages()" [class.active]="currentPage === page">
+                <a href="#" (click)="changePage(page, $event)">{{ page }}</a>
+              </li>
+              <li>
+                <a href="#" (click)="changePage(currentPage + 1, $event)" [class.disabled]="currentPage === totalPages">
+                  <i class="fas fa-arrow-right"></i>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>

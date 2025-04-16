@@ -10,7 +10,7 @@
                 <nav class="dashboard__sidebar-menu">
                     <ul class="list-wrap">
                         <li class="active">
-                            <a href="instructor-dashboard.html">
+                            <a [routerLink]="['/feedback-stats']">
                                 <i class="fas fa-home"></i>
                                 Dashboard
                             </a>
@@ -22,21 +22,21 @@
                             </a>
                         </li>
                         <li>
-                            <a href="instructor-enrolled-courses.html">
-                                <i class="skillgro-book"></i>
-                                Enrolled Courses
-                            </a>
-                        </li>
-                        <li>
                             <a href="instructor-wishlist.html">
                                 <i class="skillgro-label"></i>
                                 Wishlist
                             </a>
                         </li>
                         <li>
-                            <a href="instructor-review.html">
+                            <a [routerLink]="['/formations']">
+                                <i class="skillgro-book"></i>
+                                Trainings
+                            </a>
+                        </li>
+                        <li>
+                            <a [routerLink]="['/feedbacks']">
                                 <i class="skillgro-book-2"></i>
-                                Reviews
+                                Feedbacks
                             </a>
                         </li>
                         <li>

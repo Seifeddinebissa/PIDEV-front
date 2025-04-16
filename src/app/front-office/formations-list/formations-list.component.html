@@ -1,0 +1,175 @@
+<!-- Scroll-top -->
+<button class="scroll__top scroll-to-target" data-target="html">
+    <i class="tg-flaticon-arrowhead-up"></i>
+</button>
+
+<main class="main-area fix">
+    <section class="breadcrumb__area breadcrumb__bg" data-background="../assets/img/bg/breadcrumb_bg.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb__content">
+                        <h3 class="title">All Trainings</h3>
+                        <nav class="breadcrumb">
+                            <span property="itemListElement" typeof="ListItem">
+                                <a routerLink="/">Home</a>
+                            </span>
+                            <span class="breadcrumb-separator"><i class="fas fa-angle-right"></i></span>
+                            <span property="itemListElement" typeof="ListItem">Trainings</span>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="breadcrumb__shape-wrap">
+            <img src="assets/img/others/breadcrumb_shape01.svg" alt="img" class="alltuchtopdown">
+            <img src="assets/img/others/breadcrumb_shape02.svg" alt="img" data-aos="fade-right" data-aos-delay="300">
+            <img src="assets/img/others/breadcrumb_shape03.svg" alt="img" data-aos="fade-up" data-aos-delay="400">
+            <img src="assets/img/others/breadcrumb_shape04.svg" alt="img" data-aos="fade-down-left" data-aos-delay="400">
+            <img src="assets/img/others/breadcrumb_shape05.svg" alt="img" data-aos="fade-left" data-aos-delay="400">
+        </div>
+    </section>
+
+    <section class="all-courses-area section-py-120">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-3 col-lg-4 order-2 order-lg-0">
+                    <aside class="courses__sidebar">
+                        <div class="courses-widget">
+                            <h4 class="widget-title">Advanced Filters</h4>
+                            <div class="courses-cat-list">
+                                <div class="mb-3">
+                                    <label class="form-label">Price Range ($)</label>
+                                    <div class="d-flex gap-2">
+                                        <input type="number" class="form-control" placeholder="Min" [(ngModel)]="minPrice" (input)="applySortAndFilter()">
+                                        <input type="number" class="form-control" placeholder="Max" [(ngModel)]="maxPrice" (input)="applySortAndFilter()">
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Duration Range (hours)</label>
+                                    <div class="d-flex gap-2">
+                                        <input type="number" class="form-control" placeholder="Min" [(ngModel)]="minDuration" (input)="applySortAndFilter()">
+                                        <input type="number" class="form-control" placeholder="Max" [(ngModel)]="maxDuration" (input)="applySortAndFilter()">
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Search by Title</label>
+                                    <input type="text" class="form-control" placeholder="Enter title" [(ngModel)]="searchTitle" (input)="applySortAndFilter()">
+                                </div>
+                                <button class="btn btn-secondary w-100" (click)="clearFilters()">Clear Filters</button>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+                <div class="col-xl-9 col-lg-8">
+                    <!-- Add loading indicator and error message for formations -->
+                    <div *ngIf="loadingFormations" class="text-center my-3">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading formations...</span>
+                        </div>
+                        <p>Loading formations...</p>
+                    </div>
+                    <div *ngIf="errorLoadingFormations" class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ errorLoadingFormations }}
+                        <button type="button" class="btn-close" (click)="errorLoadingFormations = null" aria-label="Close"></button>
+                    </div>
+
+                    <!-- Add loading indicator for favorites -->
+                    <div *ngIf="loadingFavorites" class="text-center my-3">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading favorites...</span>
+                        </div>
+                        <p>Loading favorites...</p>
+                    </div>
+
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="grid" role="tabpanel" aria-labelledby="grid-tab">
+                            <div class="mb-3 d-flex justify-content-between align-items-center">
+                                <div>
+                                    <label class="form-label me-2">Sort by:</label>
+                                    <select class="form-select d-inline-block w-auto" [(ngModel)]="sortBy" (change)="updateSort(sortBy)">
+                                        <option value="none">None</option>
+                                        <option value="title">Title</option>
+                                        <option value="price">Price</option>
+                                        <option value="duration">Duration</option>
+                                        <option value="reviews">Reviews</option>
+                                    </select>
+                                    <button class="btn btn-outline-secondary ms-2" style="padding: 12px 18px; font-size: 12px; border-radius: 25%; margin-bottom: 5px;" (click)="updateSort(sortBy)">
+                                        <i class="fas" [ngClass]="sortDirection === 'asc' ? 'fa-arrow-up' : 'fa-arrow-down'"></i>
+                                    </button>
+                                </div>
+                                <span>{{ publicFormationCount }} courses found</span>
+                            </div>
+
+                            <div class="row courses__grid-wrap row-cols-1 row-cols-xl-3 row-cols-lg-2 row-cols-md-2 row-cols-sm-1">
+                                <div *ngFor="let formation of paginatedFormations">
+                                    <div class="courses__item shine__animate-item">
+                                        <div class="courses__item-thumb">
+                                            <a [routerLink]="['/course-details', formation.id]" class="shine__animate-link">
+                                                <img [src]="formation.image || 'assets/img/courses/default.jpg'" 
+                                                     alt="{{ formation.title }}" 
+                                                     (error)="onImageError($event)">
+                                            </a>
+                                        </div>
+                                        <div class="courses__item-content">
+                                            <ul class="courses__item-meta list-wrap">
+                                                <li class="courses__item-tag">
+                                                    <a href="course.html">{{ formation.duration }} hours</a>
+                                                </li>
+                                                <li class="avg-rating">
+                                                    <i class="fas fa-star"></i>
+                                                    ({{ feedbackCounts[formation.id] || 0 }} Reviews)
+                                                </li>
+                                            </ul>
+                                            <h5 class="title">
+                                                <a [routerLink]="['/course-details', formation.id]">{{ formation.title }}</a>
+                                            </h5>
+                                            <p class="author">
+                                                <a href="#">{{ formation.description.length > 25 ? (formation.description | slice:0:25) + '...' : formation.description }}</a>
+                                            </p>
+                                            <div class="courses__item-bottom d-flex align-items-center">
+                                                <div class="button">
+                                                    <a [routerLink]="['/course-details', formation.id]">
+                                                        <span class="text">Enroll Now</span>
+                                                        <i class="flaticon-arrow-right"></i>
+                                                    </a>
+                                                </div>
+                                                <div class="favorite-btn ms-2">
+                                                    <a href="#" (click)="toggleFavorite(formation.id); $event.preventDefault()">
+                                                        <img src="assets/img/icons/heart.svg" 
+                                                             class="injectable" 
+                                                             alt="Favorite" 
+                                                             [ngClass]="{'favorite-active': isFavorite(formation.id)}">
+                                                    </a>
+                                                </div>
+                                                <h5 class="price ms-auto">${{ formation.price }}</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <nav class="pagination__wrap mt-30" *ngIf="totalPages > 1">
+                                <ul class="list-wrap d-flex justify-content-center align-items-center">
+                                    <li>
+                                        <a href="#" (click)="changePage(currentPage - 1, $event)" [class.disabled]="currentPage === 1" class="scroll-to-target">
+                                            <i class="fas fa-arrow-left"></i>
+                                        </a>
+                                    </li>
+                                    <li *ngFor="let page of getPages()" [class.active]="currentPage === page">
+                                        <a href="#" (click)="changePage(page, $event)">{{ page }}</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" (click)="changePage(currentPage + 1, $event)" [class.disabled]="currentPage === totalPages" class="scroll-to-target">
+                                            <i class="fas fa-arrow-right"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
