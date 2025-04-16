@@ -1,5 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { AuthenticationService } from '../services/authentication.service';
+
+interface ForgotPasswordResponse {
+  message: string;
+}
 
 @Component({
   selector: 'app-forgot-password',
@@ -18,20 +22,40 @@ import { AuthenticationService } from '../services/authentication.service';
               <div class="alert alert-danger" *ngIf="errorMessage">
                 {{ errorMessage }}
               </div>
-              <form (ngSubmit)="onSubmit()">
+              <form #forgotPasswordForm="ngForm" (ngSubmit)="onSubmit()">
                 <div class="mb-3">
                   <label for="email" class="form-label">Email</label>
                   <input
                     type="email"
                     class="form-control"
                     id="email"
-                    [(ngModel)]="email"
                     name="email"
+                    [(ngModel)]="email"
                     required
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                    [class.is-invalid]="emailInput.invalid && (emailInput.dirty || emailInput.touched)"
+                    #emailInput="ngModel"
                   />
+                  <div
+                    *ngIf="emailInput.invalid && (emailInput.dirty || emailInput.touched)"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="emailInput.errors?.['required']">
+                      Email is required.
+                    </div>
+                    <div *ngIf="emailInput.errors?.['pattern']">
+                      Please enter a valid email address.
+                    </div>
+                  </div>
                 </div>
                 <div class="d-grid">
-                  <button type="submit" class="btn btn-primary">Send Reset Link</button>
+                  <button
+                    type="submit"
+                    class="btn btn-warning btn-block rounded-pill"
+                    [disabled]="forgotPasswordForm.invalid"
+                  >
+                    Send Reset Link
+                  </button>
                 </div>
               </form>
             </div>
@@ -47,21 +71,28 @@ export class ForgotPasswordComponent {
   successMessage: string = '';
   errorMessage: string = '';
 
-  constructor(private authService: AuthenticationService) {}
+  constructor(
+    private authService: AuthenticationService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   onSubmit() {
+    // No need to check form validity here; HTML5 validation will prevent submission if invalid
     this.authService.forgotPassword(this.email).subscribe({
-      next: (response) => {
-        // Extract the response body (the string message)
-        this.successMessage = response.message ;// Use response.body if available, otherwise fallback to response
+      next: (response: ForgotPasswordResponse) => {
+        console.log('Response:', response);
+        console.log('Response type:', typeof response);
+        console.log('Message:', response.message);
+        this.successMessage = response.message;
         this.errorMessage = '';
-        console.log(response);
+        this.cdr.detectChanges();
       },
       error: (error) => {
-        this.errorMessage = error.error || 'Failed to send reset email. Please try again.';
-console.error(error);
+        console.error('Error:', error);
+        this.errorMessage = error.error?.message || 'Failed to send reset email. Please try again.';
         this.successMessage = '';
+        this.cdr.detectChanges();
       }
     });
   }
-}
+}                     

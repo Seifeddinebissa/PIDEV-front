@@ -1,140 +1,155 @@
 <main class="main-area fix">
-<!-- singUp-area -->
-<section class="singUp-area section-py-120">
-    <div class="container">
+    <!-- singUp-area -->
+    <section class="singUp-area section-py-120">
+      <div class="container">
         <div class="row justify-content-center">
-            <div class="col-xl-6 col-lg-8">
-                <div class="singUp-wrap">
-                    <h2 class="title">Create Your Account</h2>
-                    <div class="card-body">
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="msg">
-                            {{ msg }}
-                            <button type="button" class="btn-close" (click)="msg = ''"></button>
-                        </div>
-                    </div>
-                    <form (ngSubmit)="onSubmit()" #registerForm="ngForm" class="account__form">
-                        <div class="row gutter-20">
-                            <div class="col-md-6">
-                                <div class="form-grp">
-                                    <label for="username">Username</label>
-                                    <input type="text" id="username" [(ngModel)]="username" name="username" 
-                                        #usernameCtrl="ngModel" required minlength="4" maxlength="20"
-                                        pattern="[a-zA-Z0-9_]+" [class.invalid]="usernameCtrl.invalid && usernameCtrl.touched">
-                                    <div class="error-text" *ngIf="usernameCtrl.touched && usernameCtrl.invalid">
-                                        <div *ngIf="usernameCtrl.errors?.['required']">Username is required</div>
-                                        <div *ngIf="usernameCtrl.errors?.['minlength']">Minimum 4 characters</div>
-                                        <div *ngIf="usernameCtrl.errors?.['maxlength']">Maximum 20 characters</div>
-                                        <div *ngIf="usernameCtrl.errors?.['pattern']">Only alphanumeric and underscore allowed</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-grp">
-                                    <label for="email">Email</label>
-                                    <input type="email" id="email" [(ngModel)]="email" name="email"
-                                        #emailCtrl="ngModel" required email
-                                        [class.invalid]="emailCtrl.invalid && emailCtrl.touched">
-                                    <div class="error-text" *ngIf="emailCtrl.touched && emailCtrl.invalid">
-                                        <div *ngIf="emailCtrl.errors?.['required']">Email is required</div>
-                                        <div *ngIf="emailCtrl.errors?.['email']">Invalid email format</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row gutter-20">
-                            <div class="col-md-6">
-                                <div class="form-grp">
-                                    <label for="firstName">First Name</label>
-                                    <input type="text" id="firstName" [(ngModel)]="firstName" name="firstName"
-                                        #firstNameCtrl="ngModel" required minlength="2" maxlength="50"
-                                        pattern="[a-zA-Z\s-]+"
-                                        [class.invalid]="firstNameCtrl.invalid && firstNameCtrl.touched">
-                                    <div class="error-text" *ngIf="firstNameCtrl.touched && firstNameCtrl.invalid">
-                                        <div *ngIf="firstNameCtrl.errors?.['required']">First name is required</div>
-                                        <div *ngIf="firstNameCtrl.errors?.['minlength']">Minimum 2 characters</div>
-                                        <div *ngIf="firstNameCtrl.errors?.['pattern']">Only letters, spaces, and hyphens</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-grp">
-                                    <label for="lastName">Last name</label>
-                                    <input type="text" id="lastName" [(ngModel)]="lastName" name="lastName"
-                                        #lastNameCtrl="ngModel" required minlength="2" maxlength="50"
-                                        pattern="[a-zA-Z\s-]+"
-                                        [class.invalid]="lastNameCtrl.invalid && lastNameCtrl.touched">
-                                    <div class="error-text" *ngIf="lastNameCtrl.touched && lastNameCtrl.invalid">
-                                        <div *ngIf="lastNameCtrl.errors?.['required']">Last name is required</div>
-                                        <div *ngIf="lastNameCtrl.errors?.['minlength']">Minimum 2 characters</div>
-                                        <div *ngIf="lastNameCtrl.errors?.['pattern']">Only letters, spaces, and hyphens</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row gutter-20">
-                            <div class="col-md-6">
-                                <div class="form-grp">
-                                    <label for="cin">CIN</label>
-                                    <input type="text" id="cin" [(ngModel)]="cin" name="cin"
-                                        #cinCtrl="ngModel" required pattern="[A-Za-z0-9]{8,12}"
-                                        [class.invalid]="cinCtrl.invalid && cinCtrl.touched">
-                                    <div class="error-text" *ngIf="cinCtrl.touched && cinCtrl.invalid">
-                                        <div *ngIf="cinCtrl.errors?.['required']">CIN is required</div>
-                                        <div *ngIf="cinCtrl.errors?.['pattern']">CIN must be 8-12 alphanumeric characters</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-grp">
-                                    <label for="address">Address</label>
-                                    <input type="text" id="address" [(ngModel)]="address" name="address"
-                                        #addressCtrl="ngModel" required minlength="5" maxlength="100"
-                                        [class.invalid]="addressCtrl.invalid && addressCtrl.touched">
-                                    <div class="error-text" *ngIf="addressCtrl.touched && addressCtrl.invalid">
-                                        <div *ngIf="addressCtrl.errors?.['required']">Address is required</div>
-                                        <div *ngIf="addressCtrl.errors?.['minlength']">Minimum 5 characters</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row gutter-20">
-                            <div class="col-md-6">
-                                <div class="form-grp">
-                                    <label for="password">Password</label>
-                                    <input type="password" id="password" [(ngModel)]="password" name="password"
-                                        #passwordCtrl="ngModel" required minlength="8"
-                                        pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*"
-                                        [class.invalid]="passwordCtrl.invalid && passwordCtrl.touched">
-                                    <div class="error-text" *ngIf="passwordCtrl.touched && passwordCtrl.invalid">
-                                        <div *ngIf="passwordCtrl.errors?.['required']">Password is required</div>
-                                        <div *ngIf="passwordCtrl.errors?.['minlength']">Minimum 8 characters</div>
-                                        <div *ngIf="passwordCtrl.errors?.['pattern']">Must contain uppercase, lowercase, number, and special character</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-grp">
-                                    <label for="image">Profile Image</label>
-                                    <input type="file" id="image" (change)="onFileChange($event)" name="image"
-                                        #imageCtrl="ngModel" ngModel required
-                                        [class.invalid]="imageCtrl.invalid && imageCtrl.touched">
-                                    <div class="error-text" *ngIf="imageCtrl.touched && imageCtrl.invalid">
-                                        <div *ngIf="imageCtrl.errors?.['required']">Profile image is required</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <button type="submit" [disabled]="registerForm.invalid" class="btn btn-two arrow-btn">
-                            Sign Up
-                            <img src="assets/img/icons/right_arrow.svg" alt="img" class="injectable">
-                        </button>
-                    </form>
-                    <div class="account__switch">
-                        <p>Already have an account?<a routerLink="/login">Login</a></p>
-                    </div>
+          <div class="col-xl-6 col-lg-8">
+            <div class="singUp-wrap">
+              <h2 class="title">Create Your Account</h2>
+              <div class="card-body">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="msg">
+                  {{ msg }}
+                  <button type="button" class="btn-close" (click)="msg = ''"></button>
                 </div>
+              </div>
+              <form (ngSubmit)="onSubmit()" #registerForm="ngForm" class="account__form">
+                <div class="row gutter-20">
+                  <div class="col-md-6">
+                    <div class="form-grp">
+                      <label for="username">Username</label>
+                      <input type="text" id="username" [(ngModel)]="username" name="username" 
+                            #usernameCtrl="ngModel" required minlength="4" maxlength="20"
+                            pattern="[a-zA-Z0-9_]+" [class.invalid]="usernameCtrl.invalid && usernameCtrl.touched">
+                      <div class="error-text" *ngIf="usernameCtrl.touched && usernameCtrl.invalid">
+                        <div *ngIf="usernameCtrl.errors?.['required']">Username is required</div>
+                        <div *ngIf="usernameCtrl.errors?.['minlength']">Minimum 4 characters</div>
+                        <div *ngIf="usernameCtrl.errors?.['maxlength']">Maximum 20 characters</div>
+                        <div *ngIf="usernameCtrl.errors?.['pattern']">Only alphanumeric and underscore allowed</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-grp">
+                      <label for="email">Email</label>
+                      <input type="email" id="email" [(ngModel)]="email" name="email"
+                            #emailCtrl="ngModel" required email
+                            [class.invalid]="emailCtrl.invalid && emailCtrl.touched">
+                      <div class="error-text" *ngIf="emailCtrl.touched && emailCtrl.invalid">
+                        <div *ngIf="emailCtrl.errors?.['required']">Email is required</div>
+                        <div *ngIf="emailCtrl.errors?.['email']">Invalid email format</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row gutter-20">
+                  <div class="col-md-6">
+                    <div class="form-grp">
+                      <label for="firstName">First Name</label>
+                      <input type="text" id="firstName" [(ngModel)]="firstName" name="firstName"
+                            #firstNameCtrl="ngModel" required minlength="2" maxlength="50"
+                            pattern="[a-zA-Z\s-]+"
+                            [class.invalid]="firstNameCtrl.invalid && firstNameCtrl.touched">
+                      <div class="error-text" *ngIf="firstNameCtrl.touched && firstNameCtrl.invalid">
+                        <div *ngIf="firstNameCtrl.errors?.['required']">First name is required</div>
+                        <div *ngIf="firstNameCtrl.errors?.['minlength']">Minimum 2 characters</div>
+                        <div *ngIf="firstNameCtrl.errors?.['pattern']">Only letters, spaces, and hyphens</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-grp">
+                      <label for="lastName">Last name</label>
+                      <input type="text" id="lastName" [(ngModel)]="lastName" name="lastName"
+                            #lastNameCtrl="ngModel" required minlength="2" maxlength="50"
+                            pattern="[a-zA-Z\s-]+"
+                            [class.invalid]="lastNameCtrl.invalid && lastNameCtrl.touched">
+                      <div class="error-text" *ngIf="lastNameCtrl.touched && lastNameCtrl.invalid">
+                        <div *ngIf="lastNameCtrl.errors?.['required']">Last name is required</div>
+                        <div *ngIf="lastNameCtrl.errors?.['minlength']">Minimum 2 characters</div>
+                        <div *ngIf="lastNameCtrl.errors?.['pattern']">Only letters, spaces, and hyphens</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row gutter-20">
+                  <div class="col-md-6">
+                    <div class="form-grp">
+                      <label for="cin">CIN</label>
+                      <input type="text" id="cin" [(ngModel)]="cin" name="cin"
+                            #cinCtrl="ngModel" required pattern="[A-Za-z0-9]{8,12}"
+                            [class.invalid]="cinCtrl.invalid && cinCtrl.touched">
+                      <div class="error-text" *ngIf="cinCtrl.touched && cinCtrl.invalid">
+                        <div *ngIf="cinCtrl.errors?.['required']">CIN is required</div>
+                        <div *ngIf="cinCtrl.errors?.['pattern']">CIN must be 8-12 alphanumeric characters</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-grp">
+                      <label for="address">Address</label>
+                      <input type="text" id="address" [(ngModel)]="address" name="address"
+                            #addressCtrl="ngModel" required minlength="5" maxlength="100"
+                            [class.invalid]="addressCtrl.invalid && addressCtrl.touched">
+                      <div class="error-text" *ngIf="addressCtrl.touched && addressCtrl.invalid">
+                        <div *ngIf="addressCtrl.errors?.['required']">Address is required</div>
+                        <div *ngIf="addressCtrl.errors?.['minlength']">Minimum 5 characters</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row gutter-20">
+                  <div class="col-md-6">
+                    <div class="form-grp">
+                      <label for="password">Password</label>
+                      <input type="password" id="password" [(ngModel)]="password" name="password"
+                            #passwordCtrl="ngModel" required minlength="8"
+                            pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*"
+                            [class.invalid]="passwordCtrl.invalid && passwordCtrl.touched">
+                      <div class="error-text" *ngIf="passwordCtrl.touched && passwordCtrl.invalid">
+                        <div *ngIf="passwordCtrl.errors?.['required']">Password is required</div>
+                        <div *ngIf="passwordCtrl.errors?.['minlength']">Minimum 8 characters</div>
+                        <div *ngIf="passwordCtrl.errors?.['pattern']">Must contain uppercase, lowercase, number, and special character</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-grp">
+                      <label for="image">Profile Image</label>
+                      <!-- File input for selecting a photo, disabled if camera is used -->
+                      <input type="file" id="image" (change)="onFileChange($event)" name="image"
+                            accept="image/*" [disabled]="isCameraOpen || capturedPhoto" #imageCtrl>
+                      <!-- Button to open camera, disabled if file is selected -->
+                      <button type="button" (click)="startCamera()" class="btn btn-sm mt-2" [disabled]="image">Take Photo</button>
+                      <!-- Video preview for camera -->
+                      <video #video autoplay *ngIf="isCameraOpen" width="100%" height="auto"></video>
+                      <!-- Canvas to capture the photo -->
+                      <canvas #canvas style="display: none;"></canvas>
+                      <!-- Buttons to capture and confirm photo -->
+                      <div *ngIf="isCameraOpen" class="mt-2">
+                        <button type="button" (click)="capturePhoto()" class="btn btn-sm mr-2">Capture</button>
+                        <button type="button" (click)="confirmPhoto()" class="btn btn-sm mr-2" [disabled]="!capturedPhoto">Confirm</button>
+                        <button type="button" (click)="closeCamera()" class="btn btn-sm">Cancel</button>
+                      </div>
+                      <!-- Preview captured photo or selected file -->
+                      <img [src]="capturedPhoto" *ngIf="capturedPhoto" width="100%" class="mt-2">
+                      <img [src]="imagePreview" *ngIf="imagePreview && !capturedPhoto" width="100%" class="mt-2">
+                      <div class="error-text" *ngIf="!image && !capturedPhoto && registerForm.submitted">
+                        Profile image is required
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button type="submit" [disabled]="registerForm.invalid || (!image && !capturedPhoto)" class="btn btn-two arrow-btn">
+                  Sign Up
+                  <img src="assets/img/icons/right_arrow.svg" alt="img" class="injectable">
+                </button>
+              </form>
+              <div class="account__switch">
+                <p>Already have an account?<a routerLink="/login">Login</a></p>
+              </div>
             </div>
+          </div>
         </div>
-        </div>
+      </div>
     </section>
-</main>
+  </main>

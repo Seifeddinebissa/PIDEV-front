@@ -1,19 +1,40 @@
 .form-grp {
-    position: relative;
-    margin-bottom: 20px;
-  }
-  
-  .error-text {
-    color: #dc3545;
-    font-size: 12px;
-    margin-top: 5px;
-  }
-  
-  input.invalid {
-    border-color: #dc3545;
-  }
-  
-  button[disabled] {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
+  margin-bottom: 20px;
+}
+
+.form-grp label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-grp input[type="text"],
+.form-grp input[type="password"],
+.form-grp input[type="file"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.form-grp video,
+.form-grp img {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  max-height: 200px;
+  width: 100%;
+}
+
+.form-grp .btn-sm {
+  padding: 5px 10px;
+  font-size: 12px;
+  margin-right: 5px;
+}
+
+.form-grp .error-text {
+  color: red;
+  font-size: 12px;
+}
+
+.mr-2 {
+  margin-right: 10px;
+}

@@ -19,20 +19,44 @@ import { ActivatedRoute, Router } from '@angular/router';
               <div class="alert alert-danger" *ngIf="errorMessage">
                 {{ errorMessage }}
               </div>
-              <form (ngSubmit)="onSubmit()">
+              <form #resetPasswordForm="ngForm" (ngSubmit)="onSubmit()">
                 <div class="mb-3">
                   <label for="newPassword" class="form-label">New Password</label>
                   <input
                     type="password"
                     class="form-control"
                     id="newPassword"
-                    [(ngModel)]="newPassword"
                     name="newPassword"
+                    [(ngModel)]="newPassword"
                     required
+                    minlength="8"
+                    pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*"
+                    [class.is-invalid]="newPasswordInput.invalid && (newPasswordInput.dirty || newPasswordInput.touched)"
+                    #newPasswordInput="ngModel"
                   />
+                  <div
+                    *ngIf="newPasswordInput.invalid && (newPasswordInput.dirty || newPasswordInput.touched)"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="newPasswordInput.errors?.['required']">
+                      Password is required.
+                    </div>
+                    <div *ngIf="newPasswordInput.errors?.['minlength']">
+                      Password must be at least 8 characters long.
+                    </div>
+                    <div *ngIf="newPasswordInput.errors?.['pattern']">
+                      Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.
+                    </div>
+                  </div>
                 </div>
                 <div class="d-grid">
-                  <button type="submit" class="btn btn-primary">Reset Password</button>
+                  <button
+                    type="submit"
+                    class="btn btn-primary"
+                    [disabled]="resetPasswordForm.invalid"
+                  >
+                    Reset Password
+                  </button>
                 </div>
               </form>
             </div>
@@ -79,7 +103,7 @@ export class ResetPasswordComponent {
         setTimeout(() => this.router.navigate(['/login']), 2000);
       },
       error: (error) => {
-        this.errorMessage = error.error || 'Failed to reset password. Please try again.';
+        this.errorMessage = error.error?.message || 'Failed to reset password. Please try again.';
         this.successMessage = '';
       }
     });

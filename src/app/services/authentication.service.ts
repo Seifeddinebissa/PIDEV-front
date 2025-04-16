@@ -39,11 +39,11 @@ export class AuthenticationService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.get(`${this.apiUrl}/profile/image`, { headers, responseType: 'blob' });
   }
-  getAllUsers(): Observable<User[]> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get<User[]>(`${this.apiUrl}/all`, { headers });
-  }
+    getAllUsers(): Observable<User[]> {
+      const token = localStorage.getItem('token');
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+      return this.http.get<User[]>(`${this.apiUrl}/all`, { headers });
+    }
   logout() {
     localStorage.removeItem('token');
     window.location.href = '/login';
@@ -76,7 +76,7 @@ export class AuthenticationService {
   }
   forgotPassword(email: string): Observable<any> {
     const params = new HttpParams().set('email', email);
-    return this.http.post(`${this.apiUrl}/forgot-password`, null, { params, observe: 'body',responseType: 'text' });
+    return this.http.post(`${this.apiUrl}/forgot-password`, null, { params });
   }
 
   resetPassword(token: string, newPassword: string): Observable<any> {

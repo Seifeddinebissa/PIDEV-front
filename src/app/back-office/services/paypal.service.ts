@@ -18,7 +18,7 @@ export class PaypalService {
     this.paymentRequest.amount=10.0;
     this.paymentRequest.currency="USD";
     this.paymentRequest.description="Achat d'un produit";
-    this.paymentRequest.cancelUrl="https://your-ngrok-subdomain.ngrok.io/cancel";
+    this.paymentRequest.cancelUrl="http://localhost:4200/cancel";
     this.paymentRequest.successUrl="http://localhost:4200/success";
     return this.http.post<any>(this.apiUrl+"/create",this.paymentRequest);
 
