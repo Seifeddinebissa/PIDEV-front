@@ -1,0 +1,175 @@
+<div class="dashboard__content-wrap">
+    <div class="dashboard__content-title">
+        <h4 class="title">Settings</h4>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="dashboard__nav-wrap">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="itemOne-tab" data-bs-toggle="tab" data-bs-target="#itemOne-tab-pane" type="button" role="tab" aria-controls="itemOne-tab-pane" aria-selected="true">Profile</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="itemTwo-tab" data-bs-toggle="tab" data-bs-target="#itemTwo-tab-pane" type="button" role="tab" aria-controls="itemTwo-tab-pane" aria-selected="false">Password</button>
+                    </li>
+                </ul>
+            </div>
+            <div class="tab-content" id="myTabContent">
+                <!-- Profile Tab -->
+                <div class="tab-pane fade active show" id="itemOne-tab-pane" role="tabpanel" aria-labelledby="itemOne-tab">
+                    <div class="instructor__profile-form-wrap">
+                        <form (ngSubmit)="onSubmit()" #updateProfileForm="ngForm" class="instructor__profile-form">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-grp">
+                                        <label for="username">User Name</label>
+                                        <input id="username" type="text" name="username" [(ngModel)]="user!.username"
+                                            #usernameCtrl="ngModel" required minlength="4" maxlength="20"
+                                            pattern="[a-zA-Z0-9_]+" [class.invalid]="usernameCtrl.invalid && usernameCtrl.touched">
+                                        <div class="error-text" *ngIf="usernameCtrl.touched && usernameCtrl.invalid">
+                                            <div *ngIf="usernameCtrl.errors?.['required']">Username is required</div>
+                                            <div *ngIf="usernameCtrl.errors?.['minlength']">Minimum 4 characters</div>
+                                            <div *ngIf="usernameCtrl.errors?.['pattern']">Only alphanumeric and underscore</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-grp">
+                                        <label for="email">Email</label>
+                                        <input id="email" type="email" name="email" [(ngModel)]="user!.email"
+                                            #emailCtrl="ngModel" required email
+                                            [class.invalid]="emailCtrl.invalid && emailCtrl.touched">
+                                        <div class="error-text" *ngIf="emailCtrl.touched && emailCtrl.invalid">
+                                            <div *ngIf="emailCtrl.errors?.['required']">Email is required</div>
+                                            <div *ngIf="emailCtrl.errors?.['email']">Invalid email format</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-grp">
+                                        <label for="firstname">First Name</label>
+                                        <input id="firstname" type="text" name="firstname" [(ngModel)]="user!.firstName"
+                                            #firstnameCtrl="ngModel" required minlength="2" maxlength="50"
+                                            pattern="[a-zA-Z\s-]+"
+                                            [class.invalid]="firstnameCtrl.invalid && firstnameCtrl.touched">
+                                        <div class="error-text" *ngIf="firstnameCtrl.touched && firstnameCtrl.invalid">
+                                            <div *ngIf="firstnameCtrl.errors?.['required']">First name is required</div>
+                                            <div *ngIf="firstnameCtrl.errors?.['minlength']">Minimum 2 characters</div>
+                                            <div *ngIf="firstnameCtrl.errors?.['pattern']">Only letters, spaces, and hyphens</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-grp">
+                                        <label for="lastname">Last Name</label>
+                                        <input id="lastname" type="text" name="lastName" [(ngModel)]="user!.lastName"
+                                            #lastnameCtrl="ngModel" required minlength="2" maxlength="50"
+                                            pattern="[a-zA-Z\s-]+"
+                                            [class.invalid]="lastnameCtrl.invalid && lastnameCtrl.touched">
+                                        <div class="error-text" *ngIf="lastnameCtrl.touched && lastnameCtrl.invalid">
+                                            <div *ngIf="lastnameCtrl.errors?.['required']">Last name is required</div>
+                                            <div *ngIf="lastnameCtrl.errors?.['minlength']">Minimum 2 characters</div>
+                                            <div *ngIf="lastnameCtrl.errors?.['pattern']">Only letters, spaces, and hyphens</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-grp">
+                                        <label for="cin">CIN</label>
+                                        <input id="cin" type="text" name="cin" [(ngModel)]="user!.cin"
+                                            #cinCtrl="ngModel" required pattern="[A-Za-z0-9]{8,12}"
+                                            [class.invalid]="cinCtrl.invalid && cinCtrl.touched">
+                                        <div class="error-text" *ngIf="cinCtrl.touched && cinCtrl.invalid">
+                                            <div *ngIf="cinCtrl.errors?.['required']">CIN is required</div>
+                                            <div *ngIf="cinCtrl.errors?.['pattern']">CIN must be 8-12 alphanumeric characters</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-grp">
+                                        <label for="address">Address</label>
+                                        <input id="address" type="text" name="address" [(ngModel)]="user!.address"
+                                            #addressCtrl="ngModel" required minlength="5" maxlength="100"
+                                            [class.invalid]="addressCtrl.invalid && addressCtrl.touched">
+                                        <div class="error-text" *ngIf="addressCtrl.touched && addressCtrl.invalid">
+                                            <div *ngIf="addressCtrl.errors?.['required']">Address is required</div>
+                                            <div *ngIf="addressCtrl.errors?.['minlength']">Minimum 5 characters</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-grp">
+                                        <label for="image">Profile Image</label>
+                                        <input type="file" id="image" (change)="onFileChange($event)" name="image"
+                                            #imageCtrl="ngModel" ngModel>
+                                        <div class="error-text" *ngIf="imageCtrl.touched && imageCtrl.invalid">
+                                            <div *ngIf="imageCtrl.errors?.['invalidType']">Only JPEG, PNG, or GIF allowed</div>
+                                            <div *ngIf="imageCtrl.errors?.['invalidSize']">Image must be less than 5MB</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="submit-btn mt-25">
+                                <button type="submit" [disabled]="updateProfileForm.invalid" class="btn">Update Info</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- Password Tab -->
+                <div class="tab-pane fade" id="itemTwo-tab-pane" role="tabpanel" aria-labelledby="itemTwo-tab">
+                    <div class="instructor__profile-form-wrap">
+                        <div class="card-body">
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="errorMsg">
+                                {{ errorMsg }}
+                                <button type="button" class="btn-close" (click)="errorMsg = ''"></button>
+                            </div>
+                        </div>
+                        <form #updatePassForm="ngForm" (ngSubmit)="updatePassword()" class="instructor__profile-form">
+                            <div class="form-grp">
+                                <label for="currentpassword">Current Password</label>
+                                <input id="currentpassword" name="currentPass" type="password" [(ngModel)]="currentPass"
+                                    #currentPassCtrl="ngModel" required minlength="8"
+                                    [class.invalid]="currentPassCtrl.invalid && currentPassCtrl.touched">
+                                <div class="error-text" *ngIf="currentPassCtrl.touched && currentPassCtrl.invalid">
+                                    <div *ngIf="currentPassCtrl.errors?.['required']">Current password is required</div>
+                                    <div *ngIf="currentPassCtrl.errors?.['minlength']">Minimum 8 characters</div>
+                                </div>
+                            </div>
+                            <div class="form-grp">
+                                <label for="newpassword">New Password</label>
+                                <input id="newpassword" type="password" name="newPass" [(ngModel)]="newPass"
+                                    #newPassCtrl="ngModel" required minlength="8"
+                                    pattern="(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*"
+                                    [class.invalid]="newPassCtrl.invalid && newPassCtrl.touched">
+                                <div class="error-text" *ngIf="newPassCtrl.touched && newPassCtrl.invalid">
+                                    <div *ngIf="newPassCtrl.errors?.['required']">New password is required</div>
+                                    <div *ngIf="newPassCtrl.errors?.['minlength']">Minimum 8 characters</div>
+                                    <div *ngIf="newPassCtrl.errors?.['pattern']">Must contain uppercase, lowercase, number, and special character</div>
+                                </div>
+                            </div>
+                            <div class="form-grp">
+                                <label for="repassword">Re-Type New Password</label>
+                                <input id="repassword" type="password" name="confirmPass" [(ngModel)]="confirmPass"
+                                    #confirmPassCtrl="ngModel" required 
+                                    [class.invalid]="confirmPassCtrl.invalid && confirmPassCtrl.touched">
+                                <div class="error-text" *ngIf="confirmPassCtrl.touched && confirmPassCtrl.invalid">
+                                    <div *ngIf="confirmPassCtrl.errors?.['required']">Confirmation is required</div>
+                                    <div *ngIf="confirmPassCtrl.errors?.['match']">Passwords do not match</div>
+                                </div>
+                            </div>
+                            <div class="submit-btn mt-25">  
+                                <button type="submit" [disabled]="updatePassForm.invalid" class="btn">Update Password</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+.form-grp {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  
+  .error-text {
+    color: #dc3545;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  
+  input.invalid {
+    border-color: #dc3545;
+  }
+  
+  button[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  .alert {
+    margin-bottom: 20px;
+  }
+  
+  .submit-btn {
+    text-align: right;
+  }
