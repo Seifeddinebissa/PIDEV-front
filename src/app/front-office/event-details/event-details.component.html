@@ -253,8 +253,8 @@
           <div class="event-info">
             <p><strong>Location:</strong> {{ event.location }}</p>
             <p><strong>Capacity:</strong> {{ event.capacity }}</p>
-            <p><strong>Start Date:</strong> {{ event.start_Date | date: 'medium' }}</p>
-            <p><strong>End Date:</strong> {{ event.end_Date | date: 'medium' }}</p>
+            <p><strong>Start Date:</strong> {{ event.start_Date | date }}</p>
+            <p><strong>End Date:</strong> {{ event.end_Date | date }}</p>
             <div *ngIf="event.imageUrl" class="event-image">
               <img [src]="event.imageUrl" alt="{{ event.eventName }}" />
             </div>

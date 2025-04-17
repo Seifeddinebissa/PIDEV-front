@@ -1,31 +1,35 @@
-import { CommonModule } from '@angular/common';
+// src/app/back-office/back-office.module.ts
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms'; 
+import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { EventsService } from './services/event.service';
+import { ToastrModule } from 'ngx-toastr';
 import { BackOfficeRoutingModule } from './back-office-routing.module';
 import { BackOfficeComponent } from './back-office.component';
-import { PaiementComponent } from './paiement/paiement.component';
-import { EventComponent } from './event/event.component'; 
-import { ListEventComponent } from './list-event/list-event.component';
-import { EventsService } from './services/event.service'; 
-import { ToastrModule } from 'ngx-toastr';
-//import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { EventStatsComponent } from './event-stats/event-stats.component';
+import { EventStatisticsService } from './services/event-statistics.service';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
     BackOfficeComponent,
-    PaiementComponent,
-    EventComponent, 
-    ListEventComponent
+    EventStatsComponent
   ],
   imports: [
-    BackOfficeRoutingModule,
     CommonModule,
+    BackOfficeRoutingModule,
+    SharedModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
-   // BrowserAnimationsModule, // Nécessaire pour Toastr
-    ToastrModule.forRoot() 
+    ToastrModule.forRoot()
   ],
-  providers: [EventsService],
+  providers: [
+    DatePipe,
+    DecimalPipe,
+    EventsService, 
+    EventStatisticsService
+  ]
 })
 export class BackOfficeModule { }

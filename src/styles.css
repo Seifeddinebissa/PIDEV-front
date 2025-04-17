@@ -1,6 +1,9 @@
 @import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 @import "../node_modules/@fortawesome/fontawesome-free/css/all.min.css";
 @import "../node_modules/ngx-toastr/toastr.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 .login-container {
     width: 800px !important;
     margin-top: 15%;
