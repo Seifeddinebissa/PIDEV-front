@@ -9,6 +9,7 @@ import { QuizComponent } from './quiz/quiz.component';
 import { AddQuestionComponent } from './add-question/add-question.component';
 import { QuizAttemptsComponent } from './quiz-attempts/quiz-attempts.component';
 import { AdminCoursesComponent } from './admin-courses/admin-courses.component';
+import { CreateMeetComponent } from './create-meet/create-meet.component';
 
 const routes: Routes = [
   {
@@ -22,7 +23,8 @@ const routes: Routes = [
       {path:"Quiz/:id", component:QuizComponent} ,
       {path:"questions/add/:quizId", component:AddQuestionComponent} ,
       {path:"QiuzAttempts", component:QuizAttemptsComponent} ,
-      {path:"adminCourses", component:AdminCoursesComponent}
+      {path:"adminCourses", component:AdminCoursesComponent},
+      {path:"meet", component:CreateMeetComponent}
     ]
   }
 ];

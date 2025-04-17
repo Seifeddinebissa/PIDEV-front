@@ -14,6 +14,8 @@ import { QuizComponent } from './quiz/quiz.component';
 import { AddQuestionComponent } from './add-question/add-question.component';
 import { QuizAttemptsComponent } from './quiz-attempts/quiz-attempts.component';
 import { AdminCoursesComponent } from './admin-courses/admin-courses.component';
+import { GoogleChartsModule } from 'angular-google-charts';
+import { CreateMeetComponent } from './create-meet/create-meet.component';
 
 
 @NgModule({
@@ -26,7 +28,8 @@ import { AdminCoursesComponent } from './admin-courses/admin-courses.component';
     QuizComponent,
     AddQuestionComponent,
     QuizAttemptsComponent,
-    AdminCoursesComponent
+    AdminCoursesComponent,
+    CreateMeetComponent,
   ],
   imports: [
     CommonModule,
@@ -39,7 +42,8 @@ import { AdminCoursesComponent } from './admin-courses/admin-courses.component';
     RouterModule,
     BackOfficeRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    GoogleChartsModule
     
   ],
   exports: [BackOfficeComponent]

@@ -4,6 +4,8 @@ import { FrontOfficeComponent } from './front-office.component';
 import { CoursesComponent } from './courses/courses.component';
 import { LessonsComponent } from './lessons/lessons.component';
 import { QuizComponent } from './quiz/quiz.component';
+import { CourseDetailsComponent } from './course-details/course-details.component';
+
 
 const routes: Routes = [
   {
@@ -13,6 +15,7 @@ const routes: Routes = [
       {path:"courses", component:CoursesComponent} ,
       {path:"lessons/:id", component:LessonsComponent} ,
       {path:"quiz/:id", component:QuizComponent} ,
+      {path:"meetfront", component:CourseDetailsComponent} ,
       // Add child routes here if needed
     ]
   }

@@ -1,0 +1,100 @@
+<!-- src/app/back-office/create-meet/create-meet.component.html -->
+<div class="container mt-5">
+  <h2>Gestion des réunions Jitsi Meet</h2>
+
+  <!-- Formulaire de création -->
+  <div class="card mb-4">
+    <div class="card-header">Créer une nouvelle réunion</div>
+    <div class="card-body">
+      <div class="mb-3">
+        <label for="courseName">Nom du cours</label>
+        <input id="courseName" class="form-control" [(ngModel)]="courseName" placeholder="Ex. Mathématiques">
+      </div>
+      <div class="mb-3">
+        <label for="scheduledAt">Date et heure planifiées</label>
+        <input id="scheduledAt" type="datetime-local" class="form-control" [(ngModel)]="scheduledAt">
+      </div>
+      <div class="mb-3">
+        <label for="password">Mot de passe (optionnel)</label>
+        <input id="password" type="text" class="form-control" [(ngModel)]="password" placeholder="Entrez un mot de passe">
+      </div>
+      <button class="btn btn-primary" (click)="generateLink()" [disabled]="!courseName || !scheduledAt">Générer le lien</button>
+    </div>
+  </div>
+
+  <!-- Affichage du lien généré -->
+  <div *ngIf="meetLink" class="alert alert-success mb-4">
+    Lien de la réunion : <a [href]="meetLink" target="_blank">{{ meetLink }}</a>
+    <button class="btn btn-sm btn-secondary ms-2" (click)="copyLink()">Copier</button>
+    <button class="btn btn-sm btn-success ms-2" (click)="startMeeting()">Lancer la réunion</button>
+  </div>
+  <div id="meet-container" class="mb-4"></div>
+
+  <!-- Messages d'erreur ou de succès -->
+  <div *ngIf="errorMessage" class="alert alert-danger mb-4">{{ errorMessage }}</div>
+
+  <!-- Formulaire de modification -->
+  <div *ngIf="selectedMeeting" class="card mb-4">
+    <div class="card-header">Modifier la réunion</div>
+    <div class="card-body">
+      <div class="mb-3">
+        <label for="editCourseName">Nom du cours</label>
+        <input id="editCourseName" class="form-control" [(ngModel)]="selectedMeeting.courseName">
+      </div>
+      <div class="mb-3">
+        <label for="editScheduledAt">Date et heure</label>
+        <input id="editScheduledAt" type="datetime-local" class="form-control" [(ngModel)]="selectedMeeting.scheduledAt">
+      </div>
+      <div class="mb-3">
+        <label for="editPassword">Mot de passe</label>
+        <input id="editPassword" type="text" class="form-control" [(ngModel)]="selectedMeeting.password" placeholder="Optionnel">
+      </div>
+      <div class="mb-3">
+        <label for="editActive">Statut</label>
+        <select id="editActive" class="form-control" [(ngModel)]="selectedMeeting.active">
+          <option [value]="true">Active</option>
+          <option [value]="false">Inactive</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" (click)="saveEdit()">Enregistrer</button>
+      <button class="btn btn-secondary ms-2" (click)="cancelEdit()">Annuler</button>
+    </div>
+  </div>
+
+  <!-- Tableau des réunions -->
+  <div class="card">
+    <div class="card-header">Liste des réunions</div>
+    <div class="card-body">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Nom du cours</th>
+            <th>Date planifiée</th>
+            <th>Lien</th>
+            <th>Mot de passe</th>
+            <th>Statut</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let meeting of meetings">
+            <td>{{ meeting.courseName }}</td>
+            <td>{{ meeting.scheduledAt | date:'medium' }}</td>
+            <td><a [href]="meeting.link" target="_blank">{{ meeting.link }}</a></td>
+            <td>{{ meeting.password || 'Aucun' }}</td>
+            <td>
+              <span class="badge" [ngClass]="meeting.active ? 'bg-success' : 'bg-danger'">
+                {{ meeting.active ? 'Active' : 'Inactive' }}
+              </span>
+            </td>
+            <td>
+              <button class="btn btn-sm btn-warning  m-2" (click)="startEdit(meeting)" [disabled]="editMode">Modifier</button>
+              <button class="btn btn-sm btn-danger me-2" (click)="deactivateMeeting(meeting.id)" [disabled]="!meeting.active || editMode">Désactiver</button>
+              <button class="btn btn-sm btn-danger" (click)="deleteMeeting(meeting.id)" [disabled]="editMode">Supprimer</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

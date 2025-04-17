@@ -1,0 +1,28 @@
+/* src/app/course-details/course-details.component.css */
+.card {
+    transition: transform 0.2s;
+  }
+  .card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .card {
+    transition: transform 0.2s;
+  }
+  .card:hover {
+    transform: translateY(-5px);
+  }
+  .badge {
+    padding: 5px 10px;
+  }
+  
+  /* Personnaliser les toasts */
+  :host ::ng-deep .toast-success {
+    background-color: #28a745 !important;
+  }
+  :host ::ng-deep .toast-info {
+    background-color: #17a2b8 !important;
+  }
+  :host ::ng-deep .toast-error {
+    background-color: #dc3545 !important;
+  }

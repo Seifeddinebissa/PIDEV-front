@@ -1,0 +1,79 @@
+<!-- src/app/course-details/course-details.component.html -->
+
+<div class="container mt-5">
+
+  <section class="breadcrumb__area breadcrumb__bg" data-background="assets/img/bg/breadcrumb_bg.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb__content">
+                    <h3 class="title">Réunions à venir</h3>
+                    <nav class="breadcrumb">
+                        <span property="itemListElement" typeof="ListItem">
+                            <a href="index.html">Home</a>
+                        </span>
+                        <span class="breadcrumb-separator"><i class="fas fa-angle-right"></i></span>
+                        <span property="itemListElement" typeof="ListItem">Rejoindre une réunion</span>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="breadcrumb__shape-wrap">
+        <img src="assets/img/others/breadcrumb_shape01.svg" alt="img" class="alltuchtopdown">
+        <img src="assets/img/others/breadcrumb_shape02.svg" alt="img" data-aos="fade-right" data-aos-delay="300">
+        <img src="assets/img/others/breadcrumb_shape03.svg" alt="img" data-aos="fade-up" data-aos-delay="400">
+        <img src="assets/img/others/breadcrumb_shape04.svg" alt="img" data-aos="fade-down-left" data-aos-delay="400">
+        <img src="assets/img/others/breadcrumb_shape05.svg" alt="img" data-aos="fade-left" data-aos-delay="400">
+    </div>
+</section>
+
+  
+
+  <div *ngIf="meetingLinks.length > 0" class="mt-4">
+    
+    <div class="row">
+      <div *ngFor="let link of meetingLinks" class="col-md-6 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{ link.courseName }}</h5>
+            <p class="card-text">
+              Planifiée pour : {{ link.scheduledAt | date:'medium' }}<br>
+              Statut : 
+              <span class="badge" [ngClass]="link.active ? 'bg-success' : 'bg-danger'">
+                {{ link.active ? 'Active' : 'Inactive' }}
+              </span>
+            </p>
+            <div *ngIf="link.password" class="mb-3">
+              <label [for]="'password-' + link.id">Mot de passe :</label>
+              <input
+                [id]="'password-' + link.id"
+                type="password"
+                class="form-control"
+                [(ngModel)]="enteredPasswords[link.id]"
+                (input)="updatePassword(link.id, $event)"
+                placeholder="Entrez le mot de passe"
+              >
+            </div>
+            <button class="btn btn-success" (click)="joinMeeting(link)" [disabled]="!link.active">Rejoindre</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+ 
+
+
+
+
+
+  <div id="meet-container" class="mt-4"></div>
+
+  <div *ngIf="errorMessage" class="mt-4 alert alert-danger">{{ errorMessage }}</div>
+  <div *ngIf="meetingLinks.length === 0 && !errorMessage" class="mt-4 alert alert-info">Aucune réunion à venir.</div>
+</div>

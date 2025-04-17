@@ -9,6 +9,9 @@ import { LessonsComponent } from './lessons/lessons.component';
 import { FormsModule } from '@angular/forms';
 import { SafePipe } from './safe.pipe';
 import { QuizComponent } from './quiz/quiz.component';
+import { CourseDetailsComponent } from './course-details/course-details.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({
@@ -17,7 +20,9 @@ import { QuizComponent } from './quiz/quiz.component';
     CoursesComponent,
     LessonsComponent,
     SafePipe,
-    QuizComponent
+    QuizComponent,
+    CourseDetailsComponent,
+   
     
   ],
   imports: [
@@ -30,7 +35,8 @@ import { QuizComponent } from './quiz/quiz.component';
     ]),*/
     RouterModule,
     FrontOfficeRoutingModule,
-    FormsModule
+    FormsModule ,
+    
   ],
   exports: [FrontOfficeComponent]
 })

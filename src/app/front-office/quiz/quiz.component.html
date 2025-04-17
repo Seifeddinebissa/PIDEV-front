@@ -27,20 +27,26 @@
     </div>
   </section>
 
-  <div class="container mt-5">
+  <div class="container ">
+    <!-- Indication du mode plein écran -->
+    <div *ngIf="!isSubmitted && !isLoading" class="alert alert-info text-center mb-4">
+      Vous êtes en mode plein écran pour passer le quiz. Quitter ce mode soumettra automatiquement votre quiz.
+    </div>
+  
+    <!-- Description du quiz -->
     <p *ngIf="quiz?.description">{{ quiz.description }}</p>
-
+  
     <!-- Compte à rebours -->
     <div class="text-center mb-4" *ngIf="!isSubmitted">
       <h4>Temps restant: <span class="badge bg-primary">{{ getFormattedTime() }}</span></h4>
     </div>
-
+  
     <!-- Message de chargement -->
     <div *ngIf="isLoading" class="text-center">
       <p>Chargement des questions...</p>
     </div>
-
-    <!-- Liste des questions avec réponses multiples -->
+  
+    <!-- Liste des questions -->
     <div *ngIf="!isLoading && quiz?.questions && quiz.questions.length > 0; else noQuestions">
       <form (ngSubmit)="submitQuiz()">
         <div class="question-item mb-4" *ngFor="let question of quiz.questions; let i = index">
@@ -61,7 +67,7 @@
                 {{ reponse.answernum }}: {{ reponse.contenu }}
               </label>
             </div>
-            <!-- Résultat après soumission -->
+            <!-- Résultat par question après soumission -->
             <div *ngIf="isSubmitted && question.selectedAnswer" class="mt-2">
               <span class="badge" [ngClass]="{'bg-success': isAnswerCorrect(question), 'bg-danger': !isAnswerCorrect(question)}">
                 {{ isAnswerCorrect(question) ? 'Correct' : 'Incorrect' }}
@@ -70,26 +76,32 @@
           </div>
         </div>
         <!-- Bouton Submit -->
-        <button type="submit" class="btn btn-primary m-5" [disabled]="isLoading || isSubmitted || !areAllQuestionsAnswered()">
-          Submit Quiz
-        </button>
+        <div class="text-center">
+          <button
+            type="submit"
+            class="btn btn-primary m-5"
+            [disabled]="isLoading || isSubmitted || !areAllQuestionsAnswered()"
+          >
+            Soumettre le quiz
+          </button>
+        </div>
       </form>
-
+  
       <!-- Note finale après soumission -->
-      <div *ngIf="isSubmitted" class="mt-4">
+      <div *ngIf="isSubmitted" class="mt-4 text-center">
         <h3>Note finale</h3>
-        <p>Votre score: {{ totalScore }} / {{ maxScore }}</p>
-        <p>{{ totalScore === maxScore ? 'Félicitations, score parfait !' : 'merci pour votre participation' }}</p>
+        <p>Votre score : {{ totalScore }} / {{ maxScore }}</p>
+        <p>{{ totalScore === maxScore ? 'Félicitations, score parfait !' : 'Merci pour votre participation' }}</p>
       </div>
     </div>
-
+  
     <!-- Message si pas de questions -->
     <ng-template #noQuestions>
-      <p *ngIf="!isLoading">Aucune question disponible pour ce quiz.</p>
+      <p *ngIf="!isLoading" class="text-center">Aucune question disponible pour ce quiz.</p>
     </ng-template>
-
+  
     <!-- Message d'erreur -->
-    <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+    <div *ngIf="errorMessage" class="alert alert-danger mt-3 text-center">
       {{ errorMessage }}
     </div>
   </div>

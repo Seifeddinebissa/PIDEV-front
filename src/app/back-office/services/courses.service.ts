@@ -61,4 +61,34 @@ export class CoursesService {
     return this.http.get<any>(`${this.apiUrl}/byTitre?titre=${encodeURIComponent(titre)}`);
   }
   
+
+  generateMeetLink(courseName: string, scheduledAt: string, password: string): Observable<any> {
+    const request = { courseName, scheduledAt, password };
+    return this.http.post<any>(`${this.apiUrl}/generate-meet`, request);
+  }
+
+  getAllMeetingLinks(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/meeting-links`);
+  }
+
+  getMeetingLinkById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/meeting-links/${id}`);
+  }
+
+  getUpcomingMeetingLinks(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/meeting-links/upcoming`);
+  }
+
+  deactivateMeetingLink(id: number): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/meeting-links/${id}/deactivate`, {});
+  }
+
+  deleteMeetingLink(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/meeting-links/${id}`);
+  }
+
+  updateMeetingLink(id: number, courseName: string, scheduledAt: string, password: string, active: boolean): Observable<any> {
+    const request = { courseName, scheduledAt, password, active };
+    return this.http.put<any>(`${this.apiUrl}/meeting-links/${id}`, request);
+  }
 }

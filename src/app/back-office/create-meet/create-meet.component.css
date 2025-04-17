@@ -1,0 +1,13 @@
+/* src/app/back-office/create-meet/create-meet.component.css */
+.table th, .table td {
+    vertical-align: middle;
+  }
+  .badge {
+    padding: 5px 10px;
+  }
+  .alert-success {
+    word-break: break-all;
+  }
+  #meet-container {
+    border: 1px solid #ddd;
+  }

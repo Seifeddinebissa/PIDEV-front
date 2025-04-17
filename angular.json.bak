@@ -25,15 +25,9 @@
               "src/assets"
             ],
             "styles": [
-              "node_modules/ngx-toastr/toastr.css",
               "src/styles.css"
             ],
-            "scripts": [],
-            "sourceMap": {
-              "scripts": true,
-              "styles": false,
-              "vendor": false
-            }
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -93,7 +87,6 @@
               "src/assets"
             ],
             "styles": [
-              "node_modules/ngx-toastr/toastr.css",
               "src/styles.css"
             ],
             "scripts": []
