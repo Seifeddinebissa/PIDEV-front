@@ -1,0 +1,60 @@
+.form-grp {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  
+  .error-text {
+    color: #dc3545;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  
+  input.invalid {
+    border-color: #dc3545;
+  }
+  
+  button[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  .alert {
+    margin-bottom: 20px;
+  }
+  
+  .btn-close {
+    padding: 0.5rem;
+  }
+  .form-grp {
+    margin-bottom: 20px;
+  }
+  
+  .form-grp label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .form-grp input[type="text"],
+  .form-grp input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .form-grp canvas {
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 5px;
+  }
+  
+  .form-grp .btn-sm {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+  
+  .form-grp .error-text {
+    color: red;
+    font-size: 12px;
+  }

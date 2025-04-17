@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { ReactiveFormsModule } from '@angular/forms';
 import { FrontOfficeRoutingModule } from './front-office-routing.module';
 import { FrontOfficeComponent } from './front-office.component';
 import { Router, RouterModule } from '@angular/router';
@@ -28,10 +28,10 @@ import { SetInterviewModalComponent } from './set-interview-modal/set-interview-
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core'; // Import this
 import { StudentCalendarComponent } from './student-calendar/student-calendar.component';
-
-
-
-
+import { FormationsListComponent } from './formations-list/formations-list.component';
+import { CourseDetailsComponent } from './course-details/course-details.component';
+import { FormsModule } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @NgModule({
@@ -48,12 +48,9 @@ import { StudentCalendarComponent } from './student-calendar/student-calendar.co
     InterviewScheduleComponent,
     StudentDashboardComponent,
     SetInterviewModalComponent,
-    StudentCalendarComponent
-    
-    
-    
-    
-    
+    StudentCalendarComponent,
+    FormationsListComponent,
+    CourseDetailsComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -86,6 +83,9 @@ import { StudentCalendarComponent } from './student-calendar/student-calendar.co
       useFactory: adapterFactory,
     }),
   
+    FormsModule,
+    NgxPaginationModule,
+    ReactiveFormsModule
   ],
   exports: [FrontOfficeComponent]
 })

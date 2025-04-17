@@ -13,6 +13,8 @@ import { InterviewScheduleComponent } from './interview-schedule/interview-sched
 import { StudentDashboardComponent } from './student-dashboard/student-dashboard.component';
 import { SetInterviewModalComponent } from './set-interview-modal/set-interview-modal.component';
 import { StudentCalendarComponent } from './student-calendar/student-calendar.component';
+import { FormationsListComponent } from './formations-list/formations-list.component';
+import { CourseDetailsComponent } from './course-details/course-details.component';
 
 const routes: Routes = [
   {
@@ -25,7 +27,6 @@ const routes: Routes = [
       {path: 'create-offre', component:CreateOffreComponent},
       {path: 'offre-student', component:OfferStudentComponent},
       { path: 'offre-student/:studentId', component: OfferStudentComponent },
-
       {path: 'list-fav', component:FavoritesComponent},
       {path: 'list-apply', component:AppliedComponent},
       {path: 'list-apply-entre', component:ApplyEntrepriseComponent},
@@ -36,9 +37,8 @@ const routes: Routes = [
       {path: 'appoinment', component:StudentDashboardComponent},
       {path: 'set-interview/:id', component:SetInterviewModalComponent},
       {path: 'calendar', component:StudentCalendarComponent},
-
-
-
+      { path: 'formation', component: FormationsListComponent },
+      { path: 'course-details/:id', component: CourseDetailsComponent }
     ]
   }
 ];

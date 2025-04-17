@@ -1,18 +1,26 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
-import { BackOfficeModule } from './back-office/back-office.module';
 import { FrontOfficeModule } from './front-office/front-office.module';
 import { ButtonModule } from 'primeng/button';     
 import { ToastrModule } from 'ngx-toastr';
-
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';      
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BackOfficeModule } from './back-office/back-office.module';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    LoginComponent,
+    RegisterComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -30,8 +38,10 @@ import { ToastrModule } from 'ngx-toastr';
     BackOfficeModule,
     FrontOfficeModule,
     ButtonModule,  
-    ToastrModule
-    
+    ToastrModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule 
   ],
   providers: [],
   bootstrap: [AppComponent]
