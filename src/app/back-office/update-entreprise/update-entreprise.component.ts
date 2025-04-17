@@ -34,9 +34,9 @@ export class UpdateEntrepriseComponent implements OnInit {
       description: [''],
       email: ['', [Validators.required, Validators.email]],
       phone: [''],
-      latitude: [null, Validators.required], // Add required validation
-      longitude: [null, Validators.required], // Not part of reactive form validation since file input is handled separately
-      website: ['', [Validators.pattern(/^https?:\/\/[^\s$.?#].[^\s]*$/)]],
+      latitude: [], // Add required validation
+      longitude: [], // Not part of reactive form validation since file input is handled separately
+      website: [],
     });
 
     const idFromRoute = this.route.snapshot.paramMap.get('id');
@@ -95,7 +95,9 @@ export class UpdateEntrepriseComponent implements OnInit {
     this.submitted = true;
     this.errorMessage = '';
     this.successMessage = '';
-
+    //MS MS
+    console.log('entreprise form', this.entrepriseForm);
+    
     if (this.entrepriseForm.invalid) {
       return;
     }
@@ -112,9 +114,14 @@ export class UpdateEntrepriseComponent implements OnInit {
     formData.append('email', this.f['email'].value);
     formData.append('phone', this.f['phone'].value || '');
     formData.append('website', this.f['website'].value || '');
+    //MS MS
+    console.log('selected file. ', this.selectedFile);
+    console.log('form data, ', formData);
     
-
     if (this.selectedFile) {
+      //MS MS 
+      console.log('IM IN');
+      
       formData.append('logo', this.selectedFile);
     }
 

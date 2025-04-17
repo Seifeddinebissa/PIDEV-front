@@ -38,6 +38,7 @@ export class OfferStudentComponent implements OnInit {
       }
     });
   }
+  
 
   apllyOffre(offer: Offre): void {
     const applicationData = { studentId: this.staticStudentId, offerId: offer.id };

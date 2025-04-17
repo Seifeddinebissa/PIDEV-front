@@ -108,7 +108,7 @@
 
     <!-- Submit Button -->
     <div class="form-actions">
-      <button type="submit" class="btn btn-primary" [disabled]="loading">
+      <button type="button" class="btn btn-primary" [disabled]="loading">
         <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
         {{ loading ? 'Updating...' : 'Update Entreprise' }}
       </button>

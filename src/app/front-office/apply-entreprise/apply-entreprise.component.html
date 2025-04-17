@@ -41,8 +41,23 @@
         <!-- Show buttons for the corresponding application -->
         <div *ngFor="let application of applications">
           <div *ngIf="application.offre.id === offer.id">
-            <button class="btn btn-danger btn-sm" (click)="updateStatus(application.id, 'accepted')" [disabled]="application.status === 'accepted'">Accept Application</button>
-            <button class="btn btn-success btn-sm" (click)="updateStatus(application.id, 'rejected')" [disabled]="application.status === 'rejected'">Withdraw Application</button>
+            <button class="btn btn-danger btn-sm" 
+                    (click)="updateStatus(application.id, 'accepted')" 
+                    [disabled]="application.status === 'accepted'">
+              Accept Application
+            </button>
+            <button class="btn btn-success btn-sm" 
+                    (click)="updateStatus(application.id, 'rejected')" 
+                    [disabled]="application.status === 'rejected'">
+              Withdraw Application
+            </button>
+
+            <!-- Set Interview Button -->
+            <button class="btn btn-primary btn-sm" 
+        (click)="navigateToSetInterview(application)" 
+        [disabled]="application.status !== 'accepted'">
+  Set Interview
+</button>
           </div>
         </div>
       </div>

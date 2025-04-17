@@ -18,6 +18,7 @@ export class OffreService {
     const url = `${this.apiUrl}/${id}`;
     return this.http.get<Offre>(url); // Return the Observable directly
   }
+  
   getOffresByEntrepriseId(entrepriseId: number): Observable<Offre[]> {
     return this.http.get<Offre[]>(`${this.apiUrl}/entreprise/${entrepriseId}`);
   }
@@ -83,12 +84,52 @@ export class OffreService {
   }
   updateApplicationStatus(applicationId: number, status: string): Observable<any> {
     const requestBody = { status };
-    return this.http.put(`${this.apiUrl}/applications/${applicationId}/status`,{ responseType: 'text' as 'json' });
+    return this.http.put(`${this.apiUrl}/applications/${applicationId}/status`, requestBody, { responseType: 'text' as 'json' })
+      .pipe(
+        catchError(error => {
+          console.error('Error updating application status:', error);
+          return throwError(() => new Error('Failed to update application status'));
+        })
+      );
   }
   
   removeApplication(applicationId: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/applications/${applicationId}`,{ responseType: 'text' as 'json' });
   }
+  createCalendarEvent(eventDetails: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/calendar/create`, eventDetails);
+  }
+  getAppointmentsByStudentId(studentId: number): Observable<any> {
+    const params = new HttpParams().set('studentId', studentId.toString());
+    return this.http.get(`${this.apiUrl}/appointments`, { params }).pipe(
+        tap(response => console.log('Appointments API Response:', response)),
+        catchError(error => {
+            console.error('Error fetching appointments:', error);
+            return throwError(() => new Error('Failed to fetch appointments'));
+        })
+    );
+}
+scheduleInterview(applicationId: number, interviewDate: string, interviewLink: string): Observable<any> {
+  const requestBody = { interviewDate, interviewLink };
+  return this.http.put(`${this.apiUrl}/applications/${applicationId}/schedule-interview`, requestBody, { responseType: 'text' as 'json' }).pipe(
+      catchError(error => {
+          console.error('Error scheduling interview:', error);
+          return throwError(() => new Error('Failed to schedule interview'));
+      })
+  );
+}
+deleteEvent(calendarEventId: string): Observable<any> {
+  return this.http.delete(`${this.apiUrl}/events/${calendarEventId}`,{ responseType: 'text'}).pipe(
+    tap((response) => {
+      console.log('Backend response:', response);
+    }),
+    catchError((error) => {
+      console.error('Error deleting event:', error);
+      return throwError('Failed to delete the event. Please try again later.');
+    })
+  );
+}
+  
   
 }
 

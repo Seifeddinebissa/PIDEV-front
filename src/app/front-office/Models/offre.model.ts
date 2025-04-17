@@ -44,6 +44,14 @@ export interface Application {
   studentId: number;
   offre: Offre;
   status?: string;
-  // cvUrl?: string; // Optional: If your backend stores CV file paths
-  // applicationDate?: string; // Optional: If you want to track when the application was made
+  appointment?: Appointment;
+  
+}
+
+export interface Appointment {
+  id: number;
+  interviewDate: string; // ISO format from backend
+  location: string;
+  details: string;
+  calendarEventId?: string;
 }

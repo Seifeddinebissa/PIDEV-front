@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { OffreService } from '../services/offre.service';
 import { Application, Offre } from '../Models/offre.model';
 import { ToastrService } from 'ngx-toastr'; // Import ToastrService
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
+
+
 
 
 @Component({
@@ -10,13 +14,16 @@ import { ToastrService } from 'ngx-toastr'; // Import ToastrService
   styleUrls: ['./apply-entreprise.component.css']
 })
 export class ApplyEntrepriseComponent implements OnInit {
+
+  
+
   appliedOffres: Offre[] = [];
   applications: Application[] = [];
   loading: boolean = true;
   error: string | null = null;
   staticStudentId: number = 123; // Change based on login system
 
-  constructor(private offreService: OffreService, private toastr: ToastrService) {} // Inject ToastrService
+  constructor(private offreService: OffreService, private toastr: ToastrService, private dialog: MatDialog,private router: Router) {} // Inject ToastrService
 
   ngOnInit(): void {
     this.loadAppliedOffers();
@@ -128,6 +135,13 @@ showNotification(message: string, type: string): void {
       break;
   }
 }
+
+navigateToSetInterview(application: any): void {
+  this.router.navigate(['/set-interview', application.id]);
+}
+
+
+
   
   
 

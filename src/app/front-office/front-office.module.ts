@@ -21,6 +21,14 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ToastrModule } from 'ngx-toastr';
 import { MapComponent } from './map/map.component';
 import { InterviewScheduleComponent } from './interview-schedule/interview-schedule.component';
+import { StudentDashboardComponent } from './student-dashboard/student-dashboard.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { SetInterviewModalComponent } from './set-interview-modal/set-interview-modal.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core'; // Import this
+import { StudentCalendarComponent } from './student-calendar/student-calendar.component';
+
 
 
 
@@ -38,6 +46,10 @@ import { InterviewScheduleComponent } from './interview-schedule/interview-sched
     ApplyEntrepriseComponent,
     MapComponent,
     InterviewScheduleComponent,
+    StudentDashboardComponent,
+    SetInterviewModalComponent,
+    StudentCalendarComponent
+    
     
     
     
@@ -46,11 +58,13 @@ import { InterviewScheduleComponent } from './interview-schedule/interview-sched
   imports: [
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    MatDatepickerModule,
     FormsModule,
     CommonModule,
     MatDialogModule, 
     MatButtonModule, 
     MatFormFieldModule, 
+    MatNativeDateModule,
     MatInputModule, 
     RouterModule,
     FrontOfficeRoutingModule,
@@ -66,6 +80,10 @@ import { InterviewScheduleComponent } from './interview-schedule/interview-sched
       messageClass: 'toast-message', // Class for the message
       tapToDismiss: true, // Dismiss on click
       enableHtml: true, // Allow HTML in the message
+    }),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
     }),
   
   ],

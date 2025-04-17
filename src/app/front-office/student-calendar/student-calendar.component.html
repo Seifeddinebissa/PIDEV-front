@@ -1,0 +1,29 @@
+<div style="margin: 2rem;">
+    <mwl-calendar-month-view
+      [viewDate]="viewDate"
+      [events]="events"
+      [refresh]="refresh"
+      [activeDayIsOpen]="false"
+      (eventClicked)="handleEventClick($event.event)">
+    </mwl-calendar-month-view>
+  
+    <!-- Show details below the calendar -->
+    <div *ngIf="selectedEvent" class="interview-details" style="margin-top: 2rem; border: 1px solid #ccc; padding: 1rem; border-radius: 8px;">
+      <h4>{{ selectedEvent.title }}</h4>
+      <p><strong>Start:</strong> {{ selectedEvent.start | date: 'short' }}</p>
+      <p><strong>End:</strong> {{ selectedEvent.end | date: 'short' }}</p>
+      <p><strong>Location:</strong> {{ selectedEvent.meta?.location }}</p>
+      <p><strong>Description:</strong> {{ selectedEvent.meta?.details }}</p>
+  
+      <!-- Delete Button with explicit id cast -->
+      <button *ngIf="selectedEvent?.id" (click)="deleteEvent(selectedEvent.id!.toString())" style="margin-top: 1rem; background-color: #f44336; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px;">
+        Delete Event
+      </button>
+    </div>
+  
+    <!-- Display error message if deletion fails -->
+    <div *ngIf="errorMessage" style="color: red; margin-top: 1rem;">
+      {{ errorMessage }}
+    </div>
+  </div>
+  
