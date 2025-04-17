@@ -34,6 +34,12 @@ export class AuthenticationService {
     return this.http.get<User>(`${this.apiUrl}/profile`, { headers });
   }
 
+  getById(id : number): Observable<User> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<User>(`${this.apiUrl}/get-by-id/` + id, { headers });
+  }
+
   getProfileImage(): Observable<Blob> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);

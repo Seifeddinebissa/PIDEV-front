@@ -35,8 +35,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     ]),
     BackOfficeModule,
     FrontOfficeModule,
-    ButtonModule,  
-    HttpClientModule
+    HttpClientModule,
     FormsModule,
     ReactiveFormsModule 
   ],

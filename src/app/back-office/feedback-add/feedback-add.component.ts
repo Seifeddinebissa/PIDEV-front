@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FeedbackService } from '../services/feedback.service';
 import { FormationService } from '../services/formation.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-feedback-add',
@@ -12,13 +13,14 @@ import { FormationService } from '../services/formation.service';
 export class FeedbackAddComponent implements OnInit {
   feedbackForm!: FormGroup;
   formations: any[] = [];
-  userId: number = 1; // Hardcoded for now; replace with authenticated user ID if available
+  userId: number = 10; // Hardcoded for now; replace with authenticated user ID if available
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private feedbackService: FeedbackService,
-    private formationService: FormationService
+    private formationService: FormationService,
+    private authService: AuthenticationService
   ) {}
 
   ngOnInit(): void {
@@ -47,6 +49,14 @@ export class FeedbackAddComponent implements OnInit {
   }
 
   addFeedback() {
+
+    this.authService.getProfile().subscribe({
+      next: (user) => {
+         this.userId =user.id;
+      },
+      error: () => console.error('Failed to load profile')
+    });
+
     if (this.feedbackForm.invalid) {
       this.feedbackForm.markAllAsTouched();
       console.log('Formulaire invalide:', this.feedbackForm.value);

@@ -16,7 +16,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FeedbackStatsComponent } from './feedback-stats/feedback-stats.component';
 import { ChartModule } from 'primeng/chart';
 import { AddPaiementComponent } from './paiement/add-paiement/add-paiement.component';
-import { FormsModule } from '@angular/forms';
 import { PaypalPaymentComponent } from './paiement/paypal-payment/paypal-payment.component';
 import { SuccessPageComponent } from './paiement/paypal-payment/success-page/success-page.component';
 import { CancelPageComponent } from './paiement/paypal-payment/cancel-page/cancel-page.component';
@@ -35,7 +34,7 @@ import { UtilisateursComponent } from './utilisateurs/utilisateurs.component';
     FeedbackComponent,
     FeedbackEditComponent,
     FeedbackAddComponent,
-    FeedbackStatsComponent
+    FeedbackStatsComponent,
     AddPaiementComponent,
     PaypalPaymentComponent,
     SuccessPageComponent,
@@ -58,7 +57,6 @@ import { UtilisateursComponent } from './utilisateurs/utilisateurs.component';
     FormsModule,
     ReactiveFormsModule,
     ChartModule
-    FormsModule
   ],
   exports: [BackOfficeComponent]
 })

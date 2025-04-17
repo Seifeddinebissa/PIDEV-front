@@ -28,7 +28,7 @@ const routes: Routes = [
       { path: 'feedbacks', component: FeedbackComponent },
       { path: 'feedbacks/edit/:id', component: FeedbackEditComponent },
       { path: 'feedbacks/add', component: FeedbackAddComponent },
-      { path: 'feedback-stats', component: FeedbackStatsComponent }
+      { path: 'feedback-stats', component: FeedbackStatsComponent },
       { path: 'add-paiement', component: AddPaiementComponent },
       {path:"payer", component:PaypalPaymentComponent},
       {path:"success", component:SuccessPageComponent},
