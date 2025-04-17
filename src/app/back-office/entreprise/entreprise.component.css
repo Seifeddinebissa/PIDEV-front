@@ -1,0 +1,110 @@
+/* General Styles */
+.container {
+  max-width: 95%;
+}
+
+/* Table Styles */
+.table {
+  border-collapse: separate;
+  border-spacing: 0 8px; /* Adds spacing between rows */
+}
+
+.table thead {
+  border-radius: 10px;
+}
+
+.table thead th {
+  background-color: #007bff !important;
+  color: white !important;
+  padding: 12px;
+  text-align: center;
+  border: none;
+}
+
+.table tbody tr {
+  background: white;
+  transition: all 0.3s ease-in-out;
+  border-radius: 10px;
+}
+
+.table tbody tr:hover {
+  background: #f8f9fa;
+}
+
+.table td {
+  padding: 10px;
+  text-align: center;
+  vertical-align: middle;
+  border-top: 1px solid #dee2e6;
+}
+
+/* Company Logo */
+.company-logo {
+  width: 45px;
+  height: 45px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #007bff;
+}
+
+/* Action Buttons */
+.btn-group {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
+.btn-edit {
+  color: white;
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-edit:hover {
+  background-color: #0056b3;
+  border-color: #004085;
+}
+
+.btn-delete {
+  color: white;
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-delete:hover {
+  background-color: #a71d2a;
+  border-color: #92121c;
+}
+
+/* Search Input */
+.input-group .form-control {
+  border-radius: 5px;
+}
+
+/* Pagination */
+.pagination .page-item .page-link {
+  color: #007bff;
+  border-radius: 5px;
+}
+
+.pagination .page-item .page-link:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.pagination .page-item.disabled .page-link {
+  color: #6c757d;
+  pointer-events: none;
+  background-color: #e9ecef;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .table-responsive {
+      overflow-x: auto;
+  }
+
+  .btn-group {
+      flex-direction: column;
+  }
+}

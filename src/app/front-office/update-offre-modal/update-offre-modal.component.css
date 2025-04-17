@@ -1,0 +1,99 @@
+/* Container for the form to ensure proper alignment */
+mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  max-width: 600px;
+  margin: auto;
+}
+
+/* Form field styles */
+mat-form-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+/* Label styles */
+mat-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #555;
+}
+
+/* Error messages styling */
+mat-error {
+  color: #f44336;
+  font-size: 12px;
+}
+
+/* Success message styling */
+.success-message {
+  color: #4caf50;
+  font-size: 14px;
+  margin-top: 16px;
+}
+
+/* Error message styling */
+.error-message {
+  color: #f44336;
+  font-size: 14px;
+  margin-top: 16px;
+}
+
+/* Dialog actions styling */
+mat-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+/* Button styles */
+button {
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 4px;
+}
+
+/* Styling for the submit button when loading */
+button[disabled] {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Focused input styling */
+mat-form-field input:focus,
+mat-form-field textarea:focus {
+  border-color: #3f51b5;
+}
+
+/* Styling for the input and textarea fields */
+input.mat-input-element,
+textarea.mat-input-element {
+  font-size: 14px;
+  padding: 8px;
+}
+
+/* Styling for the textarea to make it more spacious */
+textarea.mat-input-element {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 600px) {
+  mat-dialog-content {
+    padding: 10px;
+    width: 100%;
+  }
+
+  mat-form-field {
+    margin-bottom: 12px;
+  }
+
+  mat-dialog-actions {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+}

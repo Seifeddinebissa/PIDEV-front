@@ -5,6 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { FrontOfficeModule } from './front-office/front-office.module';
+import { ButtonModule } from 'primeng/button';     
+import { ToastrModule } from 'ngx-toastr';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';      
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -35,6 +37,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     ]),
     BackOfficeModule,
     FrontOfficeModule,
+    ButtonModule,  
+    ToastrModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule 

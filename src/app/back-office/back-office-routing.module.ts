@@ -3,6 +3,10 @@ import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PaiementComponent } from './paiement/paiement.component';
 import { BackOfficeComponent } from './back-office.component';
+import { EntrepriseComponent } from './entreprise/entreprise.component';
+import { AddEntrepriseComponent } from './add-entreprise/add-entreprise.component';
+import { UpdateEntrepriseComponent } from './update-entreprise/update-entreprise.component';
+import { StatOffreComponent } from './stat-offre/stat-offre.component';
 import { FormationComponent } from './formation/formation.component';
 import { FormationEditComponent } from './formation-edit/formation-edit.component';
 import { FormationAddComponent } from './formation-add/formation-add.component';
@@ -21,6 +25,12 @@ const routes: Routes = [
     path: '',
     component: BackOfficeComponent,
     children: [
+      { path: 'entreprises', component: EntrepriseComponent },
+      { path: 'paiement', component: PaiementComponent },
+      { path: 'add-entreprise', component: AddEntrepriseComponent },
+      { path: 'update-entreprise', component: UpdateEntrepriseComponent },
+      { path: 'update-entreprise/:id', component: UpdateEntrepriseComponent },
+      { path: 'stat', component: StatOffreComponent },
       { path: 'paiement', component: PaiementComponent },
       { path: 'formations', component: FormationComponent },
       { path: 'formations/edit/:id', component: FormationEditComponent },

@@ -1,0 +1,62 @@
+<div class="container mt-4">
+  <h2 class="mb-3">My Applied Offers</h2>
+  <div *ngIf="loading" class="loading-message">Loading applied offers...</div>
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+
+  <div class="form-group mb-4">
+    <label for="statusFilter"><strong>Filter by Status:</strong></label>
+    <select id="statusFilter" class="form-control w-25" [(ngModel)]="selectedStatus">
+      <option value="">All</option>
+      <option value="accepted">Accepted</option>
+      <option value="rejected">Rejected</option>
+      <option value="pending">Pending</option>
+    </select>
+  </div>
+
+  <div *ngIf="appliedOffres.length > 0; else noApplications">
+  <div *ngFor="let offer of filteredOffres()" class="offer-card">
+      <div class="enterprise-info">
+        <img [src]="'http://localhost:8081/companies/images' + offer.entreprise?.logo"
+             alt="{{ offer.entreprise?.name }} logo" class="company-logo" />
+        <h3 class="entreprise-name">{{ offer.entreprise?.name }}</h3>
+      </div>
+      
+      <h3 class="offer-title">{{ offer.title }}</h3>
+      <p class="offer-description">{{ offer.description }}</p>
+      <div class="offer-details">
+        <p><strong>Salary:</strong> {{ offer.salary | currency }}</p>
+        <p><strong>Location:</strong> {{ offer.location }}</p>
+        <p><strong>Date Posted:</strong> {{ offer.datePosted | date: 'mediumDate' }}</p>
+        <p><strong>Expiration Date:</strong> {{ offer.dateExpiration | date: 'mediumDate' }}</p>
+        <p><strong>Contract Type:</strong> {{ offer.contractType }}</p>
+        <p><strong>Experience Level:</strong> {{ offer.experienceLevel }}</p>
+        <p><strong>Job Function:</strong> {{ offer.jobFunction }}</p>
+        <p><strong>Job Type:</strong> {{ offer.jobType }}</p>
+        <p><strong>Job Shift:</strong> {{ offer.jobShift }}</p>
+        <p><strong>Job Schedule:</strong> {{ offer.jobSchedule }}</p>
+        <p><strong>Education Level:</strong> {{ offer.educationLevel }}</p>
+        <ng-container *ngFor="let application of applications">
+          <div *ngIf="application.offre.id === offer.id">
+            <span [ngClass]="{
+              'status-badge': true,
+              'accepted': application.status === 'accepted',
+              'rejected': application.status === 'rejected',
+              'pending': !application.status
+            }">
+              <strong>Status:</strong> {{ application.status || 'Pending' }}
+            </span>
+          </div>
+        </ng-container>
+      </div>
+
+      <!-- Uncomment if you add removeApplication -->
+      <!-- <div class="offer-actions">
+        <button class="btn btn-danger btn-sm" (click)="removeApplication(offer)">Withdraw Application</button>
+      </div> -->
+    </div>
+  </div>
+
+  <ng-template #noApplications>
+    <p class="alert alert-warning text-center">No applied offers yet.</p>
+  </ng-template>
+</div>

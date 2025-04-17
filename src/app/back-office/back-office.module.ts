@@ -6,6 +6,13 @@ import { BackOfficeComponent } from './back-office.component';
 import { RouterModule } from '@angular/router';
 import { PaiementComponent } from './paiement/paiement.component';
 import { HttpClientModule } from '@angular/common/http';
+import { EntrepriseComponent } from './entreprise/entreprise.component';
+import { AddEntrepriseComponent } from './add-entreprise/add-entreprise.component';
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { UpdateEntrepriseComponent } from './update-entreprise/update-entreprise.component';
+import { StatOffreComponent } from './stat-offre/stat-offre.component';
+import { NgChartsModule } from 'ng2-charts';
 import { FormationComponent } from './formation/formation.component';
 import { FormationAddComponent } from './formation-add/formation-add.component';
 import { FormationEditComponent } from './formation-edit/formation-edit.component';
@@ -28,6 +35,10 @@ import { UtilisateursComponent } from './utilisateurs/utilisateurs.component';
   declarations: [
     BackOfficeComponent,
     PaiementComponent,
+    EntrepriseComponent,
+    AddEntrepriseComponent,
+    UpdateEntrepriseComponent,
+    StatOffreComponent,
     FormationComponent,
     FormationAddComponent,
     FormationEditComponent,
@@ -56,6 +67,7 @@ import { UtilisateursComponent } from './utilisateurs/utilisateurs.component';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    NgChartsModule,
     ChartModule
   ],
   exports: [BackOfficeComponent]
