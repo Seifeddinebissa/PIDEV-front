@@ -1,5 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
+import { ReclamationComponent } from './reclamation/reclamation.component';
+import { Reclamation } from '../back-office/models/Reclamation';
+import { ReclamationService } from '../back-office/services/reclamation.service';
+import { ChatbotComponent } from './chatbot/chatbot.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { FrontOfficeRoutingModule } from './front-office-routing.module';
 import { FrontOfficeComponent } from './front-office.component';
 import { Router, RouterModule } from '@angular/router';
@@ -35,6 +42,11 @@ import { NgxPaginationModule } from 'ngx-pagination';
 @NgModule({
   declarations: [
     FrontOfficeComponent,
+    ReclamationComponent,
+    ChatbotComponent,
+    
+    
+    
     OfferComponent,
     CreateOffreComponent,
     UpdateOffreModalComponent,
@@ -56,6 +68,10 @@ import { NgxPaginationModule } from 'ngx-pagination';
     MatDatepickerModule,
     FormsModule,
     CommonModule,
+
+    PdfViewerModule,
+    NgxExtendedPdfViewerModule
+
     MatDialogModule, 
     MatButtonModule, 
     MatFormFieldModule, 

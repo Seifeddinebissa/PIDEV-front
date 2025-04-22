@@ -3,6 +3,9 @@ import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PaiementComponent } from './paiement/paiement.component';
 import { BackOfficeComponent } from './back-office.component';
+import { ReclamationComponent } from '../front-office/reclamation/reclamation.component';
+import { ListreclamationComponent } from './listreclamation/listreclamation.component';
+import { ChatManagementComponent } from './chat-management/chat-management.component';
 import { EntrepriseComponent } from './entreprise/entreprise.component';
 import { AddEntrepriseComponent } from './add-entreprise/add-entreprise.component';
 import { UpdateEntrepriseComponent } from './update-entreprise/update-entreprise.component';
@@ -25,6 +28,11 @@ const routes: Routes = [
     path: '',
     component: BackOfficeComponent,
     children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, // Par défaut, affiche une vue dashboard vide ou un composant dédié
+      { path: 'paiement', component: PaiementComponent },
+      { path: 'reclamation', component: ListreclamationComponent },
+      { path: 'admin/chats', component: ChatManagementComponent },
+      //{ path: '', redirectTo: 'reclamations', pathMatch: 'full' } // Optionnel : route par défaut
       { path: 'entreprises', component: EntrepriseComponent },
       { path: 'paiement', component: PaiementComponent },
       { path: 'add-entreprise', component: AddEntrepriseComponent },

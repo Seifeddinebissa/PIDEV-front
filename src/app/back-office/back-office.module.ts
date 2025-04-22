@@ -5,6 +5,10 @@ import { BackOfficeComponent } from './back-office.component';
 import { RouterModule } from '@angular/router';
 import { PaiementComponent } from './paiement/paiement.component';
 import { HttpClientModule } from '@angular/common/http';
+
+
+import { ListreclamationComponent } from './listreclamation/listreclamation.component';
+import { ChatManagementComponent } from './chat-management/chat-management.component';
 import { EntrepriseComponent } from './entreprise/entreprise.component';
 import { AddEntrepriseComponent } from './add-entreprise/add-entreprise.component';
 import { FormsModule } from '@angular/forms';
@@ -33,6 +37,9 @@ import { UtilisateursComponent } from './utilisateurs/utilisateurs.component';
   declarations: [
     BackOfficeComponent,
     PaiementComponent,
+   
+    ListreclamationComponent,
+         ChatManagementComponent,
     EntrepriseComponent,
     AddEntrepriseComponent,
     UpdateEntrepriseComponent,
@@ -54,6 +61,7 @@ import { UtilisateursComponent } from './utilisateurs/utilisateurs.component';
   ],
   imports: [
     CommonModule,
+    FormsModule,
     /*RouterModule.forChild([
       {
         path: '',
