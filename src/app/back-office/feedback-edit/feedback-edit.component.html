@@ -1,0 +1,53 @@
+<div class="instructor__profile-form-wrap">
+    <form [formGroup]="feedbackForm" (ngSubmit)="updateFeedback()" class="instructor__profile-form">
+      <div class="row">
+        <!-- Champ Commentaire -->
+        <div class="col-md-12">
+          <div class="form-grp">
+            <label for="comment">Comment</label>
+            <input id="comment" type="text" formControlName="comment" class="form-control">
+            <div *ngIf="feedbackForm.controls['comment'].invalid && feedbackForm.controls['comment'].touched">
+              <small class="text-danger" *ngIf="feedbackForm.controls['comment'].errors?.['required']">Le commentaire est obligatoire.</small>
+              <small class="text-danger" *ngIf="feedbackForm.controls['comment'].errors?.['minlength']">Minimum 5 caractères.</small>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Champ Rating -->
+        <div class="col-md-6">
+          <div class="form-grp">
+            <label for="rating">Rating</label>
+            <input id="rating" type="number" formControlName="rating" class="form-control">
+            <div *ngIf="feedbackForm.controls['rating'].invalid && feedbackForm.controls['rating'].touched">
+              <small class="text-danger" *ngIf="feedbackForm.controls['rating'].errors?.['required']">Le rating est obligatoire.</small>
+              <small class="text-danger" *ngIf="feedbackForm.controls['rating'].errors?.['min']">Le rating minimum est 1.</small>
+              <small class="text-danger" *ngIf="feedbackForm.controls['rating'].errors?.['max']">Le rating maximum est 5.</small>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Champ Date -->
+        <div class="col-md-6">
+          <div class="form-grp">
+            <label for="date">Date</label>
+            <input id="date" type="date" formControlName="date" class="form-control">
+            <div *ngIf="feedbackForm.controls['date'].invalid && feedbackForm.controls['date'].touched">
+              <small class="text-danger">La date est obligatoire.</small>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Boutons -->
+      <div class="row mt-25">
+        <div class="col-md-2">
+          <a class="btn arrow-btn w-100" [routerLink]="['/feedbacks']">Annuler</a>
+        </div>
+        <div class="col-md-2">
+          <button type="submit" class="btn arrow-btn w-100" [disabled]="feedbackForm.invalid">
+            Update Info
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>

@@ -1,0 +1,28 @@
+.pagination-controls {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .pagination-controls button {
+    padding: 8px 12px;
+    margin: 0 5px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .pagination-controls button:disabled {
+    background-color: #f0f0f0;
+    cursor: not-allowed;
+  }
+  
+  .pagination-controls button.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+  }
+  
+  .pagination-controls button:hover:not(:disabled) {
+    background-color: #e9ecef;
+  }

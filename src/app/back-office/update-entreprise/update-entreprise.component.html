@@ -1,0 +1,229 @@
+<!-- Standard Page Layout (if not using modal) -->
+<div class="container mt-4" *ngIf="!showModal">
+  <h2>Update Entreprise</h2>
+  <form [formGroup]="entrepriseForm" (ngSubmit)="onSubmit()">
+    <!-- Name -->
+    <div class="form-group">
+      <label for="name">Entreprise Name *</label>
+      <input
+        type="text"
+        class="form-control"
+        id="name"
+        formControlName="name"
+        [ngClass]="{'is-invalid': submitted && f['name'].errors}"
+      />
+      <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+        <div *ngIf="f['name'].errors?.['required']">Entreprise Name is required.</div>
+      </div>
+    </div>
+
+    <!-- Sector -->
+    <div class="form-group">
+      <label for="sector">Sector *</label>
+      <input
+        type="text"
+        class="form-control"
+        id="sector"
+        formControlName="sector"
+        [ngClass]="{'is-invalid': submitted && f['sector'].errors}"
+      />
+      <div *ngIf="submitted && f['sector'].errors" class="invalid-feedback">
+        <div *ngIf="f['sector'].errors?.['required']">Sector is required.</div>
+      </div>
+    </div>
+
+    <!-- Location -->
+    <div class="form-group">
+      <label for="location">Location</label>
+      <input type="text" class="form-control" id="location" formControlName="location" />
+    </div>
+
+    <div class="form-group">
+      <label for="latitude">Latitude</label>
+      <input 
+        type="number" 
+        id="latitude" 
+        class="form-control" 
+        formControlName="latitude" 
+        placeholder="Enter latitude" 
+        [ngClass]="{'is-invalid': f['latitude'].touched && f['latitude'].invalid}">
+      <div *ngIf="f['latitude'].touched && f['latitude'].invalid" class="invalid-feedback">
+        <small *ngIf="f['latitude'].hasError('required')">Latitude is required.</small>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label for="longitude">Longitude</label>
+      <input 
+        type="number" 
+        id="longitude" 
+        class="form-control" 
+        formControlName="longitude" 
+        placeholder="Enter longitude" 
+        [ngClass]="{'is-invalid': f['longitude'].touched && f['longitude'].invalid}">
+      <div *ngIf="f['longitude'].touched && f['longitude'].invalid" class="invalid-feedback">
+        <small *ngIf="f['longitude'].hasError('required')">Longitude is required.</small>
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea class="form-control" id="description" formControlName="description"></textarea>
+    </div>
+
+    <!-- Email -->
+    <div class="form-group">
+      <label for="email">Email *</label>
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        formControlName="email"
+        [ngClass]="{'is-invalid': submitted && f['email'].errors}"
+      />
+      <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+        <div *ngIf="f['email'].errors?.['required']">Email is required.</div>
+        <div *ngIf="f['email'].errors?.['email']">Email must be a valid email address.</div>
+      </div>
+    </div>
+
+    <!-- Phone -->
+    <div class="form-group">
+      <label for="phone">Phone</label>
+      <input type="text" class="form-control" id="phone" formControlName="phone" />
+    </div>
+
+    <!-- Website -->
+    <div class="form-group">
+      <label for="website">Website</label>
+      <input type="url" class="form-control" id="website" formControlName="website" />
+    </div>
+
+    <!-- Logo Upload -->
+    <div class="form-group">
+      <label for="logo">Logo</label>
+      <input type="file" class="form-control-file" id="logo" (change)="onFileSelected($event)" accept="image/*" />
+    </div>
+
+    <!-- Submit Button -->
+    <div class="form-actions">
+      <button type="button" class="btn btn-primary" [disabled]="loading">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
+        {{ loading ? 'Updating...' : 'Update Entreprise' }}
+      </button>
+    </div>
+  </form>
+  <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
+</div>
+
+<!-- Modal for Update -->
+<div class="modal" [ngClass]="{'d-block': showModal}" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Update Entreprise</h5>
+        <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+        <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+        <div *ngIf="loading" class="alert alert-info">Updating entreprise...</div>
+
+        <form [formGroup]="entrepriseForm" (ngSubmit)="onSubmit()">
+          <!-- Name -->
+          <div class="form-group mb-3">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" formControlName="name" [class.is-invalid]="submitted && f['name'].errors">
+            <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+              <div *ngIf="f['name'].errors['required']">Name is required</div>
+            </div>
+          </div>
+
+          <!-- Sector -->
+          <div class="form-group mb-3">
+            <label for="sector">Sector</label>
+            <input type="text" class="form-control" id="sector" formControlName="sector" [class.is-invalid]="submitted && f['sector'].errors">
+            <div *ngIf="submitted && f['sector'].errors" class="invalid-feedback">
+              <div *ngIf="f['sector'].errors['required']">Sector is required</div>
+            </div>
+          </div>
+
+          <!-- Location -->
+          <div class="form-group mb-3">
+            <label for="location">Location</label>
+            <input type="text" class="form-control" id="location" formControlName="location">
+          </div>
+
+          <div class="form-group">
+            <label for="latitude">Latitude</label>
+            <input 
+              type="number" 
+              id="latitude" 
+              class="form-control" 
+              formControlName="latitude" 
+              placeholder="Enter latitude" 
+              [ngClass]="{'is-invalid': f['latitude'].touched && f['latitude'].invalid}">
+            <div *ngIf="f['latitude'].touched && f['latitude'].invalid" class="invalid-feedback">
+              <small *ngIf="f['latitude'].hasError('required')">Latitude is required.</small>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="longitude">Longitude</label>
+            <input 
+              type="number" 
+              id="longitude" 
+              class="form-control" 
+              formControlName="longitude" 
+              placeholder="Enter longitude" 
+              [ngClass]="{'is-invalid': f['longitude'].touched && f['longitude'].invalid}">
+            <div *ngIf="f['longitude'].touched && f['longitude'].invalid" class="invalid-feedback">
+              <small *ngIf="f['longitude'].hasError('required')">Longitude is required.</small>
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="form-group mb-3">
+            <label for="description">Description</label>
+            <textarea class="form-control" id="description" formControlName="description"></textarea>
+          </div>
+
+          <!-- Email -->
+          <div class="form-group mb-3">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" formControlName="email" [class.is-invalid]="submitted && f['email'].errors">
+            <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+              <div *ngIf="f['email'].errors['required']">Email is required</div>
+              <div *ngIf="f['email'].errors['email']">Email must be a valid email address</div>
+            </div>
+          </div>
+
+          <!-- Phone -->
+          <div class="form-group mb-3">
+            <label for="phone">Phone</label>
+            <input type="text" class="form-control" id="phone" formControlName="phone">
+          </div>
+
+          <!-- Website -->
+          <div class="form-group mb-3">
+            <label for="website">Website</label>
+            <input type="url" class="form-control" id="website" formControlName="website">
+          </div>
+
+          <!-- Logo -->
+          <div class="form-group mb-3">
+            <label for="logo">Logo</label>
+            <input type="file" class="form-control-file" id="logo" (change)="onFileSelected($event)" accept="image/*">
+          </div>
+
+          <!-- Submit and Cancel Buttons -->
+          <button type="submit" class="btn btn-primary" [disabled]="loading">Update</button>
+          <button type="button" class="btn btn-primary" (click)="closeModal()" *ngIf="showModal">
+            Cancel
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

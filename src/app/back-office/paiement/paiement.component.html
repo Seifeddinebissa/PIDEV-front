@@ -1,47 +1,47 @@
-
 <div class="dashboard__content-wrap">
     <div class="dashboard__content-title">
-        <h4 class="title">Payment List</h4>
+      <h4 class="title">Payment List</h4>
     </div>
     <div class="row">
-        <div class="col-12">
-            <div class="dashboard__review-table">
-                <table class="table table-borderless">
-                    <thead>
-                        <tr>
-                            <th>Amount</th>
-                            <th>Currency</th>
-                            <th>Payment Methode</th>
-                            <th>Date</th>
-                            <th>&nbsp;</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                      
-                        <tr *ngFor="let paiement of listPaiement">
-                            <td>
-                               {{paiement.amount}}
-                            </td>
-                            <td>
-                                {{paiement.currency}}
-                            </td>
-                            <td>
-                                {{paiement.paymentMethod}}
-                            </td>
-                            
-                            <td>
-                                {{paiement.date}}
-                            </td>
-                            <td>
-                                <div class="dashboard__review-action">
-                                    <a href="#" title="Edit"><i class="skillgro-edit"></i></a>
-                                    <a href="#" title="Delete"><i class="skillgro-bin"></i></a>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+      <div class="col-12">
+        <div class="dashboard__review-table">
+          <table class="table table-borderless">
+            <thead>
+              <tr>
+                <th>Amount</th>
+                <th>Currency</th>
+                <th>Payment Method</th>
+                <th>Date</th>
+                <th>Payment ID</th>
+                <th>Status</th>
+                <th> </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let paiement of paginatedPaiements">
+                <td>{{ paiement.amount }}</td>
+                <td>{{ paiement.currency }}</td>
+                <td>{{ paiement.paymentMethod }}</td>
+                <td>{{ paiement.date }}</td>
+                <td>{{ paiement.paymentId }}</td>
+                <td>{{ paiement.status }}</td>
+                <td>
+                  <div class="dashboard__review-action">
+                    <a (click)="exportToPDF(paiement.paymentId)" title="pdf"><i class="skillgro-text-file"></i></a>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+        <!-- Pagination Controls -->
+        <div class="pagination-controls" *ngIf="totalPages > 1">
+          <button (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+          <span *ngFor="let page of getPageNumbers(); let i = index">
+            <button (click)="goToPage(page)" [class.active]="currentPage === page">{{ page }}</button>
+          </span>
+          <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+        </div>
+      </div>
     </div>
-</div>
+  </div>

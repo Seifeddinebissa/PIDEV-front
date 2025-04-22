@@ -1,0 +1,70 @@
+<div class="container mt-4">
+  <h2 class="mb-3">Student Applied Offers</h2>
+  <div *ngIf="loading" class="loading-message">Loading applied offers...</div>
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+
+  <div *ngIf="appliedOffres.length > 0; else noApplications">
+    <div *ngFor="let offer of appliedOffres" class="offer-card position-relative">
+      <!-- Remove Application Button -->
+      <ng-container *ngFor="let application of applications">
+        <button *ngIf="application.offre.id === offer.id"
+                class="btn-remove-application position-absolute top-0 end-0 m-2"
+                (click)="removeApplicationNow(application.id)"
+                title="Remove Application">
+          &times;
+        </button>
+      </ng-container>
+
+      <div class="enterprise-info">
+        <img [src]="'http://localhost:8081/companies/images' + offer.entreprise?.logo"
+             alt="{{ offer.entreprise?.name }} logo" class="company-logo" />
+        <h3 class="entreprise-name">{{ offer.entreprise?.name }}</h3>
+      </div>
+
+      <h3 class="offer-title">{{ offer.title }}</h3>
+      <p class="offer-description">{{ offer.description }}</p>
+      <div class="offer-details">
+        <p><strong>Salary:</strong> {{ offer.salary | currency }}</p>
+        <p><strong>Location:</strong> {{ offer.location }}</p>
+        <p><strong>Date Posted:</strong> {{ offer.datePosted | date: 'mediumDate' }}</p>
+        <p><strong>Expiration Date:</strong> {{ offer.dateExpiration | date: 'mediumDate' }}</p>
+        <p><strong>Contract Type:</strong> {{ offer.contractType }}</p>
+        <p><strong>Experience Level:</strong> {{ offer.experienceLevel }}</p>
+        <p><strong>Job Function:</strong> {{ offer.jobFunction }}</p>
+        <p><strong>Job Type:</strong> {{ offer.jobType }}</p>
+        <p><strong>Job Shift:</strong> {{ offer.jobShift }}</p>
+        <p><strong>Job Schedule:</strong> {{ offer.jobSchedule }}</p>
+        <p><strong>Education Level:</strong> {{ offer.educationLevel }}</p>
+      </div>
+
+      <div class="offer-actions">
+        <!-- Show buttons for the corresponding application -->
+        <div *ngFor="let application of applications">
+          <div *ngIf="application.offre.id === offer.id">
+            <button class="btn btn-danger btn-sm" 
+                    (click)="updateStatus(application.id, 'accepted')" 
+                    [disabled]="application.status === 'accepted'">
+              Accept Application
+            </button>
+            <button class="btn btn-success btn-sm" 
+                    (click)="updateStatus(application.id, 'rejected')" 
+                    [disabled]="application.status === 'rejected'">
+              Withdraw Application
+            </button>
+
+            <!-- Set Interview Button -->
+            <button class="btn btn-primary btn-sm" 
+        (click)="navigateToSetInterview(application)" 
+        [disabled]="application.status !== 'accepted'">
+  Set Interview
+</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noApplications>
+    <p class="alert alert-warning text-center">No applied offers yet.</p>
+  </ng-template>
+</div>

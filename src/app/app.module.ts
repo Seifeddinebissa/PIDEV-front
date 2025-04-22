@@ -1,19 +1,29 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
-import { BackOfficeModule } from './back-office/back-office.module';
 import { FrontOfficeModule } from './front-office/front-office.module';
-import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 //import { ButtonModule } from 'primeng/button';      
+import { ButtonModule } from 'primeng/button';     
+import { ToastrModule } from 'ngx-toastr';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';      
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BackOfficeModule } from './back-office/back-office.module';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoginComponent,
+    RegisterComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +42,11 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     ]),
     BackOfficeModule,
     FrontOfficeModule,
-    //ButtonModule,  
+    ButtonModule,  
+    ToastrModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule 
   ],
   providers: [],
   bootstrap: [AppComponent]

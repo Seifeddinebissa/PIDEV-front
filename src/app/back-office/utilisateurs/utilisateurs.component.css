@@ -1,0 +1,47 @@
+select[multiple] {
+    height: 100px; /* Adjust height as needed */
+  }
+  .modal-body {
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+  }
+  
+  .invalid-feedback {
+    display: block;
+  }
+  
+  .form-control.is-invalid {
+    border-color: #dc3545;
+  }
+  
+  .btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  .input-group {
+    margin-bottom: 1rem;
+}
+
+.table {
+    margin-top: 1rem;
+}
+
+/* Ensure the table is responsive */
+.dashboard__review-table {
+    overflow-x: auto;
+}
+.pagination {
+  margin: 0;
+}
+
+.page-link {
+  cursor: pointer;
+}
+
+.page-item.disabled .page-link {
+  cursor: not-allowed;
+}
+
+.dashboard__review-table {
+  overflow-x: auto;
+}

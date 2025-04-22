@@ -1,0 +1,155 @@
+/* Error and Loading Messages */
+.error-message {
+    color: red;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .loading-message {
+    font-size: 16px;
+    font-weight: bold;
+    color: #007bff;
+    text-align: center;
+  }
+  
+  /* Offer Card Styles */
+  .offer-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .offer-card:hover {
+    transform: scale(1.02);
+  }
+  
+  /* Company Logo */
+  .company-logo {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+  
+  /* Offer Text */
+  .entreprise-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .offer-title {
+    font-size: 16px;
+    color: #007bff;
+    font-weight: normal;
+  }
+  
+  .offer-description {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+  }
+  
+  .offer-details p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #444;
+  }
+  
+  /* Actions Section */
+  .offer-actions {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+  }
+  
+  .offer-actions button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+  }
+  
+  .favorite-button {
+    background: #f1c40f;
+    color: white;
+  }
+  
+  .favorite-button .star-icon {
+    margin-right: 5px;
+  }
+  
+  .favorite-button:hover {
+    background: #f39c12;
+  }
+  
+  .apply-button {
+    background: #007bff;
+    color: white;
+  }
+  
+  .apply-button:hover {
+    background: #0056b3;
+  }
+  
+  .upload-button {
+    background: #28a745;
+    color: white;
+  }
+  
+  .upload-button:hover {
+    background: #218838;
+  }
+  
+  /* No Data Template */
+  .alert-warning {
+    color: #e67e22;
+    font-weight: bold;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .offer-card {
+      padding: 15px;
+    }
+  
+    .company-logo {
+      width: 60px;
+      height: 60px;
+    }
+  
+    .offer-actions {
+      flex-direction: column;
+    }
+  
+    .offer-actions button {
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .company-logo {
+      width: 50px;
+      height: 50px;
+    }
+  
+    .offer-title {
+      font-size: 14px;
+    }
+  
+    .offer-description {
+      font-size: 12px;
+    }
+  
+    .offer-details p {
+      font-size: 12px;
+    }
+  }
+  

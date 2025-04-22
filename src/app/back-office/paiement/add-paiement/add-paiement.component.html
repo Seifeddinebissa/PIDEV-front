@@ -1,0 +1,42 @@
+
+<div class="col-lg-12">
+    <form action="#" class="customer__form-wrap">
+        <span class="title">Add payment</span>
+
+        <div class="form-grp select-grp">
+            <label for="country-name">Payment Method *</label>
+            <select id="country-name" [(ngModel)]="payment.paymentMethod" name="paymentMethod" class="country-name">
+                <option value="">Select Payment Method</option>
+                <option *ngFor="let m of paymentMethods" [value]="m">{{m}}</option>
+            </select>
+        </div>
+        <div class="form-grp select-grp">
+            <label for="country-name">Currency *</label>
+            <select id="country-name" [(ngModel)]="payment.currency" name="currency" class="country-name">
+                <option value="TND">Dinar Tunisien</option>
+                <option value="$">Dollars</option>
+                <option value="€">Euro</option>
+            </select>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-grp">
+                    <label for="phone">Amount *</label>
+                    <input type="number" [(ngModel)]="payment.amount" id="phone" name="amount" placeholder="Amount" >
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-grp">
+                    <label for="first-name">Date *</label>
+                    <input type="date" name="date" id="first-name" [(ngModel)]="payment.date">
+                </div>
+            </div>
+           
+        </div>
+        
+        <button class="btn" (click)="save()">Save</button>
+       
+    </form>
+</div>
