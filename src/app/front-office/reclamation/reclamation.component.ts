@@ -37,6 +37,7 @@ export class ReclamationComponent implements OnInit {
   selectedPdfUrl: string | null = null;
 
 
+
   constructor(
     private reclamationService: ReclamationService,
     private sanitizer: DomSanitizer
