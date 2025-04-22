@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Reclamation } from '../../back-office/models/Reclamation';
 import { ReclamationService } from '../../back-office/services/reclamation.service';
+import { saveAs } from 'file-saver';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @Component({
   selector: 'app-reclamation',
@@ -8,63 +11,71 @@ import { ReclamationService } from '../../back-office/services/reclamation.servi
   styleUrls: ['./reclamation.component.css']
 })
 export class ReclamationComponent implements OnInit {
-applyFilters() {
-throw new Error('Method not implemented.');
-}
-  reclamations: Reclamation[] = []; // Liste des réclamations
-  filteredReclamations: Reclamation[] = []; // Liste filtrée pour l'affichage
+  reclamations: Reclamation[] = [];
+  filteredReclamations: Reclamation[] = [];
   newReclamation: Reclamation = {
     subject: '',
     description: '',
     dateSubmitted: new Date(),
-    status: 'En attente' // Statut par défaut
+    status: 'En attente'
   };
-  selectedReclamation?: Reclamation; // Réclamation sélectionnée pour modification
-  successMessage: string = ''; // Message de succès
-  errorMessage: string = ''; // Message d'erreur
-  currentPage: number = 0; // Page actuelle
-  pageSize: number = 5; // Taille de la page
-  totalPages: number = 0; // Nombre total de pages
-  totalElements: number = 0; // Nombre total d'éléments
-  currentView: string = 'list'; // Vue actuelle ('list' ou 'add')
-  statsByStatus = { enAttente: 0, enCours: 0, resolu: 0, total: 0 }; // Statistiques par statut
-  filterStatus: string = ''; // Filtre par statut
-  searchTerm: string = ''; // Terme de recherche
-  sortField: string = 'dateSubmitted'; // Champ de tri
-  sortDirection: string = 'desc'; // Direction du tri
+  selectedReclamation?: Reclamation;
+  successMessage: string = '';
+  errorMessage: string = '';
+  currentPage: number = 0;
+  pageSize: number = 5;
+  totalPages: number = 0;
+  totalElements: number = 0;
+  currentView: string = 'list';
+  statsByStatus = { enAttente: 0, enCours: 0, resolu: 0, total: 0 };
+  filterStatus: string = '';
+  searchTerm: string = '';
+  sortField: string = 'dateSubmitted';
+  sortDirection: string = 'desc';
+  loadingReclamationIds: number[] = [];
+  showPdfViewer: boolean = false;
+  selectedPdfUrl: string | null = null;
 
-  constructor(private reclamationService: ReclamationService) {}
+
+  constructor(
+    private reclamationService: ReclamationService,
+    private sanitizer: DomSanitizer
+  ) {}
 
   ngOnInit(): void {
-    this.loadReclamations(); // Charger les réclamations au démarrage
-    //this.loadStats(); // Charger les statistiques
+    this.loadReclamations();
   }
 
-  // Charger les réclamations avec pagination et filtres
   loadReclamations(): void {
     this.reclamationService.getReclamationsWithPagination(
       this.currentPage,
       this.pageSize,
       this.filterStatus,
       this.searchTerm,
-      undefined, // Filtre description non utilisé pour l'instant
+      undefined,
       this.sortField,
       this.sortDirection as 'asc' | 'desc'
+      
     ).subscribe({
       next: (response) => {
         this.reclamations = response.content ?? [];
-        this.filteredReclamations = [...this.reclamations]; // Copie pour affichage
+        this.filteredReclamations = [...this.reclamations];
         this.totalPages = response.totalPages ?? 0;
+        this.totalElements = response.totalElements ?? 0;
         this.totalElements = response.totalElements ?? 0;
       },
       error: (err) => {
         this.errorMessage = 'Erreur lors du chargement des réclamations : ' + err.message;
+        setTimeout(() => (this.errorMessage = ''), 5000);
       }
     });
   }
 
- 
-  // Validation des champs de la réclamation
+  applyFilters(): void {
+    this.currentPage = 0;
+    this.loadReclamations();
+  }
+
   validateReclamation(reclamation: Reclamation): boolean {
     if (!reclamation.subject.trim() || !reclamation.description.trim()) {
       this.errorMessage = 'Le sujet et la description sont obligatoires.';
@@ -81,92 +92,83 @@ throw new Error('Method not implemented.');
     return true;
   }
 
-  // Ajouter une nouvelle réclamation
   addReclamation(): void {
     if (this.validateReclamation(this.newReclamation)) {
-      this.newReclamation.status = 'En attente'; // Statut forcé à "En attente"
+      this.newReclamation.status = 'En attente';
       this.reclamationService.addReclamation(this.newReclamation).subscribe({
         next: () => {
           this.successMessage = 'Réclamation ajoutée avec succès !';
           this.loadReclamations();
-          //this.loadStats();
           this.resetForm();
-          this.showList(); // Revenir à la liste après ajout
+          this.showList();
         },
         error: (err) => {
           this.errorMessage = 'Erreur lors de l\'ajout : ' + err.message;
+          setTimeout(() => (this.errorMessage = ''), 5000);
         }
       });
     }
   }
 
-  // Sélectionner une réclamation pour modification
   editReclamation(reclamation: Reclamation): void {
-    this.selectedReclamation = { ...reclamation }; // Copie pour modification
+    this.selectedReclamation = { ...reclamation };
     this.successMessage = '';
     this.errorMessage = '';
   }
 
-  // Mettre à jour une réclamation
   updateReclamation(): void {
     if (this.selectedReclamation && this.selectedReclamation.id && this.validateReclamation(this.selectedReclamation)) {
       this.reclamationService.updateReclamation(this.selectedReclamation.id, this.selectedReclamation).subscribe({
         next: () => {
           this.successMessage = 'Réclamation mise à jour avec succès !';
           this.loadReclamations();
-          //this.loadStats();
-          this.selectedReclamation = undefined; // Fermer le formulaire
+          this.selectedReclamation = undefined;
         },
         error: (err) => {
           this.errorMessage = 'Erreur lors de la mise à jour : ' + err.message;
+          setTimeout(() => (this.errorMessage = ''), 5000);
         }
       });
     }
   }
 
-  // Supprimer une réclamation
   deleteReclamation(id: number): void {
     if (confirm('Êtes-vous sûr de vouloir supprimer cette réclamation ?')) {
       this.reclamationService.deleteReclamation(id).subscribe({
         next: () => {
           this.successMessage = 'Réclamation supprimée avec succès !';
           this.loadReclamations();
-          //this.loadStats();
         },
         error: (err) => {
           this.errorMessage = 'Erreur lors de la suppression : ' + err.message;
+          setTimeout(() => (this.errorMessage = ''), 5000);
         }
       });
     }
   }
 
-  // Afficher la liste des réclamations
   showList(): void {
     this.currentView = 'list';
     this.resetForm();
   }
 
-  // Afficher le formulaire d'ajout
   showAddForm(): void {
     this.currentView = 'add';
     this.selectedReclamation = undefined;
   }
 
-  // Gestion de la recherche
   onSearchInput(event: Event): void {
     this.searchTerm = (event.target as HTMLInputElement).value;
-    this.currentPage = 0; // Réinitialiser la page lors d'une nouvelle recherche
+    this.currentPage = 0;
     this.loadReclamations();
   }
 
-  // Filtrer par statut
   selectStatus(status: string): void {
     this.filterStatus = status;
-    this.currentPage = 0; // Réinitialiser la page lors d'un nouveau filtre
+    this.currentPage = 0;
     this.loadReclamations();
   }
 
-  // Trier les réclamations
   sort(field: string): void {
     if (this.sortField === field) {
       this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
@@ -177,7 +179,6 @@ throw new Error('Method not implemented.');
     this.loadReclamations();
   }
 
-  // Contrôles de pagination
   nextPage(): void {
     if (this.currentPage + 1 < this.totalPages) {
       this.currentPage++;
@@ -199,7 +200,6 @@ throw new Error('Method not implemented.');
     }
   }
 
-  // Réinitialiser le formulaire d'ajout
   resetForm(): void {
     this.newReclamation = {
       subject: '',
@@ -211,14 +211,12 @@ throw new Error('Method not implemented.');
     this.successMessage = '';
   }
 
-  // Annuler la modification
   cancelEdit(): void {
     this.selectedReclamation = undefined;
     this.successMessage = '';
     this.errorMessage = '';
   }
 
-  // Exporter en PDF
   exportToPDF(): void {
     this.reclamationService.exportToPDF().subscribe({
       next: (blob) => {
@@ -231,11 +229,11 @@ throw new Error('Method not implemented.');
       },
       error: (err) => {
         this.errorMessage = 'Erreur lors de l\'exportation en PDF : ' + err.message;
+        setTimeout(() => (this.errorMessage = ''), 5000);
       }
     });
   }
 
-  // Exporter en Excel
   exportToExcel(): void {
     this.reclamationService.exportToExcel().subscribe({
       next: (blob) => {
@@ -248,6 +246,87 @@ throw new Error('Method not implemented.');
       },
       error: (err) => {
         this.errorMessage = 'Erreur lors de l\'exportation en Excel : ' + err.message;
+        setTimeout(() => (this.errorMessage = ''), 5000);
       }
     });
-  }}
+  }
+
+  
+
+  viewPdf(id: number): void {
+    if (!id) {
+      this.errorMessage = 'ID de réclamation invalide.';
+      setTimeout(() => (this.errorMessage = ''), 5000);
+      return;
+    }
+    this.loadingReclamationIds.push(id);
+    this.reclamationService.downloadSolution(id).subscribe({
+      next: (blob) => {
+        if (blob.size === 0) {
+          this.errorMessage = 'Le fichier téléchargé est vide.';
+          this.loadingReclamationIds = this.loadingReclamationIds.filter((loadingId) => loadingId !== id);
+          setTimeout(() => (this.errorMessage = ''), 5000);
+          return;
+        }
+        const url = window.URL.createObjectURL(blob);
+        this.selectedPdfUrl = url;
+        this.showPdfViewer = true;
+        this.loadingReclamationIds = this.loadingReclamationIds.filter((loadingId) => loadingId !== id);
+      },
+      error: (err) => {
+        this.errorMessage = `Erreur lors du chargement du PDF : ${err.status === 404 ? 'Fichier non trouvé.' : err.message}`;
+        this.loadingReclamationIds = this.loadingReclamationIds.filter((loadingId) => loadingId !== id);
+        setTimeout(() => (this.errorMessage = ''), 5000);
+      }
+    });
+  }
+
+  closePdfViewer(): void {
+    this.showPdfViewer = false;
+    if (this.selectedPdfUrl) {
+      window.URL.revokeObjectURL(this.selectedPdfUrl as string);
+      this.selectedPdfUrl = null;
+    }
+  }
+
+
+  downloadPdf(id: number): void {
+    if (!id) {
+      this.errorMessage = 'ID de réclamation invalide.';
+      setTimeout(() => (this.errorMessage = ''), 5000);
+      return;
+    }
+  
+    this.loadingReclamationIds.push(id);
+    this.reclamationService.downloadSolution(id).subscribe({
+      next: (blob) => {
+        if (blob.size === 0) {
+          this.errorMessage = 'Le fichier téléchargé est vide.';
+          this.loadingReclamationIds = this.loadingReclamationIds.filter((loadingId) => loadingId !== id);
+          setTimeout(() => (this.errorMessage = ''), 5000);
+          return;
+        }
+  
+        // Créer une URL pour le blob et déclencher le téléchargement
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `solution_${id}.pdf`; // Correspond au nom de fichier du backend
+        link.click();
+        window.URL.revokeObjectURL(url); // Nettoyer l'URL
+  
+        this.loadingReclamationIds = this.loadingReclamationIds.filter((loadingId) => loadingId !== id);
+        this.successMessage = 'Fichier téléchargé avec succès !';
+        setTimeout(() => (this.successMessage = ''), 5000);
+      },
+      error: (err) => {
+        this.errorMessage = `Erreur lors du téléchargement du PDF : ${
+          err.status === 404 ? 'Fichier non trouvé.' : err.message
+        }`;
+        this.loadingReclamationIds = this.loadingReclamationIds.filter((loadingId) => loadingId !== id);
+        setTimeout(() => (this.errorMessage = ''), 5000);
+      }
+    });
+  }
+  
+}

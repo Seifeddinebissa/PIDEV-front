@@ -24,6 +24,7 @@
 
 /* Styles pour la navigation et les boutons */
 .navigation-buttons {
+  color: #f39c12;
   display: flex;
   justify-content: center;
   gap: 10px; /* Espacement horizontal entre les boutons */
@@ -36,7 +37,7 @@
   border-radius: 25px; /* Coins arrondies pour les boutons */
   font-size: 14px;
   cursor: pointer;
-  background-color: #6a5acd; /* Violet pour les boutons */
+  background-color: #f39c12; /* Violet pour les boutons */
   color: #fff;
   transition: background-color 0.3s ease, transform 0.2s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre légère */
@@ -48,11 +49,11 @@
 }
 
 .nav-btn.active {
-  background-color: #007bff; /* Bleu pour le bouton actif */
+  background-color: #f39c12; /* Bleu pour le bouton actif */
 }
 
 .nav-btn.export-btn {
-  background-color: #6a5acd; /* Violet pour les boutons d’exportation */
+  background-color: #f39c12; /* Violet pour les boutons d’exportation */
 }
 
 /* Espacement entre les boutons et les statistiques */
@@ -61,14 +62,15 @@
 }
 
 /* Styles pour les statistiques */
-.stats-section {
-  max-width: 600px;
-  margin: 0 auto 20px; /* Centre les statistiques et ajoute un espacement en bas */
-  padding: 15px;
-  background-color: #fff; /* Fond blanc */
-  border-radius: 10px; /* Coins arrondis */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre légère */
-  border: 1px solid #e0e0e0; /* Bordure légère */
+.row {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    display: flex
+;
+    flex-wrap: wrap;
+    margin-top: calc(-1* var(--bs-gutter-y));
+    margin-right: calc(-.5* var(--bs-gutter-x));
+    margin-left: calc(-.5* var(--bs-gutter-x));
 }
 
 .stats-section h3 {
@@ -215,7 +217,7 @@
 }
 
 .status-icon.pending {
-  background-color: hsl(37, 90%, 51%);
+  background-color: #f39c12;
 }
 
 .status-icon.in-progress {
@@ -474,10 +476,287 @@
 }
 
 
-.dashboard__review-action a.disabled {
-  color: #ccc;
-  pointer-events: none; /* Désactive les clics */
-  cursor: not-allowed;
+dashboard__review-action a {
+  font-size: 30px;
+  height: 30px;
+  line-height: 0;
+  font-size: 14px;
+  padding: 0 14px;
+  background: rgba(47, 87, 239, 0.1294117647);
+  color: var(--tg-theme-primary);
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex
+;
+  align-items: center;
+  justify-content: center;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  -o-border-radius: 30px;
+  -ms-border-radius: 30px;
+  border-radius: 30px;
 }
 
 
+
+.dashboard__content-wrap {
+  padding: 30px;
+  overflow: hidden;
+  background: var(--tg-common-color-white);
+  border-radius: 15px;
+  border: 1px solid var(--tg-border-7);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard__review-table {
+  /* Add any additional table-specific styling if needed */
+}
+
+.table-borderless th,
+.table-borderless td {
+  border: none;
+}
+
+/* Status badge styling */
+.dashboard__quiz-result {
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.dashboard__quiz-result.processing {
+  background-color: #ffd700; /* Example color for "In Progress" */
+  color: #000;
+}
+
+.dashboard__quiz-result.hold {
+  background-color: #ff8c00; /* Example color for "Pending" */
+  color: #fff;
+}
+
+.dashboard__quiz-result.fail {
+  background-color: #ff4500; /* Example color for "Resolved" */
+  color: #fff;
+}
+
+/* Success style from the original */
+.dashboard__quiz-result:not(.processing):not(.hold):not(.fail) {
+  background-color: #28a745; /* Example color for "Success" */
+  color: #fff;
+}
+
+
+
+/* Styles pour les icônes d'upload et de download */
+.skillgro-upload::before {
+  content: '\f093'; /* Icône d'upload de Font Awesome */
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+}
+
+.skillgro-download::before {
+  content: '\f019'; /* Icône de download de Font Awesome */
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+}
+
+/* Ajuster le style de la section de téléversement pour qu'elle corresponde au thème */
+.upload-section {
+  margin-bottom: 20px;
+}
+
+/* S'assurer que les actions dans la colonne Solution PDF suivent le même style */
+.dashboard__review-action a i.skillgro-upload,
+.dashboard__review-action a i.skillgro-download {
+  font-size: 14px;
+  padding: 0 14px;
+  background: rgba(47, 87, 239, 0.1294117647);
+  color: var(--tg-theme-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 30px;
+}
+
+/* Ajuster l'input de fichier pour qu'il corresponde au style des autres champs */
+.upload-section input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #333;
+  background-color: #fff;
+  margin-bottom: 15px;
+}
+
+.reclamation-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+.dashboard__top-bg {
+  height: 150px;
+  background-size: cover;
+  background-position: center;
+}
+.title {
+  font-size: 24px;
+  margin: 20px 0;
+}
+.navigation-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.nav-btn {
+  padding: 10px 20px;
+  border: none;
+  background-color: #6a5acd;
+  color: white;
+  cursor: pointer;
+}
+.nav-btn.active {
+  background-color: #483d8b;
+}
+.stats-section {
+  margin: 20px 0;
+}
+.stats-container {
+  display: flex;
+  gap: 20px;
+}
+.stat-item {
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+}
+.stat-item.total {
+  background-color: #e6e6fa;
+}
+.filters {
+  margin: 20px 0;
+}
+.search-form {
+  display: flex;
+  gap: 10px;
+}
+.custom-select, .search-container input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+.search-button {
+  padding: 8px;
+  background-color: #6a5acd;
+  border: none;
+  border-radius: 5px;
+}
+.dashboard__review-table {
+  width: 100%;
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.table th, .table td {
+  padding: 10px;
+  text-align: left;
+}
+.table th {
+  cursor: pointer;
+  background-color: #f8f9fa;
+}
+.status.pending {
+  color: #ffa500;
+}
+.status.in-progress {
+  color: #1e90ff;
+}
+.status.resolved {
+  color: #32cd32;
+}
+.dashboard__review-action {
+  display: flex;
+  gap: 10px;
+}
+.dashboard__review-action a {
+  text-decoration: none;
+  color: #6a5acd;
+}
+.pagination__wrap {
+  margin-top: 30px;
+  text-align: center;
+}
+.list-wrap {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+}
+.list-wrap li.active a {
+  background-color: #6a5acd;
+  color: white;
+}
+.list-wrap a {
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  text-decoration: none;
+  color: #6a5acd;
+}
+.form-container {
+  margin: 20px 0;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+}
+.form-title {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+.form-group {
+  margin-bottom: 15px;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+.form-group input, .form-group textarea, .form-group select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+.submit-btn {
+  padding: 10px 20px;
+  background-color: #6a5acd;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.submit-btn:disabled {
+  background-color: #a9a9a9;
+  cursor: not-allowed;
+}
+.alert {
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+}
+.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+.error-message {
+  color: #721c24;
+  margin-top: 10px;
+}

@@ -4,4 +4,7 @@ export interface Reclamation {
     description: string;     // Description
     dateSubmitted: Date;     // Date de soumission
     status: string;          // Statut
+    //solution?: string;       // Solution textuelle (optionnelle)
+    solutionPdfPath?: string; // Chemin du fichier PDF de la solution (optionnel)
+    userId?: number;         // ID de l'utilisateur (optionnel)
   }

@@ -15,4 +15,10 @@ export class BackOfficeComponent {
     this.router.navigate(['/back-office/reclamations']);
   }
 
+  // Méthode pour naviguer vers la gestion des conversations avec un log
+  navigateToChats(): void {
+    console.log('Clic sur Gestion des Conversations - Navigation vers /admin/chats');
+    this.router.navigate(['/admin/chats']);
+  }
+
 }

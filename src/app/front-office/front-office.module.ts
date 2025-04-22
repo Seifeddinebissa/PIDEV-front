@@ -8,10 +8,18 @@ import { ReclamationComponent } from './reclamation/reclamation.component';
 import { HttpClientModule } from '@angular/common/http';
 import { Reclamation } from '../back-office/models/Reclamation';
 import { ReclamationService } from '../back-office/services/reclamation.service';
+import { ChatbotComponent } from './chatbot/chatbot.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+
 @NgModule({
   declarations: [
     FrontOfficeComponent,
-    ReclamationComponent
+    ReclamationComponent,
+    ChatbotComponent,
+    
+    
+    
   ],
   imports: [
     CommonModule,
@@ -23,7 +31,10 @@ import { ReclamationService } from '../back-office/services/reclamation.service'
       }
     ]),*/
     RouterModule,
-    FrontOfficeRoutingModule
+    FrontOfficeRoutingModule,
+    PdfViewerModule,
+    NgxExtendedPdfViewerModule
+
   ],
   exports: [FrontOfficeComponent]
 })

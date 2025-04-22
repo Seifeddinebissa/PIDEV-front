@@ -4,6 +4,7 @@ import { PaiementComponent } from './paiement/paiement.component';
 import { BackOfficeComponent } from './back-office.component';
 import { ReclamationComponent } from '../front-office/reclamation/reclamation.component';
 import { ListreclamationComponent } from './listreclamation/listreclamation.component';
+import { ChatManagementComponent } from './chat-management/chat-management.component';
 
 
 const routes: Routes = [
@@ -14,6 +15,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, // Par défaut, affiche une vue dashboard vide ou un composant dédié
       { path: 'paiement', component: PaiementComponent },
       { path: 'reclamation', component: ListreclamationComponent },
+      { path: 'admin/chats', component: ChatManagementComponent },
       //{ path: '', redirectTo: 'reclamations', pathMatch: 'full' } // Optionnel : route par défaut
     ]
   }

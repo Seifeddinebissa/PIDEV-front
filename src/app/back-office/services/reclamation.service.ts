@@ -3,14 +3,17 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { map, Observable } from 'rxjs';
 import { Reclamation } from '../models/Reclamation';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
 providedIn: 'root'
 })
 export class ReclamationService {
 
-apiUrl ="http://localhost:8083/reclamation";
-// Mise à jour du type pour inclure totalElements
+apiUrl ="http://localhost:8099/reclamation";
+  baseUrl: any;
+
+// Mise Ã  jour du type pour inclure totalElements
 getReclamationsWithPagination(page: number, size: number, status?: string, subject?: string,description?: string ,sortField?: string,sortDirection?: 'asc' | 'desc'): Observable<{ content: Reclamation[], totalPages: number, totalElements: number }> {
   let params = new HttpParams()
     .set('page', page.toString())
@@ -33,6 +36,7 @@ getReclamationsWithPagination(page: number, size: number, status?: string, subje
 
   return this.http.get<{ content: Reclamation[], totalPages: number, totalElements: number }>(`${this.apiUrl}/all`, { params });
 }
+
 constructor(private http: HttpClient) {}
 
 
@@ -52,10 +56,11 @@ deleteReclamation(id: number): Observable<void> {
   return this.http.delete<void>(`${this.apiUrl}/delete/${id}`);
 }
 
-// Nouvelle méthode pour récupérer les statistiques par statut
+// Nouvelle mÃ©thode pour rÃ©cupÃ©rer les statistiques par statut
 getStatsByStatus(): Observable<{ [key: string]: number }> {
   return this.http.get<{ [key: string]: number }>(`${this.apiUrl}/stats`);
 }
+
 
 
 // Nouvelle méthode pour récupérer toutes les réclamations (sans pagination)
@@ -74,6 +79,50 @@ exportToExcel(): Observable<Blob> {
   return this.http.get(`${this.apiUrl}/export/excel`, { responseType: 'blob' });
 }
 
+
+
+uploadSolution(id: number, file: File): Observable<string> {
+  const formData = new FormData();
+  formData.append('file', file, file.name);
+  return this.http.post(`${this.apiUrl}/${id}/uploadSolution`, formData, { responseType: 'text' });
+}
+
+downloadSolution(id: number): Observable<Blob> {
+  return this.http.get(`${this.apiUrl}/${id}/downloadSolution`, { responseType: 'blob' });
+}
+
+getSolutionPdf(id: number): Observable<Blob> {
+  return this.http.get(`${this.apiUrl}/${id}/viewSolution`, { responseType: 'blob' });
+}
+
+/*
+// New method for uploading and downloading PDF
+uploadAndDownloadPDF(file: File): Observable<Blob> {
+  const formData = new FormData();
+  formData.append('file', file, file.name);
+
+  return this.http.post(`${this.apiUrl}/uploadAndDownload/pdf`, formData, {
+    responseType: 'blob'
+  });
+}
+*/
+/*
+
+generateResponse(prompt: string, userId: number = 1): Observable<string> {
+  const headers = new HttpHeaders().set('Content-Type', 'application/json');
+  const body = { prompt, userId }; // Inclure prompt et userId dans le corps
+  return this.http.post(`${this.apiUrl}/generate`, body, { headers, responseType: 'text' });
+}
+
+*/
+
+/*
+generateResponse(prompt: string): Observable<string> {
+  const headers = new HttpHeaders().set('Content-Type', 'application/json');
+  const body = { prompt: prompt }; // Matches the GenerateRequest DTO
+  return this.http.post(`${this.apiUrl}/generate`, body, { headers, responseType: 'text' });
+}
+*/
 }
 
 

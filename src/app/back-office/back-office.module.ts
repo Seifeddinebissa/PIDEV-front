@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 import { ListreclamationComponent } from './listreclamation/listreclamation.component';
+import { ChatManagementComponent } from './chat-management/chat-management.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { ListreclamationComponent } from './listreclamation/listreclamation.comp
     BackOfficeComponent,
     PaiementComponent,
    
-    ListreclamationComponent
+    ListreclamationComponent,
+         ChatManagementComponent
   ],
   imports: [
     CommonModule,

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Reclamation } from '../models/Reclamation';
 import { ReclamationService } from '../services/reclamation.service';
 import { saveAs } from 'file-saver';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-listreclamation',
@@ -17,44 +18,40 @@ export class ListreclamationComponent implements OnInit {
     status: 'En attente'
   };
   selectedReclamation?: Reclamation;
-  errorMessage: string = '';
-
-  // Pagination
+  errorMessage: string = 'Please fill all required fields correctly';
+  successMessage: string = 'Complaint added successfully!';
   currentPage: number = 0;
   pageSize: number = 5;
   totalPages: number = 0;
   totalElements: number = 0;
-
-  // Filtres
   filterStatus: string = '';
   searchTerm: string = '';
-
-  // Gestion de la vue
   currentView: 'list' | 'add' = 'list';
-
-  // Statistiques par statut
   statsByStatus: { enAttente: number, enCours: number, resolu: number, total: number } = {
     enAttente: 0,
     enCours: 0,
     resolu: 0,
     total: 0
   };
-
-  // Tri
   sortField: string = 'dateSubmitted';
   sortDirection: 'asc' | 'desc' = 'asc';
-
-  // Gestion de la lecture vocale
   isSpeaking: boolean = false;
+  selectedFile: File | null = null;
+  selectedReclamationForSolution: Reclamation | null = null;
+  loadingReclamationIds: number[] = [];
+  showPdfViewer: boolean = false;
+  selectedPdfUrl: SafeResourceUrl | null = null;
 
-  constructor(private reclamationService: ReclamationService) {}
+  constructor(
+    private reclamationService: ReclamationService,
+    private sanitizer: DomSanitizer
+  ) {}
 
   ngOnInit(): void {
     this.loadReclamations();
     this.loadStats();
   }
 
-  // Charger les réclamations avec pagination, filtres et tri
   loadReclamations(): void {
     const { subject, description } = this.parseSearchTerm(this.searchTerm);
     this.reclamationService.getReclamationsWithPagination(
@@ -67,28 +64,41 @@ export class ListreclamationComponent implements OnInit {
       this.sortDirection
     ).subscribe({
       next: (response) => {
-        console.log("Filtres et tri envoyés - Status:", this.filterStatus, "Subject:", subject, "Description:", description, "Sort:", this.sortField, "Direction:", this.sortDirection);
-        console.log("Réponse reçue :", response);
         this.reclamations = response.content ?? [];
         this.totalPages = response.totalPages ?? 0;
         this.totalElements = response.totalElements ?? 0;
       },
       error: (err) => {
-        console.error("Erreur de chargement :", err);
-        this.errorMessage = 'Error while loading complaints';
+        this.errorMessage = 'Erreur lors du chargement des réclamations';
+        setTimeout(() => (this.errorMessage = ''), 5000);
       }
     });
   }
 
-  // Charger les statistiques depuis l’API
+ /* loadStats(): void {
+    this.reclamationService.getStatsByStatus().subscribe({
+      next: (stats) => {
+        this.statsByStatus.enAttente = stats['En attente'] || stats['en attente'] || 0;
+        this.statsByStatus.enCours = stats['En cours'] || stats['en cours'] || 0;
+        this.statsByStatus.resolu = stats['Résolu'] || stats['résolu'] || 0;
+        this.statsByStatus.total = stats['total'] || 0;
+      },
+      error: (err) => {
+        this.errorMessage = 'Erreur lors du chargement des statistiques';
+        setTimeout(() => (this.errorMessage = ''), 5000);
+      }
+    });
+  }
+*/
+  // Charger les statistiques depuis lâ€™API
   loadStats(): void {
     console.log('Attempting to load statistics');
     this.reclamationService.getStatsByStatus().subscribe({
       next: (stats) => {
         console.log("Statistics received:", stats);
-        this.statsByStatus.enAttente = stats['En attente'] || stats['en attente'] || 0;
-        this.statsByStatus.enCours = stats['En cours'] || stats['en cours'] || 0;
-        this.statsByStatus.resolu = stats['Résolu'] || stats['résolu'] || 0;
+        this.statsByStatus.enAttente = stats['Pending'] || stats['en attente'] || 0;
+        this.statsByStatus.enCours = stats['In Progress'] || stats['en cours'] || 0;
+        this.statsByStatus.resolu = stats['Resolved'] || stats['rÃ©solu'] || 0;
         this.statsByStatus.total = stats['total'] || 0;
         console.log("Updated statistics:", this.statsByStatus);
       },
@@ -99,7 +109,7 @@ export class ListreclamationComponent implements OnInit {
     });
   }
 
-  // Analyser le terme de recherche pour extraire subject et description
+
   parseSearchTerm(term: string): { subject?: string; description?: string } {
     const trimmedTerm = term.trim();
     if (!trimmedTerm) {
@@ -114,25 +124,21 @@ export class ListreclamationComponent implements OnInit {
     return { subject, description };
   }
 
-  // Appliquer les filtres lors de la saisie ou changement de statut
   applyFilters(): void {
     this.currentPage = 0;
     this.loadReclamations();
   }
 
-  // Gérer la saisie dans la barre de recherche
   onSearchInput(event: Event): void {
     this.searchTerm = (event.target as HTMLInputElement).value;
     this.applyFilters();
   }
 
-  // Sélectionner un statut via les boutons
   selectStatus(status: string): void {
     this.filterStatus = status;
     this.applyFilters();
   }
 
-  // Changer le tri pour une colonne spécifique
   sort(column: string): void {
     if (this.sortField === column) {
       this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
@@ -143,7 +149,6 @@ export class ListreclamationComponent implements OnInit {
     this.loadReclamations();
   }
 
-  // Contrôles de pagination
   nextPage(): void {
     if (this.currentPage + 1 < this.totalPages) {
       this.currentPage++;
@@ -165,17 +170,15 @@ export class ListreclamationComponent implements OnInit {
     }
   }
 
-  // Validation d'une réclamation
   validateReclamation(reclamation: Reclamation): boolean {
     if (!reclamation.subject.trim() || !reclamation.description.trim()) {
-      this.errorMessage = '❗ All fields are required.';
+      this.errorMessage = '❗ Tous les champs sont requis.';
       return false;
     }
     this.errorMessage = '';
     return true;
   }
 
-  // Ajouter une réclamation
   addReclamation(): void {
     if (this.validateReclamation(this.newReclamation)) {
       this.reclamationService.addReclamation(this.newReclamation).subscribe({
@@ -186,14 +189,13 @@ export class ListreclamationComponent implements OnInit {
           this.currentView = 'list';
         },
         error: (err) => {
-          console.error("Error during addition:", err);
-          this.errorMessage = 'Error adding complaint';
+          this.errorMessage = 'Erreur lors de l\'ajout de la réclamation';
+          setTimeout(() => (this.errorMessage = ''), 5000);
         }
       });
     }
   }
 
-  // Supprimer une réclamation
   deleteReclamation(id: number): void {
     this.reclamationService.deleteReclamation(id).subscribe({
       next: () => {
@@ -201,18 +203,16 @@ export class ListreclamationComponent implements OnInit {
         this.loadStats();
       },
       error: (err) => {
-        console.error("Error during deletion:", err);
-        this.errorMessage = 'Error deleting complaint';
+        this.errorMessage = 'Erreur lors de la suppression de la réclamation';
+        setTimeout(() => (this.errorMessage = ''), 5000);
       }
     });
   }
 
-  // Modifier une réclamation
   editReclamation(reclamation: Reclamation): void {
     this.selectedReclamation = { ...reclamation };
   }
 
-  // Mettre à jour une réclamation
   updateReclamation(): void {
     if (this.selectedReclamation && this.selectedReclamation.id) {
       if (this.validateReclamation(this.selectedReclamation)) {
@@ -224,21 +224,19 @@ export class ListreclamationComponent implements OnInit {
             this.currentView = 'list';
           },
           error: (err) => {
-            console.error("Error during update:", err);
-            this.errorMessage = 'Error updating complaint';
+            this.errorMessage = 'Erreur lors de la mise à jour de la réclamation';
+            setTimeout(() => (this.errorMessage = ''), 5000);
           }
         });
       }
     }
   }
 
-  // Réinitialiser le formulaire
   resetForm(): void {
     this.newReclamation = { subject: '', description: '', dateSubmitted: new Date(), status: 'En attente' };
     this.errorMessage = '';
   }
 
-  // Méthodes de navigation entre vues
   showAddForm(): void {
     this.currentView = 'add';
     this.selectedReclamation = undefined;
@@ -248,69 +246,204 @@ export class ListreclamationComponent implements OnInit {
     this.currentView = 'list';
   }
 
-  // Exporter en PDF
+  cancelEdit(): void {
+    this.selectedReclamation = undefined;
+    this.successMessage = '';
+    this.errorMessage = '';
+  }
+
   exportToPDF(): void {
     this.reclamationService.exportToPDF().subscribe({
       next: (blob: Blob) => {
         saveAs(blob, 'reclamations.pdf');
       },
       error: (err) => {
-        console.error('Error exporting to PDF:', err);
-        this.errorMessage = 'Error exporting to PDF';
+        this.errorMessage = 'Erreur lors de l\'exportation en PDF';
+        setTimeout(() => (this.errorMessage = ''), 5000);
       }
     });
   }
 
-  // Exporter en Excel
   exportToExcel(): void {
     this.reclamationService.exportToExcel().subscribe({
       next: (blob: Blob) => {
         saveAs(blob, 'reclamations.xlsx');
       },
       error: (err) => {
-        console.error('Error exporting to Excel:', err);
-        this.errorMessage = 'Error exporting to Excel';
+        this.errorMessage = 'Erreur lors de l\'exportation en Excel';
+        setTimeout(() => (this.errorMessage = ''), 5000);
       }
     });
   }
 
-  // Lire une réclamation spécifique à voix haute (sujet, description, statut uniquement)
   readReclamation(reclamation: Reclamation): void {
     if ('speechSynthesis' in window) {
-      this.stopSpeech(); // Arrêter toute lecture en cours
-      const text = `Subject: ${reclamation.subject}. Description: ${reclamation.description}. Status: ${reclamation.status}.`;
+      this.stopSpeech();
+      const text = `Sujet: ${reclamation.subject}. Description: ${reclamation.description}. Statut: ${reclamation.status}.`;
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'en-US'; // Langue anglaise pour correspondre au template
+      utterance.lang = 'fr-FR';
       utterance.onstart = () => this.isSpeaking = true;
       utterance.onend = () => this.isSpeaking = false;
       window.speechSynthesis.speak(utterance);
     } else {
-      this.errorMessage = 'Text-to-speech is not supported by your browser.';
+      this.errorMessage = 'La synthèse vocale n\'est pas supportée par votre navigateur.';
+      setTimeout(() => (this.errorMessage = ''), 5000);
     }
   }
 
-  // Lire toutes les réclamations de la liste (sujet, description, statut uniquement)
   readAllReclamations(): void {
     if ('speechSynthesis' in window) {
-      this.stopSpeech(); // Arrêter toute lecture en cours
+      this.stopSpeech();
       const text = this.reclamations.map(r => 
-        `Subject: ${r.subject}. Description: ${r.description}. Status: ${r.status}.`
+        `Sujet: ${r.subject}. Description: ${r.description}. Statut: ${r.status}.`
       ).join(' ');
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'en-US'; // Langue anglaise pour correspondre au template
+      utterance.lang = 'fr-FR';
       utterance.onstart = () => this.isSpeaking = true;
       utterance.onend = () => this.isSpeaking = false;
       window.speechSynthesis.speak(utterance);
     } else {
-      this.errorMessage = 'Text-to-speech is not supported by your browser.';
+      this.errorMessage = 'La synthèse vocale n\'est pas supportée par votre navigateur.';
+      setTimeout(() => (this.errorMessage = ''), 5000);
     }
   }
 
-  // Arrêter la lecture vocale
   stopSpeech(): void {
     if ('speechSynthesis' in window && window.speechSynthesis.speaking) {
       window.speechSynthesis.cancel();
       this.isSpeaking = false;
     }
   }
+
+  selectReclamationForSolution(reclamation: Reclamation): void {
+    this.selectedReclamationForSolution = reclamation;
+    this.selectedFile = null;
+    this.errorMessage = '';
+    this.successMessage = '';
+  }
+
+  cancelSolutionUpload(): void {
+    this.selectedReclamationForSolution = null;
+    this.selectedFile = null;
+    this.errorMessage = '';
+    this.successMessage = '';
+  }
+
+  onSolutionFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      if (file.type === 'application/pdf') {
+        if (file.size > 5 * 1024 * 1024) {
+          this.errorMessage = 'Le fichier ne doit pas dépasser 5 Mo.';
+          this.selectedFile = null;
+        } else {
+          this.selectedFile = file;
+          this.errorMessage = '';
+        }
+      } else {
+        this.errorMessage = 'Veuillez sélectionner un fichier PDF valide.';
+        this.selectedFile = null;
+      }
+    }
+  }
+
+  uploadSolution(): void {
+    if (this.selectedReclamationForSolution && this.selectedReclamationForSolution.id && this.selectedFile) {
+      this.reclamationService.uploadSolution(this.selectedReclamationForSolution.id, this.selectedFile).subscribe({
+        next: () => {
+          this.successMessage = 'Solution PDF téléversée avec succès !';
+          this.errorMessage = '';
+          this.selectedFile = null;
+          this.selectedReclamationForSolution = null;
+          this.loadReclamations();
+        },
+        error: (err) => {
+          this.errorMessage = err.status === 400 
+            ? 'Fichier invalide ou réclamation non trouvée.'
+            : 'Erreur lors du téléversement de la solution PDF.';
+          this.successMessage = '';
+          setTimeout(() => (this.errorMessage = ''), 5000);
+        }
+      });
+    } else {
+      this.errorMessage = 'Aucun fichier ou réclamation sélectionné.';
+      this.successMessage = '';
+      setTimeout(() => (this.errorMessage = ''), 5000);
+    }
+  }
+/*
+  viewPdf(id: number): void {
+    if (!id) {
+      this.errorMessage = 'ID de réclamation invalide.';
+      setTimeout(() => (this.errorMessage = ''), 5000);
+      return;
+    }
+    this.loadingReclamationIds.push(id);
+    this.reclamationService.downloadSolution(id).subscribe({
+      next: (blob) => {
+        if (blob.size === 0) {
+          this.errorMessage = 'Le fichier téléchargé est vide.';
+          this.loadingReclamationIds = this.loadingReclamationIds.filter((loadingId) => loadingId !== id);
+          setTimeout(() => (this.errorMessage = ''), 5000);
+          return;
+        }
+        const url = window.URL.createObjectURL(blob);
+        this.selectedPdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+        this.showPdfViewer = true;
+        this.loadingReclamationIds = this.loadingReclamationIds.filter((loadingId) => loadingId !== id);
+      },
+      error: (err) => {
+        this.errorMessage = `Erreur lors du chargement du PDF : ${err.status === 404 ? 'Fichier non trouvé.' : err.message}`;
+        this.loadingReclamationIds = this.loadingReclamationIds.filter((loadingId) => loadingId !== id);
+        setTimeout(() => (this.errorMessage = ''), 5000);
+      }
+    });
+  }
+
+  closePdfViewer(): void {
+    this.showPdfViewer = false;
+    if (this.selectedPdfUrl) {
+      window.URL.revokeObjectURL(this.selectedPdfUrl as string);
+      this.selectedPdfUrl = null;
+    }
+  }
+
+  downloadPdf(id: number): void {
+    if (!id) {
+      this.errorMessage = 'ID de réclamation invalide.';
+      setTimeout(() => (this.errorMessage = ''), 5000);
+      return;
+    }
+
+    this.loadingReclamationIds.push(id);
+    this.reclamationService.downloadSolution(id).subscribe({
+      next: (blob) => {
+        if (blob.size === 0) {
+          this.errorMessage = 'Le fichier téléchargé est vide.';
+          this.loadingReclamationIds = this.loadingReclamationIds.filter((loadingId) => loadingId !== id);
+          setTimeout(() => (this.errorMessage = ''), 5000);
+          return;
+        }
+
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `solution_${id}.pdf`;
+        link.click();
+        window.URL.revokeObjectURL(url);
+
+        this.loadingReclamationIds = this.loadingReclamationIds.filter((loadingId) => loadingId !== id);
+        this.successMessage = 'Fichier téléchargé avec succès !';
+        setTimeout(() => (this.successMessage = ''), 5000);
+      },
+      error: (err) => {
+        this.errorMessage = `Erreur lors du téléchargement du PDF : ${
+          err.status === 404 ? 'Fichier non trouvé.' : err.message
+        }`;
+        this.loadingReclamationIds = this.loadingReclamationIds.filter((loadingId) => loadingId !== id);
+        setTimeout(() => (this.errorMessage = ''), 5000);
+      }
+    });
+  }*/
 }

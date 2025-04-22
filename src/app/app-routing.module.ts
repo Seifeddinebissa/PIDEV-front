@@ -11,6 +11,8 @@ const routes: Routes = [
   
   //{path: '**', redirectTo: '/front-office' } // Gestion des routes inconnues
 
+  
+
 ];
 
 @NgModule({
