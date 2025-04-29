@@ -109,7 +109,16 @@ export class EventsService {
 
   // Delete an event by ID
   deleteEvent(idEvent: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/deleteEvent/${idEvent}`);
+    return this.http.delete<void>(`${this.apiUrl}/deleteEvent/${idEvent}`, {
+      responseType: 'text' as 'json'  // Handle server's text response
+    }).pipe(
+      tap(response => console.log('Delete response:', response)),
+      map(() => undefined), // Convert to void
+      catchError(error => {
+        console.error('Error deleting event:', error);
+        return this.handleError(error);
+      })
+    );
   }
 
   // Get an event by ID
@@ -117,6 +126,18 @@ export class EventsService {
     return this.http.get<EventModel>(`${this.apiUrl}/getEventById/${idEvent}`)
       .pipe(
         tap(event => console.log('Fetched event by ID:', event)),
+        map(event => {
+          // Provide default values for null properties
+          return {
+            idEvent: event.idEvent || 0,
+            eventName: event.eventName || 'Unnamed Event',
+            location: event.location || 'Unknown Location',
+            capacity: event.capacity || 0,
+            start_Date: event.start_Date || new Date(),
+            end_Date: event.end_Date || new Date(),
+            imageUrl: event.imageUrl || ''
+          } as EventModel;
+        }),
         // Fix image URL in the single event object
         map(event => this.processEventImageUrl(event)),
         catchError(this.handleError)

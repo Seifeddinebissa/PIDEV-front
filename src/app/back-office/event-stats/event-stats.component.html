@@ -30,7 +30,7 @@
                 <div class="card bg-primary text-white h-100">
                   <div class="card-body text-center">
                     <h5 class="card-title">Total Events</h5>
-                    <h2 class="display-4">{{ statistics?.totalEvents || 0 }}</h2>
+                    <h2 class="display-4">{{ statistics.totalEvents || 0 }}</h2>
                   </div>
                 </div>
               </div>
@@ -38,7 +38,7 @@
                 <div class="card bg-success text-white h-100">
                   <div class="card-body text-center">
                     <h5 class="card-title">Upcoming Events</h5>
-                    <h2 class="display-4">{{ statistics?.upcomingEvents || 0 }}</h2>
+                    <h2 class="display-4">{{ statistics.upcomingEvents || 0 }}</h2>
                     <p class="mb-0">In the next 30 days</p>
                   </div>
                 </div>
@@ -56,7 +56,7 @@
                 <div class="card bg-warning text-white h-100">
                   <div class="card-body text-center">
                     <h5 class="card-title">Avg. Duration</h5>
-                    <h2 class="display-4">{{ statistics?.averageEventDuration?.toFixed(1) || '0.0' }}</h2>
+                    <h2 class="display-4">{{ statistics.averageEventDuration.toFixed(1) || '0.0' }}</h2>
                     <p class="mb-0">Days per event</p>
                   </div>
                 </div>

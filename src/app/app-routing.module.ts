@@ -12,7 +12,8 @@ const routes: Routes = [
     path: 'backoffice', 
     loadChildren: () => import('./back-office/back-office.module').then(m => m.BackOfficeModule) 
   },
-  { path: '**', redirectTo: '/home' }
+  { path: 'home', redirectTo: '/frontoffice', pathMatch: 'full' },
+  { path: '**', redirectTo: '/frontoffice' }
 ];
 
 @NgModule({

@@ -487,21 +487,21 @@ export class ListEventComponent implements OnInit, OnDestroy {
 
     this.filteredEvents = this.events.filter(event => {
       const matchesSearchTerm = this.searchTerm.trim()
-        ? event.eventName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-          event.location.toLowerCase().includes(this.searchTerm.toLowerCase())
+        ? (event.eventName?.toLowerCase() || '').includes(this.searchTerm.toLowerCase()) ||
+          (event.location?.toLowerCase() || '').includes(this.searchTerm.toLowerCase())
         : true;
 
-      const normalize = (s: string) => s.toLowerCase().trim().replace(/\s+/g, ' ');
-      const eventLoc = normalize(event.location || '');
-      const searchLoc = normalize(this.selectedLocation || '');
+      const normalize = (s: string | null | undefined) => (s || '').toLowerCase().trim().replace(/\s+/g, ' ');
+      const eventLoc = normalize(event.location);
+      const searchLoc = normalize(this.selectedLocation);
       const matchesLocation = searchLoc ? eventLoc.includes(searchLoc) : true;
 
-      const eventStartDate = new Date(event.start_Date);
+      const eventStartDate = event.start_Date ? new Date(event.start_Date) : new Date();
       const matchesStartDate = startDateFilter && !isNaN(startDateFilter.getTime())
         ? eventStartDate >= startDateFilter
         : true;
 
-      const eventEndDate = new Date(event.end_Date);
+      const eventEndDate = event.end_Date ? new Date(event.end_Date) : new Date();
       const matchesEndDate = endDateFilter && !isNaN(endDateFilter.getTime())
         ? eventEndDate <= endDateFilter
         : true;

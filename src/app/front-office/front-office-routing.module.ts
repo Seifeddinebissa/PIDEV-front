@@ -4,6 +4,8 @@ import { FrontOfficeComponent } from './front-office.component';
 import { ListEventComponent } from '../back-office/list-event/list-event.component';
 import { HomeComponent } from './home/home.component';
 import { ViewEventsComponent } from './view-events/view-events.component';
+import { EventDetailsComponent } from './event-details/event-details.component';
+import { EventStatsComponent } from '../back-office/event-stats/event-stats.component';
 // import { EventDetailsComponent } from './events/event-details.component';
 
 const routes: Routes = [
@@ -13,9 +15,10 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'events', pathMatch: 'full' },
       { path: 'events', component: ListEventComponent },
-      { path: 'home', component: HomeComponent },
-      { path: 'list-events', component: ViewEventsComponent }
-      // { path: 'events/:idEvent', component: EventDetailsComponent }
+     // { path: 'home', component: HomeComponent },
+      { path: 'list-events', component: ViewEventsComponent },
+      { path: 'event-statistics', component: EventStatsComponent },
+       { path: 'events/:idEvent', component: EventDetailsComponent }
     ]
   }
 ];
