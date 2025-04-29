@@ -10,7 +10,7 @@ import { User } from '../models/user';
 })
 export class BackOfficeComponent {
  
-  constructor(private router: Router) {}
+  constructor(private router: Router,private authService: AuthenticationService) {}
 
   // Méthode pour naviguer vers les réclamations avec un log
   navigateToReclamations(): void {
@@ -27,7 +27,7 @@ export class BackOfficeComponent {
    user: User | null = null;
    imageUrl: string | null = null;
  
-   constructor(private authService: AuthenticationService) {}
+
  
    ngOnInit() {
      this.authService.getProfile().subscribe({

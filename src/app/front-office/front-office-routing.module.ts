@@ -37,7 +37,7 @@ const routes: Routes = [
      // { path: 'home', component: HomeComponent },
       { path: 'list-events', component: ViewEventsComponent },
       { path: 'event-statistics', component: EventStatsComponent },
-       { path: 'events/:idEvent', component: EventDetailsComponent }
+       { path: 'events/:idEvent', component: EventDetailsComponent },
       { path: 'reclamationFront', component: ReclamationComponent },
       { path: 'chat', component: ChatbotComponent },
 
