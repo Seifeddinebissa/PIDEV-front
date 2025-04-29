@@ -1,0 +1,45 @@
+<div class="container mt-4">
+  <h2 class="mb-3">My Favorite Offers</h2>
+  <div *ngIf="loading" class="loading-message">Loading favorites...</div>
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+
+  <div *ngIf="favoriteOffres.length > 0; else noFavorites">
+    <div *ngFor="let offer of favoriteOffres" class="offer-card">
+      <div class="enterprise-info">
+        <img [src]="'http://localhost:8081/companies/images' + offer.entreprise?.logo"
+             alt="{{ offer.entreprise?.name }} logo" class="company-logo" />
+        <h3 class="entreprise-name">{{ offer.entreprise?.name }}</h3>
+      </div>
+      
+      <h3 class="offer-title">{{ offer.title }}</h3>
+      <p class="offer-description">{{ offer.description }}</p>
+      <div class="offer-details">
+        <p><strong>Salary:</strong> {{ offer.salary | currency }}</p>
+        <p><strong>Location:</strong> {{ offer.location }}</p>
+        <p><strong>Date Posted:</strong> {{ offer.datePosted | date: 'mediumDate' }}</p>
+        <p><strong>Expiration Date:</strong> {{ offer.dateExpiration | date: 'mediumDate' }}</p>
+        <p><strong>Contract Type:</strong> {{ offer.contractType }}</p>
+        <p><strong>Experience Level:</strong> {{ offer.experienceLevel }}</p>
+        <p><strong>Job Function:</strong> {{ offer.jobFunction }}</p>
+        <p><strong>Job Type:</strong> {{ offer.jobType }}</p>
+        <p><strong>Job Shift:</strong> {{ offer.jobShift }}</p>
+        <p><strong>Job Schedule:</strong> {{ offer.jobSchedule }}</p>
+        <p><strong>Education Level:</strong> {{ offer.educationLevel }}</p>
+      </div>
+
+      <div class="offer-actions">
+        <button (click)="removeFavoris(offer)" class="remove-button">
+          <i class="bi bi-trash me-2"></i>
+        </button>        
+        <button (click)="apllyOffre(offer)" class="apply-button">
+          <i class="bi bi-send me-2"></i>
+        
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noFavorites>
+    <p class="alert alert-warning text-center">No favorite offers yet.</p>
+  </ng-template>
+

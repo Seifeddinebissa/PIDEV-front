@@ -1,0 +1,762 @@
+/* Styles pour la bannière de fond */
+.dashboard__top-bg {
+  width: 100%;
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin-bottom: 20px;
+}
+
+/* Styles pour le conteneur principal */
+.reclamation-container {
+  position: relative;
+  padding: 20px;
+}
+
+/* Styles pour le titre */
+.title {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Styles pour la navigation et les boutons */
+.navigation-buttons {
+  color: #f39c12;
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* Espacement horizontal entre les boutons */
+  margin-bottom: 30px; /* Espacement vertical en bas des boutons */
+}
+
+.nav-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px; /* Coins arrondies pour les boutons */
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #f39c12; /* Violet pour les boutons */
+  color: #fff;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre légère */
+}
+
+.nav-btn:hover {
+  background-color: #483d8b; /* Violet plus foncé au survol */
+  transform: translateY(-2px); /* Effet de levée légère */
+}
+
+.nav-btn.active {
+  background-color: #f39c12; /* Bleu pour le bouton actif */
+}
+
+.nav-btn.export-btn {
+  background-color: #f39c12; /* Violet pour les boutons d’exportation */
+}
+
+/* Espacement entre les boutons et les statistiques */
+.stats-spacer {
+  margin-top: 30px; /* Espacement vertical entre les boutons et les statistiques */
+}
+
+/* Styles pour les statistiques */
+.row {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    display: flex
+;
+    flex-wrap: wrap;
+    margin-top: calc(-1* var(--bs-gutter-y));
+    margin-right: calc(-.5* var(--bs-gutter-x));
+    margin-left: calc(-.5* var(--bs-gutter-x));
+}
+
+.stats-section h3 {
+  color: #666; /* Gris pour le titre des statistiques */
+  font-size: 18px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.stats-container {
+  display: flex;
+  justify-content: space-around;
+  gap: 20px; /* Espacement entre les colonnes de statistiques */
+}
+
+.stat-item {
+  text-align: center;
+  flex: 1;
+}
+
+.stat-label {
+  display: block;
+  font-size: 14px;
+  color: #666;
+}
+
+.stat-value {
+  font-size: 16px;
+  font-weight: bold;
+  color: #007bff; /* Bleu pour les valeurs (sauf Total) */
+}
+
+.stat-item.total .stat-value {
+  color: #27ae60; /* Vert pour le Total */
+}
+
+.stats-section p {
+  color: #666;
+  text-align: center;
+}
+
+/* Styles pour les filtres */
+.filters {
+  margin: 20px 0; /* Espacement régulier entre les sections */
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #ffffff; /* Fond blanc */
+  padding: 10px;
+  border-radius: 25px; /* Bordures arrondies */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre légère */
+  border: 1px solid #e0e0e0; /* Bordure légère */
+}
+
+.select-container {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.select-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6a5acd; /* Couleur violette pour l’icône 📋 */
+  font-size: 16px;
+}
+
+.custom-select {
+  padding: 8px 30px 8px 30px; /* Espace pour l’icône et la flèche */
+  width: 120px; /* Ajusté pour correspondre à l’image */
+  border: 1px solid #ddd;
+  border-radius: 20px; /* Bordures arrondies */
+  appearance: none; /* Supprimer le style par défaut du select */
+  background-color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="#6a5acd" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>'); /* Flèche violette */
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-left: 30px; /* Espace pour l’icône 📋 */
+}
+
+.custom-select:focus {
+  outline: none;
+  border-color: #6a5acd; /* Bordure violette au focus */
+  box-shadow: 0 0 5px rgba(106, 90, 205, 0.3); /* Ombre violette */
+}
+
+.custom-select option {
+  padding: 8px;
+  color: #333;
+}
+
+.search-container {
+  position: relative;
+  flex-grow: 1;
+}
+
+.search-container input {
+  padding: 8px 40px 8px 15px; /* Espace pour l’icône de recherche */
+  width: 100%;
+  max-width: 1000px; /* Ajusté pour une barre de recherche large */
+  border: 1px solid #ddd;
+  border-radius: 20px; /* Bordures arrondies */
+  font-size: 14px;
+  color: #333;
+  background-color: #fff;
+}
+
+.search-button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #6a5acd; /* Couleur violette pour l’icône de recherche */
+  border-radius: 50%; /* Bouton rond */
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-button:hover {
+  background-color: #e6e6fa; /* Fond violet clair au survol */
+  color: #483d8b; /* Couleur plus foncée au survol */
+}
+
+/* Styles pour les filtres existants, si nécessaire */
+.status-icon {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.status-icon.pending {
+  background-color: #f39c12;
+}
+
+.status-icon.in-progress {
+  background-color: #3498db;
+}
+
+.status-icon.resolved {
+  background-color: #27ae60;
+}
+
+/* Styles pour le tableau */
+.dashboard__review-table {
+  margin: 20px 0; /* Espacement régulier entre les sections */
+}
+
+.table.table-borderless {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.table.table-borderless thead th {
+  font-weight: 600;
+  color: #333;
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.table.table-borderless tbody tr {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.table.table-borderless tbody tr:last-child {
+  border-bottom: none;
+}
+
+.table.table-borderless td {
+  padding: 12px 15px;
+  vertical-align: middle;
+}
+
+.status.pending {
+  color: #f39c12;
+  font-weight: bold;
+}
+
+.status.in-progress {
+  color: #3498db;
+  font-weight: bold;
+}
+
+.status.resolved {
+  color: #27ae60;
+  font-weight: bold;
+}
+
+.dashboard__review-action {
+  display: flex;
+  gap: 10px;
+}
+
+.dashboard__review-action a {
+  text-decoration: none;
+  color: #666;
+  font-size: 16px;
+}
+
+.dashboard__review-action a:hover {
+  color: #007bff;
+}
+
+.skillgro-edit::before {
+  content: '\f044';
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+}
+
+.skillgro-bin::before {
+  content: '\f2ed';
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+}
+
+/* Styles existants... */
+
+/* Styles pour la pagination */
+.pagination__wrap {
+  margin-top: 25px;
+}
+
+.list-wrap {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  gap: 10px; /* Espacement entre les boutons */
+}
+
+.list-wrap li {
+  display: inline-block;
+}
+
+.list-wrap li a {
+  display: inline-block;
+  width: 40px; /* Diamètre des cercles, ajustez selon vos besoins */
+  height: 40px; /* Diamètre des cercles, ajustez selon vos besoins */
+  line-height: 40px; /* Centre verticalement le texte */
+  text-align: center;
+  text-decoration: none;
+  color: #333; /* Couleur du texte par défaut */
+  background-color: #f5f5f5; /* Fond gris clair pour les boutons inactifs */
+  border: 2px solid #ddd; /* Bordure légère pour les boutons inactifs */
+  border-radius: 50%; /* Rend les boutons circulaires */
+  font-size: 14px;
+  transition: all 0.3s ease; /* Animation pour les transitions */
+}
+
+.list-wrap li a:hover {
+  background-color: #e0e0e0; /* Fond gris plus clair au survol */
+  border-color: #ccc; /* Bordure plus claire au survol */
+  color: #333;
+}
+
+.list-wrap li.active a {
+  background-color: #007bff; /* Fond bleu foncé pour le bouton actif */
+  border-color: #007bff; /* Bordure bleu foncé pour le bouton actif */
+  color: #fff; /* Texte blanc pour contraste */
+  border: none; /* Pas de bordure pour le bouton actif */
+}
+
+.list-wrap li.active a:hover {
+  background-color: #0056b3; /* Bleu plus foncé au survol pour le bouton actif */
+  color: #fff;
+}
+
+.list-wrap {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  gap: 10px; /* Espacement entre les boutons */
+}
+
+.list-wrap li {
+  display: inline-block;
+}
+
+.list-wrap li a {
+  display: inline-block;
+  width: 40px; /* Diamètre des cercles */
+  height: 40px; /* Diamètre des cercles */
+  line-height: 40px; /* Centre verticalement le texte */
+  text-align: center;
+  text-decoration: none;
+  color: #333; /* Couleur du texte par défaut */
+  background-color: #f5f5f5; /* Fond gris clair pour les boutons inactifs */
+  border: 2px solid #ddd; /* Bordure légère pour les boutons inactifs */
+  border-radius: 50%;}
+
+
+  /* Styles existants... */
+
+/* Styles pour le formulaire d’ajout */
+.form-container {
+  max-width: 600px; /* Limite la largeur du formulaire */
+  margin: 0 auto; /* Centre le formulaire */
+  padding: 20px;
+  background-color: #fff; /* Fond blanc */
+  border-radius: 10px; /* Coins arrondis pour le conteneur */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre légère */
+  border: 1px solid #e0e0e0; /* Bordure légère */
+}
+
+.form-title {
+  color: #007bff; /* Bleu foncé pour le titre */
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.error-message {
+  color: #dc3545; /* Rouge pour les messages d’erreur */
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  color: #007bff; /* Bleu foncé pour les labels */
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd; /* Bordure légère */
+  border-radius: 8px; /* Coins arrondis */
+  font-size: 14px;
+  color: #333;
+  background-color: #fff;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #6a5acd; /* Bordure violette au focus */
+  box-shadow: 0 0 5px rgba(106, 90, 205, 0.3); /* Ombre violette */
+}
+
+.form-group select {
+  appearance: none; /* Supprimer le style par défaut du select */
+  background-image: url('data:image/svg+xml;utf8,<svg fill="#6a5acd" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>'); /* Flèche violette */
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 30px; /* Espace pour la flèche */
+}
+
+.form-group textarea {
+  min-height: 100px; /* Hauteur minimale pour la description */
+  resize: vertical; /* Permet de redimensionner verticalement */
+}
+
+.submit-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 25px; /* Coins arrondis pour le bouton */
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #6a5acd; /* Violet pour le bouton "Ajouter" */
+  color: #fff;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre légère */
+  display: block;
+  margin: 20px auto 0; /* Centre le bouton et ajoute un espacement en haut */
+}
+
+.submit-btn:hover {
+  background-color: #483d8b; /* Violet plus foncé au survol */
+  transform: translateY(-2px); /* Effet de levée légère */
+}
+
+/* Supprimer les styles existants pour arrow-btn si présents */
+.btn.arrow-btn {
+  display: none; /* Masquer l’ancien style si nécessaire */
+}
+
+
+dashboard__review-action a {
+  font-size: 30px;
+  height: 30px;
+  line-height: 0;
+  font-size: 14px;
+  padding: 0 14px;
+  background: rgba(47, 87, 239, 0.1294117647);
+  color: var(--tg-theme-primary);
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex
+;
+  align-items: center;
+  justify-content: center;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  -o-border-radius: 30px;
+  -ms-border-radius: 30px;
+  border-radius: 30px;
+}
+
+
+
+.dashboard__content-wrap {
+  padding: 30px;
+  overflow: hidden;
+  background: var(--tg-common-color-white);
+  border-radius: 15px;
+  border: 1px solid var(--tg-border-7);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.05);
+}
+
+.dashboard__review-table {
+  /* Add any additional table-specific styling if needed */
+}
+
+.table-borderless th,
+.table-borderless td {
+  border: none;
+}
+
+/* Status badge styling */
+.dashboard__quiz-result {
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.dashboard__quiz-result.processing {
+  background-color: #ffd700; /* Example color for "In Progress" */
+  color: #000;
+}
+
+.dashboard__quiz-result.hold {
+  background-color: #ff8c00; /* Example color for "Pending" */
+  color: #fff;
+}
+
+.dashboard__quiz-result.fail {
+  background-color: #ff4500; /* Example color for "Resolved" */
+  color: #fff;
+}
+
+/* Success style from the original */
+.dashboard__quiz-result:not(.processing):not(.hold):not(.fail) {
+  background-color: #28a745; /* Example color for "Success" */
+  color: #fff;
+}
+
+
+
+/* Styles pour les icônes d'upload et de download */
+.skillgro-upload::before {
+  content: '\f093'; /* Icône d'upload de Font Awesome */
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+}
+
+.skillgro-download::before {
+  content: '\f019'; /* Icône de download de Font Awesome */
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+}
+
+/* Ajuster le style de la section de téléversement pour qu'elle corresponde au thème */
+.upload-section {
+  margin-bottom: 20px;
+}
+
+/* S'assurer que les actions dans la colonne Solution PDF suivent le même style */
+.dashboard__review-action a i.skillgro-upload,
+.dashboard__review-action a i.skillgro-download {
+  font-size: 14px;
+  padding: 0 14px;
+  background: rgba(47, 87, 239, 0.1294117647);
+  color: var(--tg-theme-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 30px;
+}
+
+/* Ajuster l'input de fichier pour qu'il corresponde au style des autres champs */
+.upload-section input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #333;
+  background-color: #fff;
+  margin-bottom: 15px;
+}
+
+.reclamation-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+.dashboard__top-bg {
+  height: 150px;
+  background-size: cover;
+  background-position: center;
+}
+.title {
+  font-size: 24px;
+  margin: 20px 0;
+}
+.navigation-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.nav-btn {
+  padding: 10px 20px;
+  border: none;
+  background-color: #6a5acd;
+  color: white;
+  cursor: pointer;
+}
+.nav-btn.active {
+  background-color: #483d8b;
+}
+.stats-section {
+  margin: 20px 0;
+}
+.stats-container {
+  display: flex;
+  gap: 20px;
+}
+.stat-item {
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+}
+.stat-item.total {
+  background-color: #e6e6fa;
+}
+.filters {
+  margin: 20px 0;
+}
+.search-form {
+  display: flex;
+  gap: 10px;
+}
+.custom-select, .search-container input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+.search-button {
+  padding: 8px;
+  background-color: #6a5acd;
+  border: none;
+  border-radius: 5px;
+}
+.dashboard__review-table {
+  width: 100%;
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.table th, .table td {
+  padding: 10px;
+  text-align: left;
+}
+.table th {
+  cursor: pointer;
+  background-color: #f8f9fa;
+}
+.status.pending {
+  color: #ffa500;
+}
+.status.in-progress {
+  color: #1e90ff;
+}
+.status.resolved {
+  color: #32cd32;
+}
+.dashboard__review-action {
+  display: flex;
+  gap: 10px;
+}
+.dashboard__review-action a {
+  text-decoration: none;
+  color: #6a5acd;
+}
+.pagination__wrap {
+  margin-top: 30px;
+  text-align: center;
+}
+.list-wrap {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+}
+.list-wrap li.active a {
+  background-color: #6a5acd;
+  color: white;
+}
+.list-wrap a {
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  text-decoration: none;
+  color: #6a5acd;
+}
+.form-container {
+  margin: 20px 0;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+}
+.form-title {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+.form-group {
+  margin-bottom: 15px;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+.form-group input, .form-group textarea, .form-group select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+.submit-btn {
+  padding: 10px 20px;
+  background-color: #6a5acd;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.submit-btn:disabled {
+  background-color: #a9a9a9;
+  cursor: not-allowed;
+}
+.alert {
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+}
+.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+.error-message {
+  color: #721c24;
+  margin-top: 10px;
+}

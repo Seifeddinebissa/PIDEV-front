@@ -1,0 +1,225 @@
+<div class="reclamation-container">
+  <!-- Background banner -->
+  <div class="dashboard__top-bg" data-background="assets/img/bg/student_bg.jpg" style="background-image: url('assets/img/bg/student_bg.jpg');"></div>
+
+  <h2 class="title">Complaints Management</h2>
+
+  <!-- Success and error messages -->
+  <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+  <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+
+  <!-- Navigation and export buttons -->
+  <div class="navigation-buttons">
+    <button class="nav-btn" [class.active]="currentView === 'list'" (click)="showList()">View Complaints</button>
+    <button class="nav-btn" [class.active]="currentView === 'add'" (click)="showAddForm()">Add a Complaint</button>
+    <button class="nav-btn export-btn" (click)="exportToPDF()">Export to PDF</button>
+    <button class="nav-btn export-btn" (click)="exportToExcel()">Export to Excel</button>
+    <button class="nav-btn" (click)="readAllReclamations()" *ngIf="!isSpeaking">Read All</button>
+    <button class="nav-btn" (click)="stopSpeech()" *ngIf="isSpeaking">Stop Reading</button>
+  </div>
+
+  <!-- View: Complaints list -->
+  <div *ngIf="currentView === 'list'">
+    <!-- Statistics by status -->
+    <div class="stats-spacer"></div>
+    <div class="stats-section">
+      <h3>Complaints Statistics</h3>
+      <div class="stats-container">
+        <div class="stat-item">
+          <span class="stat-label">Pending</span>
+          <span class="stat-value">{{ statsByStatus.enAttente }}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">In Progress</span>
+          <span class="stat-value">{{ statsByStatus.enCours }}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Resolved</span>
+          <span class="stat-value">{{ statsByStatus.resolu }}</span>
+        </div>
+        <div class="stat-item total">
+          <span class="stat-label">Total</span>
+          <span class="stat-value">{{ statsByStatus.total }}</span>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!statsByStatus || statsByStatus.total === 0" class="stats-section">
+      <p>No statistics available at the moment.</p>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters">
+      <div class="search-form">
+        <div class="select-container">
+          <span class="select-icon"></span>
+          <select class="custom-select" [(ngModel)]="filterStatus" (change)="selectStatus(filterStatus)" aria-label="Filter by status">
+            <option value="" selected>All</option>
+            <option value="Pending">Pending</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Resolved">Resolved</option>
+          </select>
+        </div>
+        <div class="search-container">
+          <input type="text" id="searchTerm" [(ngModel)]="searchTerm" name="searchTerm" placeholder="Search by subject..." (input)="onSearchInput($event)">
+          <button type="button" class="search-button" (click)="applyFilters()">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M19.7071 18.2929L15.0455 13.6313C16.3978 12.001 17.1929 9.82088 17.1929 7.5C17.1929 3.35786 13.835 0 9.69286 0C5.55072 0 2.19286 3.35786 2.19286 7.5C2.19286 11.6421 5.55072 15 9.69286 15C12.013 15 14.1931 14.2049 15.8234 12.8525L20.485 17.5141C20.7782 17.8073 20.7782 18.2797 20.485 18.5729C20.1918 18.8661 19.7194 18.8661 19.4262 18.5729L19.7071 18.2929ZM9.69286 14C6.21107 14 3.19286 10.9818 3.19286 7.5C3.19286 4.01821 6.21107 1 9.69286 1C13.1746 1 16.1929 4.01821 16.1929 7.5C16.1929 10.9818 13.1746 14 9.69286 14Z" fill="#6a5acd" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upload form for the selected complaint -->
+    <div *ngIf="selectedReclamationForSolution" class="form-container upload-section">
+      <h3 class="form-title">Upload a Solution for Complaint #{{ selectedReclamationForSolution.id }}</h3>
+      <p>Subject: {{ selectedReclamationForSolution.subject }}</p>
+      <input type="file" accept="application/pdf" (change)="onSolutionFileSelected($event)" />
+      <button class="submit-btn" [disabled]="!selectedFile" (click)="uploadSolution()">Upload</button>
+      <button class="submit-btn" (click)="cancelSolutionUpload()">Cancel</button>
+      <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
+    </div>
+
+    <!-- Complaints table -->
+    <div class="dashboard__review-table">
+      <table class="table table-borderless">
+        <thead>
+          <tr>
+            <th (click)="sort('dateSubmitted')">
+              Date
+              <span *ngIf="sortField === 'dateSubmitted'">
+                {{ sortDirection === 'asc' ? '↑' : '↓' }}
+              </span>
+            </th>
+            <th (click)="sort('subject')">
+              Subject
+              <span *ngIf="sortField === 'subject'">
+                {{ sortDirection === 'asc' ? '↑' : '↓' }}
+              </span>
+            </th>
+            <th (click)="sort('description')">
+              Description
+              <span *ngIf="sortField === 'description'">
+                {{ sortDirection === 'asc' ? '↑' : '↓' }}
+              </span>
+            </th>
+            <th (click)="sort('status')">
+              Status
+              <span *ngIf="sortField === 'status'">
+                {{ sortDirection === 'asc' ? '↑' : '↓' }}
+              </span>
+            </th>
+            <th>Actions</th>
+            <th>Solution PDF</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="!reclamations || reclamations.length === 0">
+            <td colspan="6">No complaints found</td>
+          </tr>
+          <tr *ngFor="let reclamation of reclamations">
+            <td>{{ reclamation.dateSubmitted | date: 'MMMM dd, yyyy' }}</td>
+            <td>{{ reclamation.subject }}</td>
+            <td>{{ reclamation.description }}</td>
+            <td>
+              <span class="status" [ngClass]="{
+                'pending': reclamation.status === 'Pending',
+                'in-progress': reclamation.status === 'In Progress',
+                'resolved': reclamation.status === 'Resolved'
+              }">
+                {{ reclamation.status }}
+              </span>
+            </td>
+            <td>
+              <div class="dashboard__review-action">
+                <a href="#" title="Edit" (click)="editReclamation(reclamation); $event.preventDefault()">
+                  <i class="skillgro-edit"></i>
+                </a>
+                <a href="#" title="Delete" *ngIf="reclamation.id" (click)="deleteReclamation(reclamation.id); $event.preventDefault()">
+                  <i class="skillgro-bin"></i>
+                </a>
+                <a href="#" title="Read" (click)="readReclamation(reclamation); $event.preventDefault()" [class.disabled]="isSpeaking">
+                  <i class="skillgro-volume"></i>
+                </a>
+              </div>
+            </td>
+            <td>
+              <div class="dashboard__review-action">
+                <a href="#" title="Add Solution" (click)="selectReclamationForSolution(reclamation); $event.preventDefault()">
+                  <i class="skillgro-upload"></i>
+                </a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <nav class="pagination__wrap mt-30" *ngIf="totalPages > 1">
+      <ul class="list-wrap">
+        <li [class.active]="currentPage === 0">
+          <a href="#" (click)="previousPage(); $event.preventDefault()">Previous</a>
+        </li>
+        <li *ngFor="let page of [].constructor(totalPages); let i = index" [class.active]="i === currentPage">
+          <a href="#" (click)="goToPage(i); $event.preventDefault()">{{ i + 1 }}</a>
+        </li>
+        <li [class.active]="currentPage === totalPages - 1">
+          <a href="#" (click)="nextPage(); $event.preventDefault()">Next</a>
+        </li>
+      </ul>
+  </nav>
+
+    <!-- Update form -->
+    <div *ngIf="currentView === 'list' && selectedReclamation" class="form-container">
+      <h3 class="form-title">Edit Complaint</h3>
+      <form (ngSubmit)="updateReclamation()">
+        <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
+        <div class="form-group">
+          <label for="editSubject">Subject</label>
+          <input type="text" id="editSubject" [(ngModel)]="selectedReclamation.subject" name="editSubject" required />
+        </div>
+        <div class="form-group">
+          <label for="editDescription">Description</label>
+          <textarea id="editDescription" [(ngModel)]="selectedReclamation.description" name="editDescription" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="editStatus">Status</label>
+          <select id="editStatus" [(ngModel)]="selectedReclamation.status" name="editStatus" required>
+            <option value="Pending">Pending</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Resolved">Resolved</option>
+          </select>
+        </div>
+        <button type="submit" class="submit-btn">Update</button>
+        <button type="button" class="submit-btn" (click)="selectedReclamation = undefined">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- View: Add form -->
+  <div *ngIf="currentView === 'add'" class="form-container">
+    <h3 class="form-title">Add a Complaint</h3>
+    <form (ngSubmit)="addReclamation()">
+      <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
+      <div class="form-group">
+        <label for="subject">Subject</label>
+        <input type="text" id="subject" [(ngModel)]="newReclamation.subject" name="subject" placeholder="Subject" required />
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" [(ngModel)]="newReclamation.description" name="description" placeholder="Description" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="status">Status</label>
+        <select id="status" [(ngModel)]="newReclamation.status" name="status" required>
+          <option value="Pending">Pending</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Resolved">Resolved</option>
+        </select>
+      </div>
+      <button type="submit" class="submit-btn">Add</button>
+      <button type="button" class="submit-btn" (click)="showList()">Cancel</button>
+    </form>
+  </div>
+</div>

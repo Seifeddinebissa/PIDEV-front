@@ -1,0 +1,12 @@
+<form (ngSubmit)="scheduleInterview()">
+  <label for="applicationId">Application ID:</label>
+  <input type="number" [(ngModel)]="applicationId" name="applicationId" required />
+
+  <label for="interviewDate">Interview Date:</label>
+  <input type="datetime-local" [(ngModel)]="interviewDate" name="interviewDate" required />
+
+  <label for="interviewLink">Meeting Link:</label>
+  <input type="url" [(ngModel)]="interviewLink" name="interviewLink" required />
+
+  <button type="submit">Schedule Interview</button>
+</form>

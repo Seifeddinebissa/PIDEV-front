@@ -1,0 +1,158 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Container styled as a card */
+.container {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 30px;
+  border-radius: 10px;
+  background: white;
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading */
+h2 {
+  font-weight: bold;
+  font-size: 1.75rem;
+  color: #333;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+/* Form Group */
+.form-group {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+/* Label styled as form-label */
+label {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 6px;
+  display: block;
+  font-size: 1rem;
+}
+
+/* Input, Textarea, and Select styled as form-control */
+input, textarea, select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  font-size: 1rem;
+  color: #495057;
+  background-color: #fff;
+  transition: border-color 0.2s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+textarea {
+  height: 120px;
+  resize: vertical;
+}
+
+select {
+  appearance: none;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="none" stroke="%23495057" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>') no-repeat right 12px center;
+  background-size: 10px;
+}
+
+/* Invalid State for form-control */
+input.is-invalid, textarea.is-invalid, select.is-invalid {
+  border-color: #dc3545;
+}
+
+input.is-invalid:focus, textarea.is-invalid:focus, select.is-invalid:focus {
+  border-color: #dc3545;
+  box-shadow: 0 0 5px rgba(220, 53, 69, 0.3);
+}
+
+/* Error Messages styled as invalid-feedback */
+.error {
+  font-size: 0.875rem;
+  color: #dc3545;
+  margin-top: 5px;
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+}
+
+.error-message {
+  font-size: 0.875rem;
+  color: #dc3545;
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 8px;
+  background-color: #f8d7da;
+  border-radius: 5px;
+}
+
+/* Submit Button styled as btn-primary */
+.submit-button {
+  background-color: #007bff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #fff;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.submit-button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.submit-button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+/* Loading State */
+.loading {
+  text-align: center;
+  color: #007bff;
+  font-size: 0.875rem;
+  margin-top: 10px;
+}
+
+/* Optional: Image Thumbnail (if used elsewhere) */
+.img-thumbnail {
+  border: 2px solid #007bff;
+  border-radius: 5px;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .container {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .submit-button {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  input, textarea, select {
+    font-size: 0.9rem;
+  }
+}

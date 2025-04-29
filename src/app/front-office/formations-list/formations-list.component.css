@@ -1,0 +1,19 @@
+.favorite-btn {
+    margin-left: 10px;
+  }
+  
+  .favorite-btn img {
+    width: 20px;
+    height: 20px;
+    transition: filter 0.3s ease;
+  }
+  
+  .favorite-btn .favorite-active {
+    filter: brightness(0) saturate(100%) hue-rotate(0deg) invert(20%) sepia(90%) saturate(5000%) hue-rotate(350deg); /* Rouge */
+  }
+  
+  .courses__item-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }

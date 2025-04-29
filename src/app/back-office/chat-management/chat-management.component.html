@@ -1,0 +1,55 @@
+<div class="chat-container">
+    <!-- Background banner (similaire à la gestion des réclamations) -->
+    <div class="dashboard__top-bg" data-background="assets/img/bg/student_bg.jpg" style="background-image: url('assets/img/bg/student_bg.jpg');"></div>
+  
+    <h2 class="title">Chat Management</h2>
+  
+   
+    <!-- Statistics section (simplifiée) -->
+    <div class="stats-section">
+      <h3>Chat Statistics</h3>
+      <div class="stats-container">
+        <div class="stat-item total">
+          <span class="stat-label">Total Chats</span>
+          <span class="stat-value">{{ chats.length }}</span>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!chats || chats.length === 0" class="stats-section">
+      <p>No statistics available at the moment.</p>
+    </div>
+  
+    <!-- Chats table -->
+    <div class="dashboard__review-table">
+      <table class="table table-borderless">
+        <thead>
+          <tr>
+            
+            <th>Prompt</th>
+            <th>Réponse</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="!chats || chats.length === 0">
+            <td colspan="6">No chats found</td>
+          </tr>
+          <tr *ngFor="let chat of chats">
+            
+            
+            <td>{{ chat.prompt }}</td>
+            <td>{{ chat.response }}</td>
+            <td>{{ chat.timestamp | date: 'dd MMMM, yyyy HH:mm:ss' }}</td>
+            <td>
+              <div class="dashboard__review-action">
+                <a href="#" title="Delete" (click)="deleteChat(chat.id); $event.preventDefault()">
+                  <i class="skillgro-bin"></i>
+                </a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

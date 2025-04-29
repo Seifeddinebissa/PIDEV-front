@@ -9,12 +9,18 @@ import { Paiement } from '../models/Paiement';
 })
 export class PaiementService {
 
-  apiUrl = "http://localhost:8080/api/paiement";
+  apiUrl = "http://localhost:8081/api/payment";
   constructor(private http: HttpClient,
     private router: Router) { }
 
   getAllPaiement():Observable<any[]>{
-    return this.http.get<any[]>(this.apiUrl+"/get-all");  
+    return this.http.get<any[]>(this.apiUrl+"/history");  
+  }
+  AddPaiement(p:Paiement):Observable<Paiement>{
+    return this.http.post<Paiement>(this.apiUrl,p);  
+  }
+  exportStatsToPDF(paymentId:string): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/pdf/`+paymentId, { responseType: 'blob' });
   }
 
 }

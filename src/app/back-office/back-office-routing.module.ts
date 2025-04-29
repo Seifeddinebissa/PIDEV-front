@@ -1,9 +1,30 @@
 // src/app/back-office/back-office-routing.module.ts
 import { NgModule } from '@angular/core';
+import { PaypalPaymentComponent } from './paiement/paypal-payment/paypal-payment.component';
+import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BackOfficeComponent } from './back-office.component';
 import { ListEventComponent } from './list-event/list-event.component';
 import { EventStatsComponent } from './event-stats/event-stats.component';
+import { ReclamationComponent } from '../front-office/reclamation/reclamation.component';
+import { ListreclamationComponent } from './listreclamation/listreclamation.component';
+import { ChatManagementComponent } from './chat-management/chat-management.component';
+import { EntrepriseComponent } from './entreprise/entreprise.component';
+import { AddEntrepriseComponent } from './add-entreprise/add-entreprise.component';
+import { UpdateEntrepriseComponent } from './update-entreprise/update-entreprise.component';
+import { StatOffreComponent } from './stat-offre/stat-offre.component';
+import { FormationComponent } from './formation/formation.component';
+import { FormationEditComponent } from './formation-edit/formation-edit.component';
+import { FormationAddComponent } from './formation-add/formation-add.component';
+import { FeedbackComponent } from './feedback/feedback.component';
+import { FeedbackEditComponent } from './feedback-edit/feedback-edit.component';
+import { FeedbackAddComponent } from './feedback-add/feedback-add.component';
+import { FeedbackStatsComponent } from './feedback-stats/feedback-stats.component';
+import { AddPaiementComponent } from './paiement/add-paiement/add-paiement.component';
+import { SuccessPageComponent } from './paiement/paypal-payment/success-page/success-page.component';
+import { ProfileComponent } from './profile/profile.component';
+import { EditProfileComponent } from './profile/edit-profile/edit-profile.component';
+import { UtilisateursComponent } from './utilisateurs/utilisateurs.component';
 
 const routes: Routes = [
   {
@@ -15,6 +36,31 @@ const routes: Routes = [
       { path: 'list-event', component: ListEventComponent },
      // { path: 'list-event', component: ListEventComponent },
 
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, // Par défaut, affiche une vue dashboard vide ou un composant dédié
+      { path: 'paiement', component: PaiementComponent },
+      { path: 'reclamation', component: ListreclamationComponent },
+      { path: 'admin/chats', component: ChatManagementComponent },
+      //{ path: '', redirectTo: 'reclamations', pathMatch: 'full' } // Optionnel : route par défaut
+      { path: 'entreprises', component: EntrepriseComponent },
+      { path: 'paiement', component: PaiementComponent },
+      { path: 'add-entreprise', component: AddEntrepriseComponent },
+      { path: 'update-entreprise', component: UpdateEntrepriseComponent },
+      { path: 'update-entreprise/:id', component: UpdateEntrepriseComponent },
+      { path: 'stat', component: StatOffreComponent },
+      { path: 'paiement', component: PaiementComponent },
+      { path: 'formations', component: FormationComponent },
+      { path: 'formations/edit/:id', component: FormationEditComponent },
+      { path: 'formations/add', component: FormationAddComponent },
+      { path: 'feedbacks', component: FeedbackComponent },
+      { path: 'feedbacks/edit/:id', component: FeedbackEditComponent },
+      { path: 'feedbacks/add', component: FeedbackAddComponent },
+      { path: 'feedback-stats', component: FeedbackStatsComponent },
+      { path: 'add-paiement', component: AddPaiementComponent },
+      {path:"payer", component:PaypalPaymentComponent},
+      {path:"success", component:SuccessPageComponent},
+      {path:"profile",component:ProfileComponent},
+      {path:"settings/:id",component:EditProfileComponent},
+      {path:"utilisateurs",component:UtilisateursComponent}
     ]
   }
 ];

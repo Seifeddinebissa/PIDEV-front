@@ -43,34 +43,39 @@ header-area
                                         <ul class="sub-menu mega-menu">
                                             <li>
                                                 <ul class="list-wrap mega-sub-menu">
-                                                    <li class="active">
-                                                        <a href="index.html">Main Home</a>
+                                                    <li>
+                                                        <a href='list-apply'>List Application</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href='list-apply-entre'>List Application Entreprise</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href='list-fav'>Favorite</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href='offre-student'>Offers</a>
                                                     </li>
                                                     <li>
                                                         <a href="index-2.html">Online Course <span class="tg-badge">Hot</span></a>
                                                     </li>
                                                     <li>
-                                                        <a href="index-3.html">University <span class="tg-badge-two">New</span></a>
+                                                        <a href='offre'>Offers Entreprise</a>
                                                     </li>
                                                     <li>
-                                                        <a href="index-4.html">Yoga Instructor<span class="tg-badge-two">New</span></a>
+                                                        <a href='create-offre'>Add Offers Entreprise</a>
                                                     </li>
-                                                    <li>
-                                                        <a href="index-5.html">Kindergarten<span class="tg-badge">Hot</span></a>
-                                                    </li>
+                                                    <li class="active"><a href="index.html">Main Home</a></li>
+                                                    <li><a href="index-2.html">Online Course <span class="tg-badge">Hot</span></a></li>
+                                                    <li><a href="index-3.html">University <span class="tg-badge-two">New</span></a></li>
+                                                    <li><a href="index-4.html">Yoga Instructor<span class="tg-badge-two">New</span></a></li>
+                                                    <li><a href="index-5.html">Kindergarten<span class="tg-badge">Hot</span></a></li>
                                                 </ul>
                                             </li>
                                             <li>
                                                 <ul class="list-wrap mega-sub-menu">
-                                                    <li>
-                                                        <a href="index-6.html">Language Academy<span class="tg-badge-two">New</span></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="index-7.html">Business Coach <span class="tg-badge-two">New</span></a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="index-8.html">Kitchen Coach <span class="tg-badge">Hot</span></a>
-                                                    </li>
+                                                    <li><a href="index-6.html">Language Academy<span class="tg-badge-two">New</span></a></li>
+                                                    <li><a href="index-7.html">Business Coach <span class="tg-badge-two">New</span></a></li>
+                                                    <li><a href="index-8.html">Kitchen Coach <span class="tg-badge">Hot</span></a></li>
                                                 </ul>
                                             </li>
                                             <li>
@@ -82,7 +87,7 @@ header-area
                                     </li>
                                     <li class="menu-item-has-children"><a href="#">Courses</a>
                                         <ul class="sub-menu">
-                                            <li><a href="courses.html">All Courses</a></li>
+                                            <li><a [routerLink]="['/formation']">All Trainings</a></li>
                                             <li><a href="course-details.html">Course Details</a></li>
                                             <li><a href="lesson.html">Course Lesson</a></li>
                                         </ul>
@@ -131,20 +136,10 @@ header-area
                                     <li class="menu-item-has-children"><a href="#">Dashboard</a>
                                         <ul class="sub-menu">
                                             <li class="menu-item-has-children">
-                                                <a href="instructor-dashboard.html">Instructor Dashboard</a>
+                                                <a href='entreprises'>RH Dashboard</a>
                                                 <ul class="sub-menu">
-                                                    <li><a href="instructor-dashboard.html">Dashboard</a></li>
-                                                    <li><a href="instructor-profile.html">Profile</a></li>
-                                                    <li><a href="instructor-enrolled-courses.html">Enrolled Courses</a></li>
-                                                    <li><a href="instructor-wishlist.html">Wishlist</a></li>
-                                                    <li><a href="instructor-review.html">Reviews</a></li>
-                                                    <li><a href="instructor-attempts.html">My Quiz Attempts</a></li>
-                                                    <li><a href="instructor-history.html">Order History</a></li>
-                                                    <li><a href="instructor-courses.html">My Course</a></li>
-                                                    <li><a href="instructor-announcement.html">Announcements</a></li>
-                                                    <li><a href="instructor-quiz.html">Quiz Attempts</a></li>
-                                                    <li><a href="instructor-assignment.html">Assignments</a></li>
-                                                    <li><a href="instructor-setting.html">Settings</a></li>
+                                                    <li><a href='entreprises'>Dashboard</a></li>
+                                                    
                                                 </ul>
                                             </li>
                                             <li class="menu-item-has-children"><a href="student-dashboard.html">Student Dashboard</a>
@@ -184,14 +179,28 @@ header-area
                                     </div>
                                 </form>
                             </div>
+                            <!-- ... (autre code du header reste identique) -->
                             <div class="tgmenu__action">
                                 <ul class="list-wrap">
-                                    <li class="wishlist-icon">
-                                        <a href="cart.html" class="cart-count">
-                                            <img src="assets/img/icons/heart.svg" class="injectable" alt="img">
-                                            <span class="wishlist-count">0</span>
+                                <li class="wishlist-icon dropdown">
+                                    <a href="#" class="cart-count dropdown-toggle" data-bs-toggle="dropdown">
+                                    <img src="assets/img/icons/heart.svg" class="injectable" alt="Favorites">
+                                    <span class="wishlist-count">{{ favorites.length }}</span>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                    <li *ngIf="favorites.length === 0" class="dropdown-item">No favorites yet</li>
+                                    <li *ngFor="let formation of getFavoriteFormations()" class="dropdown-item d-flex align-items-center">
+                                        <img [src]="formation.image || 'assets/img/courses/default.jpg'" 
+                                            alt="{{ formation.title }}" 
+                                            class="favorite-img">
+                                        <a [routerLink]="['/course-details', formation.id]" class="favorite-title flex-grow-1">{{ formation.title }}</a>
+                                        <a href="#" (click)="removeFavorite(formation.id); $event.preventDefault()" class="favorite-delete">
+                                        <i class="fas fa-trash-alt"></i>
                                         </a>
                                     </li>
+                                    </ul>
+                                </li>
+                               
                                     <li class="mini-cart-icon">
                                         <a href="cart.html" class="cart-count">
                                             <img src="assets/img/icons/cart.svg" class="injectable" alt="img">
@@ -199,10 +208,11 @@ header-area
                                         </a>
                                     </li>
                                     <li class="header-btn login-btn">
-                                        <a href="login.html">Log in</a>
+                                        <a routerLink="/login">Log in</a>
                                     </li>
                                 </ul>
                             </div>
+                            <!-- ... (reste du code reste identique) -->
                             <div class="mobile-login-btn">
                                 <a href="login.html"><img src="assets/img/icons/user.svg" alt="" class="injectable"></a>
                             </div>
@@ -261,3 +271,5 @@ header-area
 <div class="router-container">
   <router-outlet></router-outlet>
 </div>
+
+

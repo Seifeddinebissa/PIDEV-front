@@ -1,0 +1,80 @@
+<div class="chat-container">
+  <!-- Chatbot Title -->
+  <h2>Hello.
+    How can I assist you today?</h2>
+
+  <!-- Display Errors -->
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <!-- New Conversation and History Buttons -->
+  <div class="chat-actions">
+    <button (click)="startNewConversation()">
+      New Conversation
+    </button>
+    <button (click)="toggleHistory()">
+      {{ showHistory ? 'Hide History' : 'Show History' }}
+    </button>
+  </div>
+
+  <!-- Messages Section (History and Current Messages) -->
+  <div class="response-section">
+    <!-- Chat History (Displayed only if showHistory is true) -->
+    <div *ngIf="showHistory">
+      <div *ngIf="chatHistory.length === 0" class="bot-message">
+        No messages in history.
+      </div>
+      <div *ngFor="let chat of chatHistory">
+        <div class="user-message">
+          {{ chat.prompt }}
+          <div class="timestamp">
+            {{ chat.timestamp | date: 'MM/dd/yyyy HH:mm:ss' }}
+          </div>
+        </div>
+        <div class="bot-message">
+          {{ chat.response }}
+          <div class="timestamp">
+            {{ chat.timestamp | date: 'MM/dd/yyyy HH:mm:ss' }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Current Session Messages -->
+    <div *ngIf="currentMessages.length === 0 && !loading" class="bot-message">
+      Start a new conversation!
+    </div>
+    <div *ngFor="let message of currentMessages">
+      <div class="user-message">
+        {{ message.prompt }}
+        <div class="timestamp">
+          {{ message.timestamp | date: 'MM/dd/yyyy HH:mm:ss' }}
+        </div>
+      </div>
+      <div *ngIf="message.response" class="bot-message">
+        {{ message.response }}
+        <div class="timestamp">
+          {{ message.timestamp | date: 'MM/dd/yyyy HH:mm:ss' }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading Indicator -->
+    <div *ngIf="loading" class="typing">
+      The chatbot is responding...
+    </div>
+  </div>
+
+  <!-- Input Section -->
+  <div class="input-section">
+    <textarea
+      [(ngModel)]="prompt"
+      placeholder="Enter your message..."
+      (keyup.enter)="sendMessage()"
+    ></textarea>
+    <button [disabled]="loading" (click)="sendMessage()">
+      {{ loading ? 'Sending...' : 'Send' }}
+    </button>
+  </div>
+</div>

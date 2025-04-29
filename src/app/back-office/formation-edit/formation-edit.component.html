@@ -1,0 +1,87 @@
+<div class="instructor__profile-form-wrap">
+    <form [formGroup]="formationForm" (ngSubmit)="updateFormation()" class="instructor__profile-form">
+        <div class="row">
+            <!-- Champ Image -->
+            <div class="col-md-12">
+                <div class="form-grp">
+                    <label for="image">Image</label>
+                    <input id="image" type="file" accept="image/*" (change)="onImageSelected($event)" class="form-control">
+                    <div *ngIf="currentImageUrl" class="mt-2">
+                        <label>Current Image:</label>
+                        <img [src]="currentImageUrl" alt="Current Formation Image" (error)="onImageError($event)" style="max-width: 100px; max-height: 100px;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Champ Titre -->
+            <div class="col-md-6">
+                <div class="form-grp">
+                    <label for="title">Title</label>
+                    <input id="title" type="text" formControlName="title" class="form-control">
+                    <div *ngIf="formationForm.controls['title'].invalid && formationForm.controls['title'].touched">
+                        <small class="text-danger" *ngIf="formationForm.controls['title'].errors?.['required']">Le titre est obligatoire.</small>
+                        <small class="text-danger" *ngIf="formationForm.controls['title'].errors?.['minlength']">Minimum 3 caractères.</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Champ Prix -->
+            <div class="col-md-6">
+                <div class="form-grp">
+                    <label for="price">Price</label>
+                    <input id="price" type="number" formControlName="price" class="form-control">
+                    <div *ngIf="formationForm.controls['price'].invalid && formationForm.controls['price'].touched">
+                        <small class="text-danger" *ngIf="formationForm.controls['price'].errors?.['required']">Le prix est obligatoire.</small>
+                        <small class="text-danger" *ngIf="formationForm.controls['price'].errors?.['min']">Le prix doit être supérieur ou égal à 0.</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Champ Description -->
+            <div class="col-md-12">
+                <div class="form-grp">
+                    <label for="description">Description</label>
+                    <textarea id="description" formControlName="description" class="form-control"></textarea>
+                    <div *ngIf="formationForm.controls['description'].invalid && formationForm.controls['description'].touched">
+                        <small class="text-danger" *ngIf="formationForm.controls['description'].errors?.['required']">La description est obligatoire.</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Champ Durée -->
+            <div class="col-md-6">
+                <div class="form-grp">
+                    <label for="duration">Duration (hours)</label>
+                    <input id="duration" type="number" formControlName="duration" class="form-control">
+                    <div *ngIf="formationForm.controls['duration'].invalid && formationForm.controls['duration'].touched">
+                        <small class="text-danger" *ngIf="formationForm.controls['duration'].errors?.['required']">La durée est obligatoire.</small>
+                        <small class="text-danger" *ngIf="formationForm.controls['duration'].errors?.['min']">La durée doit être au moins 1 heure.</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Champ Visibilité -->
+            <div class="col-md-6">
+                <div class="form-grp select-grp">
+                    <label for="isPublic">Public Visibility</label>
+                    <select id="isPublic" formControlName="is_public" class="form-control">
+                        <option [value]="true">Yes</option>
+                        <option [value]="false">No</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Boutons -->
+        <div class="row mt-25">
+            <div class="col-md-2">
+                <a class="btn arrow-btn w-100" [routerLink]="['/formations']">Annuler</a>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn arrow-btn w-100" [disabled]="formationForm.invalid">
+                    Update Formation
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

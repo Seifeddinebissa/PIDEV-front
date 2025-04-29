@@ -1,0 +1,44 @@
+/* src/app/course-details/course-details.component.css */
+.courses__resources-wrap {
+    padding: 20px 0;
+  }
+  
+  .courses__resources-wrap h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .courses__resources-wrap ul {
+    padding: 0;
+    margin: 0;
+  }
+  
+  .courses__resources-wrap li {
+    list-style: none;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+  }
+  
+  .book-cover {
+    width: 50px;
+    height: 75px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-right: 15px;
+  }
+  
+  .book-info {
+    flex-grow: 1;
+  }
+  
+  .book-info h5 {
+    font-size: 16px;
+    margin: 0 0 5px 0;
+    color: #333;
+  }
+  
+  .book-info p {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+  }

@@ -1,0 +1,20 @@
+<div>
+    <h2>My Applications</h2>
+    <ul>
+      <li *ngFor="let app of applications">
+        {{ app.offre.title }} - Status: {{ app.status }}
+      </li>
+    </ul>
+  </div>
+  
+  <div>
+    <h2>My Scheduled Interviews</h2>
+    <ul>
+      <li *ngFor="let appointment of appointments">
+        <strong>{{ appointment.application.offre.title }}</strong><br>
+        Date: {{ appointment.interviewDate | date }}<br>
+        Location: {{ appointment.location }}<br>
+        Meeting Link: <a [href]="appointment.details" target="_blank">Join Interview</a>
+      </li>
+    </ul>
+  </div>

@@ -1,0 +1,21 @@
+
+
+    <div class="dashboard__content-wrap">
+        <div class="dashboard__content-title">
+            <h4 class="title">My Profile</h4>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="profile__content-wrap" *ngIf="user">
+                    <ul class="list-wrap">
+                      <img [src]="imageUrl" alt="Profile Image" class="img-fluid" style="max-width: 200px;" *ngIf="imageUrl"><br><br>
+                        <li><span>Username</span> {{ user.username }}</li>
+                        <li><span>Email</span> {{ user.email }}</li>
+                        <li><span>Roles</span> {{ user.roles.join(', ') }}</li>
+                        <button class="btn btn-danger" (click)="logout()">Logout</button>
+                        <a [routerLink]="['/settings', user.id]"><button class="btn btn-primary">Settings</button></a>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>

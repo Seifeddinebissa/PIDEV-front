@@ -1,0 +1,43 @@
+<div class="container mt-4">
+  <h2>Set Interview</h2>
+  <form [formGroup]="interviewForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="interviewDate">Interview Date</label>
+      <input
+        type="datetime-local"
+        id="interviewDate"
+        formControlName="interviewDate"
+        class="form-control"
+        [class.is-invalid]="interviewForm.get('interviewDate')?.invalid && interviewForm.get('interviewDate')?.touched"
+        required
+      />
+      <div class="invalid-feedback" *ngIf="interviewForm.get('interviewDate')?.hasError('pastDate')">
+        Interview date must be in the future.
+      </div>
+      <div class="invalid-feedback" *ngIf="interviewForm.get('interviewDate')?.hasError('required')">
+        Interview date is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="interviewLink">Interview Link</label>
+      <input
+        type="url"
+        id="interviewLink"
+        formControlName="interviewLink"
+        class="form-control"
+        [class.is-invalid]="interviewForm.get('interviewLink')?.invalid && interviewForm.get('interviewLink')?.touched"
+        required
+      />
+      <div class="invalid-feedback" *ngIf="interviewForm.get('interviewLink')?.hasError('required')">
+        Interview link is required.
+      </div>
+      <div class="invalid-feedback" *ngIf="interviewForm.get('interviewLink')?.hasError('pattern')">
+        Please enter a valid URL (starting with http:// or https://).
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="interviewForm.invalid">Save</button>
+    <button type="button" class="btn btn-secondary" (click)="goBack()">Cancel</button>
+  </form>
+</div>
