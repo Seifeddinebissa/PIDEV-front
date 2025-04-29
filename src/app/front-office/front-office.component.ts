@@ -1,4 +1,3 @@
-import { Component } from '@angular/core';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';

@@ -1,5 +1,4 @@
 // src/app/back-office/back-office-routing.module.ts
-import { NgModule } from '@angular/core';
 import { PaypalPaymentComponent } from './paiement/paypal-payment/paypal-payment.component';
 import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -25,6 +24,7 @@ import { SuccessPageComponent } from './paiement/paypal-payment/success-page/suc
 import { ProfileComponent } from './profile/profile.component';
 import { EditProfileComponent } from './profile/edit-profile/edit-profile.component';
 import { UtilisateursComponent } from './utilisateurs/utilisateurs.component';
+import { PaiementComponent } from './paiement/paiement.component';
 
 const routes: Routes = [
   {
@@ -37,12 +37,10 @@ const routes: Routes = [
      // { path: 'list-event', component: ListEventComponent },
 
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, // Par défaut, affiche une vue dashboard vide ou un composant dédié
-      { path: 'paiement', component: PaiementComponent },
       { path: 'reclamation', component: ListreclamationComponent },
       { path: 'admin/chats', component: ChatManagementComponent },
       //{ path: '', redirectTo: 'reclamations', pathMatch: 'full' } // Optionnel : route par défaut
       { path: 'entreprises', component: EntrepriseComponent },
-      { path: 'paiement', component: PaiementComponent },
       { path: 'add-entreprise', component: AddEntrepriseComponent },
       { path: 'update-entreprise', component: UpdateEntrepriseComponent },
       { path: 'update-entreprise/:id', component: UpdateEntrepriseComponent },
