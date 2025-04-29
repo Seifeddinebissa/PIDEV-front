@@ -1,5 +1,3 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { ReclamationComponent } from './reclamation/reclamation.component';
 import { Reclamation } from '../back-office/models/Reclamation';
@@ -37,6 +35,8 @@ import { StudentCalendarComponent } from './student-calendar/student-calendar.co
 import { FormationsListComponent } from './formations-list/formations-list.component';
 import { CourseDetailsComponent } from './course-details/course-details.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { EventDetailsComponent } from './event-details/event-details.component';
+import { GetAllEventComponent } from './get-all-event/get-all-event.component';
 
 
 @NgModule({
@@ -46,7 +46,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ChatbotComponent,
     
     
-    
+    EventDetailsComponent,
+    GetAllEventComponent,
     OfferComponent,
     CreateOffreComponent,
     UpdateOffreModalComponent,
@@ -99,8 +100,10 @@ import { NgxPaginationModule } from 'ngx-pagination';
   
     FormsModule,
     NgxPaginationModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
-  exports: [FrontOfficeComponent]
+  providers: [
+    DatePipe // Add DatePipe to providers
+  ]
 })
 export class FrontOfficeModule { }

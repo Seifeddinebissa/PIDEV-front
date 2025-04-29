@@ -1,3 +1,4 @@
+// src/app/app-routing.module.ts
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
@@ -6,6 +7,17 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 const routes: Routes = [
+  { path: '', redirectTo: '/frontoffice', pathMatch: 'full' },
+  { 
+    path: 'frontoffice', 
+    loadChildren: () => import('./front-office/front-office.module').then(m => m.FrontOfficeModule) 
+  },
+  { 
+    path: 'backoffice', 
+    loadChildren: () => import('./back-office/back-office.module').then(m => m.BackOfficeModule) 
+  },
+  { path: 'home', redirectTo: '/frontoffice', pathMatch: 'full' },
+  { path: '**', redirectTo: '/frontoffice' },
   { path: 'back-office', loadChildren: () => import('./back-office/back-office.module').then(m => m.BackOfficeModule) },
   { path: 'front-office', loadChildren: () => import('./front-office/front-office.module').then(m => m.FrontOfficeModule) },
 
@@ -14,7 +26,6 @@ const routes: Routes = [
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: '', redirectTo: '/front-office', pathMatch: 'full' }
-
 ];
 
 @NgModule({

@@ -1,0 +1,24 @@
+<div class="container mt-4">
+    <h2 class="text-center mb-4">📅 Available events</h2>
+  
+    <div *ngIf="events.length === 0" class="text-center">
+      <p>No events available.</p>
+    </div>
+  
+    <div class="row">
+      <div class="col-md-4 mb-4" *ngFor="let event of events">
+        <div class="card shadow-sm">
+          <img [src]="event.image || 'https://via.placeholder.com/300'" class="card-img-top" alt="Image Event">
+          <div class="card-body">
+            <h5 class="card-title">{{ event.eventName }}</h5>
+            <p class="card-text text-muted">{{ event.start_Date | date: 'mediumDate' }}</p>
+            <p class="card-text text-muted">{{ event.end_Date | date: 'mediumDate' }}</p>
+ 
+            <p class="card-text">{{ event.description }}</p>
+            <a [href]="event.link" class="btn btn-primary btn-sm" target="_blank">View Details</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

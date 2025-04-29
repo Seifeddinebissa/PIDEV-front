@@ -1,0 +1,328 @@
+<div class="container mt-4">
+  <h2 class="text-center">Event Management</h2>
+
+  <!-- Buttons for showing events and add form -->
+  <div class="text-center my-3">
+    <button class="btn btn-primary me-2" (click)="displayEvents()">
+      {{ showEvents ? 'Hide Events' : 'Show Events' }}
+    </button>
+    <button class="btn btn-success" (click)="toggleAddForm()">
+      {{ showAddForm ? 'Cancel' : 'Add New Event' }}
+    </button>
+  </div>
+
+  <!-- Add/Edit Event Form -->
+  <div *ngIf="showAddForm" class="card mb-4">
+    <div class="card-header bg-success text-white">
+      <h3>{{ editMode ? 'Edit Event' : 'Add New Event' }}</h3>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="eventForm" (ngSubmit)="submitEvent()">
+        <div class="row">
+          <!-- Image Upload Section -->
+          <div class="col-12 mb-4">
+            <div class="text-center">
+              <div *ngIf="photoPreview" class="mb-3">
+                <img [src]="photoPreview" alt="Event preview" class="img-thumbnail" style="max-height: 200px;">
+              </div>
+              <input
+                type="file"
+                #fileInput
+                [style.display]="'none'"
+                (change)="onPhotoSelected($event)"
+                accept="image/*"
+                aria-label="Upload event image">
+              <button
+                type="button"
+                class="btn btn-outline-primary mb-3"
+                (click)="triggerFileInput()">
+                {{ photoPreview ? 'Change Image' : 'Upload Image' }}
+              </button>
+            </div>
+          </div>
+
+          <!-- Event Name -->
+          <div class="col-md-6 mb-3">
+            <label for="eventName" class="form-label">Event Name *</label>
+            <input
+              id="eventName"
+              name="eventName"
+              formControlName="eventName"
+              type="text"
+              class="form-control"
+              [ngClass]="{'is-invalid': eventForm.get('eventName')?.touched && eventForm.get('eventName')?.invalid}"
+              aria-describedby="eventNameError"
+            />
+            <div *ngIf="eventForm.get('eventName')?.touched && eventForm.get('eventName')?.invalid" class="text-danger" id="eventNameError">
+              <small *ngIf="eventForm.get('eventName')?.errors?.['required']">Event Name is required.</small>
+              <small *ngIf="eventForm.get('eventName')?.errors?.['minlength']">Event Name must be at least 3 characters long.</small>
+              <small *ngIf="eventForm.get('eventName')?.errors?.['maxlength']">Event Name cannot exceed 50 characters.</small>
+              <small *ngIf="eventForm.get('eventName')?.errors?.['pattern']">Event Name can only contain letters, numbers, spaces, and basic punctuation.</small>
+            </div>
+          </div>
+
+          <!-- Location -->
+          <div class="col-md-6 mb-3">
+            <label for="location" class="form-label">Location *</label>
+            <input
+              id="location"
+              name="location"
+              formControlName="location"
+              type="text"
+              class="form-control"
+              [ngClass]="{'is-invalid': eventForm.get('location')?.touched && eventForm.get('location')?.invalid}"
+              aria-describedby="locationError"
+            />
+            <div *ngIf="eventForm.get('location')?.touched && eventForm.get('location')?.invalid" class="text-danger" id="locationError">
+              <small *ngIf="eventForm.get('location')?.errors?.['required']">Location is required.</small>
+              <small *ngIf="eventForm.get('location')?.errors?.['minlength']">Location must be at least 2 characters long.</small>
+              <small *ngIf="eventForm.get('location')?.errors?.['maxlength']">Location cannot exceed 100 characters.</small>
+              <small *ngIf="eventForm.get('location')?.errors?.['pattern']">Location can only contain letters, numbers, spaces, and common punctuation.</small>
+            </div>
+          </div>
+
+          <!-- Capacity -->
+          <div class="col-md-4 mb-3">
+            <label for="capacity" class="form-label">Capacity *</label>
+            <input
+              id="capacity"
+              name="capacity"
+              formControlName="capacity"
+              type="number"
+              class="form-control"
+              [ngClass]="{'is-invalid': eventForm.get('capacity')?.touched && eventForm.get('capacity')?.invalid}"
+              aria-describedby="capacityError"
+            />
+            <div *ngIf="eventForm.get('capacity')?.touched && eventForm.get('capacity')?.invalid" class="text-danger" id="capacityError">
+              <small *ngIf="eventForm.get('capacity')?.errors?.['required']">Capacity is required.</small>
+              <small *ngIf="eventForm.get('capacity')?.errors?.['min']">Capacity must be at least 1.</small>
+            </div>
+          </div>
+
+          <!-- Start Date -->
+          <div class="col-md-4 mb-3">
+            <label for="start_Date" class="form-label">Start Date *</label>
+            <input
+              id="start_Date"
+              name="start_Date"
+              formControlName="start_Date"
+              type="date"
+              class="form-control"
+              [min]="today"
+              [ngClass]="{'is-invalid': eventForm.get('start_Date')?.touched && eventForm.get('start_Date')?.invalid}"
+              aria-describedby="startDateError"
+            />
+            <div *ngIf="eventForm.get('start_Date')?.touched && eventForm.get('start_Date')?.invalid" class="text-danger" id="startDateError">
+              <small *ngIf="eventForm.get('start_Date')?.errors?.['required']">Start Date is required.</small>
+              <small *ngIf="eventForm.get('start_Date')?.errors?.['invalidDates']">Start Date is invalid.</small>
+            </div>
+          </div>
+
+          <!-- End Date -->
+          <div class="col-md-4 mb-3">
+            <label for="end_Date" class="form-label">End Date *</label>
+            <input
+              id="end_Date"
+              name="end_Date"
+              formControlName="end_Date"
+              type="date"
+              class="form-control"
+              [min]="start_Date || today"
+              [ngClass]="{'is-invalid': eventForm.get('end_Date')?.touched && (eventForm.get('end_Date')?.invalid || eventForm.errors?.['endDateBeforeStart'])}"
+              aria-describedby="endDateError"
+            />
+            <div *ngIf="eventForm.get('end_Date')?.touched && eventForm.get('end_Date')?.invalid" class="text-danger" id="endDateError">
+              <small *ngIf="eventForm.get('end_Date')?.errors?.['required']">End Date is required.</small>
+              <small *ngIf="eventForm.get('end_Date')?.errors?.['invalidDates']">End Date is invalid.</small>
+            </div>
+            <div *ngIf="eventForm.errors?.['endDateBeforeStart'] && eventForm.get('end_Date')?.touched" class="text-danger">
+              <small>End Date must be on or after Start Date.</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center mt-3">
+          <button
+            class="btn btn-success"
+            type="submit"
+            [disabled]="loading">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            {{ editMode ? 'Update Event' : 'Add Event' }}
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary ms-2"
+            (click)="toggleAddForm()"
+            [disabled]="loading">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="error" class="alert alert-danger mt-3">
+    {{ error }}
+  </div>
+
+  <!-- Search & Filter Section -->
+  <div *ngIf="showEvents" class="card mb-4">
+    <div class="card-header">
+      <h3>Search & Filter Events</h3>
+    </div>
+    <div class="card-body">
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="searchTerm">Search by name or location</label>
+            <input
+              type="text"
+              id="searchTerm"
+              [(ngModel)]="searchTerm"
+              class="form-control"
+              placeholder="Search..."
+              aria-label="Search by name or location">
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="locationFilter">Filter by location</label>
+            <input
+              id="locationFilter"
+              [(ngModel)]="selectedLocation"
+              (ngModelChange)="onLocationSearch()"
+              class="form-control"
+              type="text"
+              placeholder="Enter location"
+              aria-label="Filter by location">
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <label for="startDateFilter">Start Date</label>
+            <input
+              type="date"
+              id="startDateFilter"
+              [(ngModel)]="startDateFilter"
+              class="form-control"
+              aria-label="Filter by start date">
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <label for="endDateFilter">End Date</label>
+            <input
+              type="date"
+              id="endDateFilter"
+              [(ngModel)]="endDateFilter"
+              class="form-control"
+              aria-label="Filter by end date">
+          </div>
+        </div>
+        <div class="col-md-1 d-flex align-items-end">
+          <button class="btn btn-primary" (click)="applyFilters()">Filter</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 text-end">
+          <button class="btn btn-secondary" (click)="resetFilters()">Clear Filters</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Event List -->
+  <div *ngIf="showEvents" class="card">
+    <div class="card-header">
+      <h3>Events List</h3>
+    </div>
+    <div class="card-body">
+      <!-- Loading indicator -->
+      <div *ngIf="loading" class="text-center py-4">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-2">Loading events...</p>
+      </div>
+
+      <!-- No events message -->
+      <div *ngIf="!loading && filteredEvents.length === 0" class="alert alert-info">
+        No events found. Try clearing your filters or add a new event.
+      </div>
+
+      <!-- Events table -->
+      <table class="table table-striped table-bordered table-hover" *ngIf="!loading && filteredEvents.length > 0">
+        <thead class="table-dark">
+          <tr>
+            <th>ID</th>
+            <th>Image</th>
+            <th>Event Name</th>
+            <th>Capacity</th>
+            <th>Location</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let event of filteredEvents">
+            <td>{{ event.idEvent }}</td>
+            <td class="text-center">
+              <div *ngIf="event.imageUrl" class="event-image-container">
+                <img [src]="event.imageUrl" alt="Event Image" class="img-thumbnail" style="max-width: 80px; max-height: 50px; object-fit: cover;">
+              </div>
+              <div *ngIf="!event.imageUrl" class="no-image-placeholder">
+                <span class="badge bg-secondary">No image</span>
+              </div>
+            </td>
+            <td>{{ event.eventName }}</td>
+            <td>{{ event.capacity }}</td>
+            <td>{{ event.location }}</td>
+            <td>{{ event.start_Date | date:'short' }}</td>
+            <td>{{ event.end_Date | date:'short' }}</td>
+            <td>
+              <button class="btn btn-info btn-sm me-1" (click)="getEventDetails(event.idEvent)">View Details</button>
+              <button class="btn btn-primary btn-sm me-1" (click)="editEvent(event)">Edit</button>
+              <button class="btn btn-danger btn-sm" (click)="deleteEvent(event.idEvent)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Event Details -->
+  <div *ngIf="selectedEvent" class="card mt-4">
+    <div class="card-header bg-primary text-white">
+      Event Details
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="event-detail-image-container mb-3">
+            <img *ngIf="selectedEvent.imageUrl" [src]="selectedEvent.imageUrl" alt="Event image" class="img-thumbnail">
+            <div *ngIf="!selectedEvent.imageUrl" class="no-image-card p-4 text-center bg-light rounded">
+              <i class="fas fa-image text-muted" style="font-size: 48px;"></i>
+              <p class="mt-2 text-muted">No image available</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-8">
+          <h3 class="mb-3">{{ selectedEvent.eventName }}</h3>
+          <div class="event-info">
+            <p><strong>ID:</strong> {{ selectedEvent.idEvent }}</p>
+            <p><strong>Capacity:</strong> {{ selectedEvent.capacity }}</p>
+            <p><strong>Location:</strong> {{ selectedEvent.location }}</p>
+            <p><strong>Start Date:</strong> {{ selectedEvent.start_Date | date:'medium' }}</p>
+            <p><strong>End Date:</strong> {{ selectedEvent.end_Date | date:'medium' }}</p>
+          </div>
+          <div class="mt-3">
+            <button class="btn btn-secondary" (click)="selectedEvent = null">Close</button>
+            <button class="btn btn-primary ms-2" (click)="editEvent(selectedEvent)">Edit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

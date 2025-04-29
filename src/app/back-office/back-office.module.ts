@@ -1,11 +1,16 @@
+// src/app/back-office/back-office.module.ts
 import { NgModule } from '@angular/core';
+import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { EventsService } from './services/event.service';
+import { ToastrModule } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { BackOfficeRoutingModule } from './back-office-routing.module';
 import { BackOfficeComponent } from './back-office.component';
-import { RouterModule } from '@angular/router';
-import { PaiementComponent } from './paiement/paiement.component';
-import { HttpClientModule } from '@angular/common/http';
-
+import { EventStatsComponent } from './event-stats/event-stats.component';
+import { EventStatisticsService } from './services/event-statistics.service';
+import { SharedModule } from '../shared/shared.module';
 
 import { ListreclamationComponent } from './listreclamation/listreclamation.component';
 import { ChatManagementComponent } from './chat-management/chat-management.component';
@@ -36,6 +41,10 @@ import { UtilisateursComponent } from './utilisateurs/utilisateurs.component';
 @NgModule({
   declarations: [
     BackOfficeComponent,
+    EventStatsComponent
+  ],
+  imports: [
+    CommonModule,
     PaiementComponent,
    
     ListreclamationComponent,
@@ -70,12 +79,21 @@ import { UtilisateursComponent } from './utilisateurs/utilisateurs.component';
     ]),*/
     RouterModule,
     BackOfficeRoutingModule,
+    SharedModule,
+    FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
+    ToastrModule.forRoot()
     FormsModule,
     ReactiveFormsModule,
     NgChartsModule,
     ChartModule
   ],
-  exports: [BackOfficeComponent]
+  providers: [
+    DatePipe,
+    DecimalPipe,
+    EventsService, 
+    EventStatisticsService
+  ]
 })
 export class BackOfficeModule { }
