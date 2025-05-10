@@ -1,6 +1,6 @@
 import { Paiement } from '../models/Paiement';
 import { PaiementService } from './../services/paiement.service';
-import { Component } from '@angular/core';
+//import { MenuItem } from 'primeng/api';
 // import { MenuItem } from 'primeng/api';
 import { Component, OnInit } from '@angular/core';
 import { PaiementService } from '../services/paiement.service';

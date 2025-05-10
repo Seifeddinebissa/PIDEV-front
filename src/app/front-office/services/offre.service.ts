@@ -10,7 +10,7 @@ export class OffreService {
   
   
 
-  private apiUrl = 'http://localhost:8081/offres';  // Spring Boot API URL
+  private apiUrl = 'http://localhost:8083/offres';  // Spring Boot API URL
 
   constructor(private http: HttpClient) { }
 

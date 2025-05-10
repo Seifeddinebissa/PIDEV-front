@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FrontOfficeComponent } from './front-office.component';
+import { ReclamationComponent } from './reclamation/reclamation.component';
+import { ChatbotComponent } from './chatbot/chatbot.component';
+
 import { OfferComponent } from './offer/offer.component';
 import { CreateOffreComponent } from './create-offre/create-offre.component';
 import { OfferStudentComponent } from './offer-student/offer-student.component';
@@ -18,9 +21,15 @@ import { CourseDetailsComponent } from './course-details/course-details.componen
 
 const routes: Routes = [
   {
+
+    
     path: '',
     component: FrontOfficeComponent,
     children: [
+      { path: 'reclamationFront', component: ReclamationComponent },
+      { path: 'chat', component: ChatbotComponent },
+
+      // Add child routes here if needed
       { path: 'offre/:entrepriseId', component: OfferComponent },
       { path: 'offre', component: OfferComponent },
       {path: 'create-offre/:idEntreprise', component:CreateOffreComponent},
