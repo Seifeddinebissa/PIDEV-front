@@ -1,0 +1,150 @@
+/* Styles pour la bannière de fond */
+.dashboard__top-bg {
+    width: 100%;
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-bottom: 20px;
+  }
+  
+  /* Styles pour le conteneur principal */
+  .chat-container {
+    position: relative;
+    padding: 20px;
+  }
+  
+  /* Styles pour le titre */
+  .title {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Styles pour la navigation et les boutons */
+  .navigation-buttons {
+    color: #f39c12;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+  }
+  
+  .nav-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    font-size: 14px;
+    cursor: pointer;
+    background-color: #f39c12;
+    color: #fff;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .nav-btn:hover {
+    background-color: #483d8b;
+    transform: translateY(-2px);
+  }
+  
+  .nav-btn.active {
+    background-color: #f39c12;
+  }
+  
+  .nav-btn.export-btn {
+    background-color: #f39c12;
+  }
+  
+  /* Styles pour les statistiques */
+  .stats-section h3 {
+    color: #666;
+    font-size: 18px;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  .stats-container {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+  }
+  
+  .stat-item {
+    text-align: center;
+    flex: 1;
+  }
+  
+  .stat-label {
+    display: block;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .stat-value {
+    font-size: 16px;
+    font-weight: bold;
+    color: #007bff;
+  }
+  
+  .stat-item.total .stat-value {
+    color: #27ae60;
+  }
+  
+  .stats-section p {
+    color: #666;
+    text-align: center;
+  }
+  
+  /* Styles pour le tableau */
+  .dashboard__review-table {
+    margin: 20px 0;
+  }
+  
+  .table.table-borderless {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  
+  .table.table-borderless thead th {
+    font-weight: 600;
+    color: #333;
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e5e5e5;
+  }
+  
+  .table.table-borderless tbody tr {
+    border-bottom: 1px solid #e5e5e5;
+  }
+  
+  .table.table-borderless tbody tr:last-child {
+    border-bottom: none;
+  }
+  
+  .table.table-borderless td {
+    padding: 12px 15px;
+    vertical-align: middle;
+  }
+  
+  .dashboard__review-action {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .dashboard__review-action a {
+    text-decoration: none;
+    color: #666;
+    font-size: 16px;
+  }
+  
+  .dashboard__review-action a:hover {
+    color: #007bff;
+  }
+  
+  .skillgro-bin::before {
+    content: '\f2ed';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+  }

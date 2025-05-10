@@ -5,7 +5,7 @@
 
   <div *ngIf="offres.length > 0; else noData">
     <div *ngFor="let offer of offres" class="offer-card">
-      <img [src]="'http://localhost:8081/companies/images' + offer.entreprise?.logo" 
+      <img [src]="'http://localhost:8083/companies/images' + offer.entreprise?.logo" 
            alt="{{ offer.entreprise?.name }} logo" class="company-logo" />
 
       <h2 class="entreprise-name">{{ offer.entreprise?.name }}</h2>

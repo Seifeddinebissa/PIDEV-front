@@ -3,6 +3,43 @@
       <h4 class="title">Payment List</h4>
     </div>
     <div class="row">
+        <div class="col-12">
+            <div class="dashboard__review-table">
+                <table class="table table-borderless">
+                    <thead>
+                        <tr>
+                            <th>Amount</th>
+                            <th>Currency</th>
+                            <th>Payment Methode</th>
+                            <th>Date</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let paiement of listPaiement">
+                            <td>
+                               {{paiement.amount}}
+                            </td>
+                            <td>
+                                {{paiement.currency}}
+                            </td>
+                            <td>
+                                {{paiement.paymentMethod}}
+                            </td>
+                            
+                            <td>
+                                {{paiement.date}}
+                            </td>
+                            <td>
+                                <div class="dashboard__review-action">
+                                    <a href="#" title="Edit"><i class="skillgro-edit"></i></a>
+                                    <a href="#" title="Delete"><i class="skillgro-bin"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
       <div class="col-12">
         <div class="dashboard__review-table">
           <table class="table table-borderless">

@@ -1,0 +1,410 @@
+.reclamation-section {
+  padding: 40px 0;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+h4 {
+  margin-bottom: 20px;
+  font-size: 1.5em;
+  color: #333;
+}
+
+.form-container {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1em;
+}
+
+.form-group textarea {
+  height: 120px;
+  resize: vertical;
+}
+
+.btn.submit-btn {
+  padding: 10px 20px;
+  background-color: #ffc224;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.btn.submit-btn:hover {
+  background-color: #218838;
+}
+
+.btn.cancel-btn {
+  padding: 10px 20px;
+  background-color: #ffc224;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.btn.cancel-btn:hover {
+  background-color: #c82333;
+}
+
+.form-actions {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.reclamation-list {
+  margin-bottom: 30px;
+}
+
+.reclamation-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.reclamation-table th,
+.reclamation-table td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.reclamation-table th {
+  cursor: pointer;
+  background-color: #f5f5f5;
+}
+
+.status.pending {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 5px 10px;
+  border-radius: 12px;
+}
+
+.status.in-progress {
+  background-color: #cce5ff;
+  color: #004085;
+  padding: 5px 10px;
+  border-radius: 12px;
+}
+
+.status.resolved {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 5px 10px;
+  border-radius: 12px;
+}
+
+.action-btn {
+  padding: 5px 10px;
+  background-color: #6a5acd;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.action-btn:hover {
+  background-color: #5a4ab8;
+}
+
+.pagination {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  padding: 8px 12px;
+  margin: 0 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.pagination button.active {
+  background-color: #6a5acd;
+  color: white;
+  border-color: #6a5acd;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.message {
+  text-align: center;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+}
+
+.message.success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.status-display {
+  display: block;
+  margin-bottom: 15px;
+  color: #666;
+  font-style: italic;
+}
+
+.navigation-buttons {
+  margin-bottom: 20px;
+}
+
+.nav-btn {
+  padding: 10px 20px;
+  margin-right: 10px;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f1f1f1;
+}
+
+.nav-btn.active {
+  background-color: #6a5acd;
+  color: white;
+  border-color: #6a5acd;
+}
+
+.nav-btn.export-btn {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.nav-btn.export-btn:hover {
+  background-color: #0069d9;
+}
+
+/* Styles pour les filtres (nouveau style basé sur l'image) */
+.filters {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background-color: #fff;
+  border: 2px solid #6a5acd;
+  border-radius: 25px; /* Bordure arrondie comme dans l'image */
+  padding: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.select-container {
+  position: relative;
+  margin-right: 10px;
+}
+
+.select-icon {
+  position: absolute;
+  left: px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px; /* Ajustez la taille de l'icône */
+  color: #6a5acd;
+  pointer-events: none;
+}
+
+.custom-select {
+  padding: 8px 30px 8px 30px; /* Espace pour l'icône et la flèche */
+  border: none;
+  border-radius: 20px; /* Arrondi pour s’aligner avec la barre */
+  font-size: 1em;
+  background-color: transparent;
+  cursor: pointer;
+  appearance: none; /* Supprime le style par défaut du select */
+  width: 150px; /* Ajustez selon vos besoins */
+  color: #333;
+  outline: none;
+}
+
+.custom-select:hover,
+.custom-select:focus {
+  background-color: #f0f0f0;
+}
+
+.custom-select option {
+  background-color: #fff;
+  color: #333;
+}
+
+.search-container {
+  flex-grow: 1;
+  position: relative;
+}
+
+.search-container input {
+  width: 100%;
+  padding: 8px 40px 8px 15px; /* Espace pour le bouton à droite */
+  border: none;
+  border-radius: 20px; /* Arrondi pour s’aligner avec la barre */
+  font-size: 1em;
+  background-color: transparent;
+  color: #666;
+  outline: none;
+}
+
+.search-container input::placeholder {
+  color: #999;
+}
+
+.search-button {
+  position: absolute;
+  right: 10px;
+  top: 20%;
+  padding: 5px;
+  background: #6a5acd;
+  border: none;
+  border-radius: 50%; /* Bouton circulaire */
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-button:hover {
+  background-color: #5a4ab8;
+}
+
+.search-button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.search-button svg path {
+  fill: white; /* Couleur de la loupe en blanc */
+}
+
+
+.banner__btn-wrap {
+  display: flex;
+  flex-direction: column; /* Boutons alignés verticalement */
+  gap: 10px; /* Espace de 10px entre les boutons */
+}
+
+
+
+/* Style pour le lien et l'icône "Modifier" */
+.table-borderless td a {
+  text-decoration: none; /* Supprime le soulignement par défaut */
+  color: #6a5acd; /* Couleur violette cohérente avec votre thème */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.table-borderless td a:hover {
+  color: #5a4ab8; /* Couleur au survol */
+}
+
+/* Style pour l'icône "skillgro-edit" */
+.skillgro-edit {
+  font-size: 18px; /* Taille de l'icône */
+  line-height: 1;
+}
+
+
+/* src/app/reclamation/reclamation.component.css */
+
+/* Style pour le lien et l'icône "Télécharger" */
+.table-borderless td a[title="Download Solution"] {
+  text-decoration: none;
+  color: #6a5acd;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.table-borderless td a[title="Download Solution"]:hover {
+  color: #5a4ab8;
+}
+
+
+/* Ajout à reclamation.component.css */
+.skillgro-download {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.loading-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #6a5acd; /* Couleur cohérente avec le thème */
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #6a5acd;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.no-pdf {
+  color: #888;
+  font-style: italic;
+}
+
+.debug-info {
+  color: #ff0000;
+  font-size: 12px;
+  display: block;
+}

@@ -1,0 +1,168 @@
+/* Global Chatbot Styles */
+.chat-container {
+  max-width: 1500px;
+  margin: 80px auto;
+  background: linear-gradient(135deg, #c9e4e9, #c9e4e9);
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+  padding: 80px;
+  font-family: "Poppins", sans-serif;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Chatbot Title */
+h2 {
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  color: #ffc224;
+  text-shadow: 0 0 10px cyan;
+}
+
+/* Style pour les messages d'erreur */
+.error-message {
+  color: #ff5555;
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+/* Style pour les boutons d'action (Nouvelle conversation et Historique) */
+.chat-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.chat-actions button {
+  padding: 8px 12px;
+  font-size: 13px;
+}
+
+/* Chat Message Section */
+.response-section {
+  max-height: 350px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 10px;
+}
+
+/* User Message */
+.user-message {
+  background: linear-gradient(135deg, #007bff, #00bfff);
+  color: white;
+  align-self: flex-end;
+  padding: 12px 18px;
+  border-radius: 15px 15px 0 15px;
+  max-width: 75%;
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+  font-size: 14px;
+  animation: slideIn 0.3s ease-in-out;
+}
+
+/* AI Response */
+.bot-message {
+  background: rgba(255, 255, 255, 0.1);
+  align-self: flex-start;
+  padding: 12px 18px;
+  border-radius: 15px 15px 15px 0;
+  max-width: 75%;
+  box-shadow: 0 4px 10px rgba(0, 255, 255, 0.3);
+  font-size: 14px;
+  animation: slideIn 0.3s ease-in-out;
+}
+
+/* Timestamp */
+.timestamp {
+  font-size: 10px;
+  color: #bbb;
+  margin-top: 5px;
+  text-align: right;
+}
+
+/* Typing Effect */
+.typing {
+  align-self: flex-start;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 8px 15px;
+  border-radius: 15px;
+  font-style: italic;
+  color: cyan;
+  animation: blink 1s infinite;
+}
+
+/* Input Section */
+.input-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgb(255, 255, 255);
+  padding: 10px;
+  border-radius: 10px;
+}
+
+/* Input Field */
+textarea {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  background: #ffffff;
+  color: rgb(1, 0, 0);
+  font-size: 14px;
+  resize: none;
+  height: 40px;
+  transition: all 0.3s ease-in-out;
+}
+
+textarea:focus {
+  outline: none;
+  border: 2px solid cyan;
+  box-shadow: 0 0 8px cyan;
+}
+
+/* Send Button */
+button {
+  padding: 10px 15px;
+  background: rgb(255, 255, 255);
+  color: #ffc224;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+button:hover {
+  background: #00bfff;
+  box-shadow: 0 0 10px cyan;
+}
+
+button:disabled {
+  background: #666;
+  cursor: not-allowed;
+}
+
+/* Animations */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.5;
+  }
+}

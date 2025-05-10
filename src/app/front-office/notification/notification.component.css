@@ -1,0 +1,122 @@
+.notifications-container {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  
+  .notifications-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+  }
+  
+  .notifications-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  
+  .refresh-button {
+    cursor: pointer;
+    color: #6c757d;
+    transition: color 0.2s;
+  }
+  
+  .refresh-button:hover {
+    color: #007bff;
+  }
+  
+  .no-notifications {
+    color: #6c757d;
+    padding: 30px 0;
+  }
+  
+  .no-notifications i {
+    font-size: 36px;
+    margin-bottom: 10px;
+  }
+  
+  .notifications-list {
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  .notification-item {
+    display: flex;
+    padding: 15px 20px;
+    border-bottom: 1px solid #e9ecef;
+    transition: background-color 0.2s;
+  }
+  
+  .notification-item:hover {
+    background-color: #f8f9fa;
+  }
+  
+  .notification-item.unread {
+    background-color: #e8f4ff;
+  }
+  
+  .notification-item.unread:hover {
+    background-color: #d8ecff;
+  }
+  
+  .notification-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #007bff;
+    margin-right: 15px;
+  }
+  
+  .notification-item.unread .notification-icon {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .notification-content {
+    flex-grow: 1;
+  }
+  
+  .notification-message {
+    margin-bottom: 5px;
+    font-size: 14px;
+  }
+  
+  .notification-time {
+    font-size: 12px;
+    color: #6c757d;
+  }
+  
+  .notification-actions {
+    display: flex;
+    align-items: center;
+    margin-left: 15px;
+  }
+  
+  .notification-actions button {
+    margin-left: 5px;
+  }
+  
+  .btn-outline-primary {
+    color: #007bff;
+    border-color: #007bff;
+  }
+  
+  .btn-outline-danger {
+    color: #dc3545;
+    border-color: #dc3545;
+  }
+  
+  .loading-spinner {
+    padding: 30px 0;
+  } 

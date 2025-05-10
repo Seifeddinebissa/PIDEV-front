@@ -15,7 +15,7 @@ export class EntrepriseComponent implements OnInit {
   searchTerm: string = ''; // Two-way bound search input
   loading: boolean = true; // To indicate data is being fetched
   error: string = ''; // To display any loading errors
-  baseUrl = 'http://localhost:8081';
+  baseUrl = 'http://localhost:8083';
   totalItems: number = 0;
   totalPages: number = 0;
   currentPage: number = 0; // 0-based for Spring

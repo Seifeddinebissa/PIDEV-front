@@ -11,7 +11,7 @@ import { SafeUrl } from '@angular/platform-browser';
   providedIn: 'root'
 })
 export class EntrepriseService {
-  private apiUrl = 'http://localhost:8081/companies';
+  private apiUrl = 'http://localhost:8083/companies';
 
   constructor(private http: HttpClient) {}
 
