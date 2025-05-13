@@ -53,7 +53,6 @@ export class BackOfficeComponent {
    }
  
    logout() {
-     this.authService.logout();
-   }
+     this.authService.logout();  }
  
 }

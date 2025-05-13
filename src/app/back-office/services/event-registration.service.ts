@@ -7,7 +7,7 @@ import { EventRegistration } from '../models/event-registration';
   providedIn: 'root'
 })
 export class EventRegistrationService {
-  private apiUrl = 'http://localhost:8081/api/registrations';
+  private apiUrl = 'http://localhost:8081/GestionEvents/Eventregistrations';
 
   constructor(private http: HttpClient) { }
 

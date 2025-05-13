@@ -1,31 +1,46 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 import { User } from '../models/user';
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
-  
- 
+  private baseUrl = 'http://localhost:8081';
+  private apiUrl = `${this.baseUrl}/api/auth`;
 
-  private apiUrl = 'http://localhost:8080/api/auth';
   constructor(private http: HttpClient) {}
 
   login(username: string, password: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/login`, { username, password });
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    });
+    
+    return this.http.post<any>(`${this.apiUrl}/signin`, 
+      { username, password },
+      { headers }
+    ).pipe(
+      catchError(error => {
+        console.error('Login error:', error);
+        return throwError(() => error);
+      })
+    );
   }
 
   register(formData: FormData): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/register`, formData);
+    return this.http.post<any>(`${this.apiUrl}/signup`, formData, {
+      headers: new HttpHeaders({
+        'Accept': 'application/json'
+      })
+    });
   }
 
   add(formData: FormData): Observable<any> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.post<any>(`${this.apiUrl}/register`, formData,{ headers });
+    return this.http.post<any>(`${this.apiUrl}/signup`, formData, { headers });
   }
 
   getProfile(): Observable<User> {
@@ -34,10 +49,10 @@ export class AuthenticationService {
     return this.http.get<User>(`${this.apiUrl}/profile`, { headers });
   }
 
-  getById(id : number): Observable<User> {
+  getById(id: number): Observable<User> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get<User>(`${this.apiUrl}/get-by-id/` + id, { headers });
+    return this.http.get<User>(`${this.apiUrl}/users/${id}`, { headers });
   }
 
   getProfileImage(): Observable<Blob> {
@@ -45,11 +60,13 @@ export class AuthenticationService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.get(`${this.apiUrl}/profile/image`, { headers, responseType: 'blob' });
   }
-    getAllUsers(): Observable<User[]> {
-      const token = localStorage.getItem('token');
-      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-      return this.http.get<User[]>(`${this.apiUrl}/all`, { headers });
-    }
+
+  getAllUsers(): Observable<User[]> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<User[]>(`${this.apiUrl}/users`, { headers });
+  }
+
   logout() {
     localStorage.removeItem('token');
     window.location.href = '/login';
@@ -59,27 +76,52 @@ export class AuthenticationService {
     return !!localStorage.getItem('token');
   }
 
-   update(formData: FormData): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/update`, formData);
+  update(formData: FormData): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.put<any>(`${this.apiUrl}/users/update`, formData, { headers });
   }
+
   updatePassword(formData: FormData): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/update-password`, formData);
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.put<any>(`${this.apiUrl}/users/update-password`, formData, { headers });
   }
+
   block(formData: FormData): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/block`, formData);
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.put<any>(`${this.apiUrl}/users/block`, formData, { headers });
   }
+
   unblock(formData: FormData): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/unblock`, formData);
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.put<any>(`${this.apiUrl}/users/unblock`, formData, { headers });
   }
-  existusername(username: string): Observable<any> {
+
+  existusername(username: string): Observable<User | null> {
     const params = new HttpParams().set('username', username);
-    return this.http.get<User>(`${this.apiUrl}/exist-username`, {params});
+    return this.http.get<User>(`${this.apiUrl}/users/exists/username`, { 
+      params,
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      })
+    });
   }
-  existemail(email: string): Observable<any> {
+
+  existemail(email: string): Observable<User | null> {
     const params = new HttpParams().set('email', email);
-    console.log(params);
-    return this.http.get<User>(`${this.apiUrl}/exist-email`, {params});
+    return this.http.get<User>(`${this.apiUrl}/users/exists/email`, { 
+      params,
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      })
+    });
   }
+
   forgotPassword(email: string): Observable<any> {
     const params = new HttpParams().set('email', email);
     return this.http.post(`${this.apiUrl}/forgot-password`, null, { params });
@@ -89,6 +131,6 @@ export class AuthenticationService {
     const params = new HttpParams()
       .set('token', token)
       .set('newPassword', newPassword);
-    return this.http.post(`${this.apiUrl}/reset-password`, null, { params, observe: 'body',responseType: 'text' });
+    return this.http.post(`${this.apiUrl}/reset-password`, null, { params, observe: 'body', responseType: 'text' });
   }
 }

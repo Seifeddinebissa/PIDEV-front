@@ -32,7 +32,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   }
 
   private getEventDetails(): void {
-    const idEvent = this.route.snapshot.paramMap.get('id');
+    const idEvent = this.route.snapshot.paramMap.get('idEvent');
     if (!idEvent) {
       this.error = 'Event ID not provided.';
       this.toasterService.error(this.error ?? undefined, 'Error');

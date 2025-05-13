@@ -22,7 +22,23 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "/assets",
+                "ignore": ["**/*.css", "**/fonts/fa-*"]
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/@fortawesome/fontawesome-free/webfonts",
+                "output": "/assets/fonts"
+              }
+            ],
+            "allowedCommonJsDependencies": [
+              "pdfjs-dist/build/pdf",
+              "pdfjs-dist/web/pdf_viewer",
+              "file-saver",
+              "leaflet"
             ],
             "styles": [
               "src/styles.css",
@@ -32,7 +48,6 @@
               "src/assets/css/bootstrap.min.css",
               "src/assets/css/animate.min.css",
               "src/assets/css/magnific-popup.css",
-              "src/assets/css/fontawesome-all.min.css",
               "src/assets/css/flaticon-skillgro.css",
               "src/assets/css/flaticon-skillgro-new.css",
               "src/assets/css/swiper-bundle.min.css",

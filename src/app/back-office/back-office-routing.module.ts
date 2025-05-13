@@ -32,10 +32,9 @@ const routes: Routes = [
     component: BackOfficeComponent,
     children: [
       { path: '', redirectTo: 'list-event', pathMatch: 'full' },
-      { path: 'event-statistics', component: EventStatsComponent },
+     // { path: 'event-statistics', component: EventStatsComponent },
+      { path: 'event-stat', component: EventStatsComponent },
       { path: 'list-event', component: ListEventComponent },
-     // { path: 'list-event', component: ListEventComponent },
-
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, // Par défaut, affiche une vue dashboard vide ou un composant dédié
       { path: 'reclamation', component: ListreclamationComponent },
       { path: 'admin/chats', component: ChatManagementComponent },

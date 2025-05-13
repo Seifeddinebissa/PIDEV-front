@@ -1,5 +1,5 @@
 import { User } from './../models/user';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { AuthenticationService } from '../services/authentication.service';
@@ -9,20 +9,26 @@ import { AuthenticationService } from '../services/authentication.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
-   user: User | null = null;
+  user: User | null = null;
   username = '';
   password = '';
-  loginErrorMsg='';
-  showError: boolean = false;
-
+  loginErrorMsg = '';
+  showError = false;
+  isSubmitting = false;
 
   captchaCode: string = '';
   userCaptchaAnswer: string = '';
   @ViewChild('captchaCanvas') captchaCanvas!: ElementRef<HTMLCanvasElement>;
 
   constructor(private authService: AuthenticationService, private router: Router) {}
+
+  ngOnInit() {
+    if (this.authService.isLoggedIn()) {
+      this.router.navigate(['/profile']);
+    }
+  }
 
   ngAfterViewInit() {
     this.generateCaptcha(); // Generate CAPTCHA after the view is initialized
@@ -79,12 +85,17 @@ export class LoginComponent {
   }
 
   onSubmit() {
+    if (this.isSubmitting) return;
+    
     if (!this.isCaptchaValid()) {
       this.showError = true;
       this.loginErrorMsg = 'Incorrect CAPTCHA answer. Please try again.';
-      this.generateCaptcha(); // Regenerate CAPTCHA on failure
+      this.generateCaptcha();
       return;
     }
+
+    this.isSubmitting = true;
+    this.showError = false;
 
     this.authService.login(this.username, this.password).subscribe({
       next: (response) => {
@@ -92,6 +103,7 @@ export class LoginComponent {
         this.router.navigate(['/profile']);
       },
       error: (error) => {
+        this.isSubmitting = false;
         this.showError = true;
         if (error.status === 333) {
           console.error('Login failed: Account is blocked');
@@ -100,10 +112,11 @@ export class LoginComponent {
           console.error('Login failed:', error);
           this.loginErrorMsg = 'Invalid username or password. Please try again.';
         }
-        this.generateCaptcha(); // Regenerate CAPTCHA on login failure
+        this.generateCaptcha();
       }
     });
   }
+
   closeError() {
     this.showError = false;
     this.loginErrorMsg = '';

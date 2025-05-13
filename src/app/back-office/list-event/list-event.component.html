@@ -1,6 +1,5 @@
-<div class="container mt-4">
+ <div class="container mt-4">
   <h2 class="text-center">Event Management</h2>
-
   <!-- Buttons for showing events and add form -->
   <div class="text-center my-3">
     <button class="btn btn-primary me-2" (click)="displayEvents()">
@@ -30,7 +29,8 @@
                 #fileInput
                 [style.display]="'none'"
                 (change)="onPhotoSelected($event)"
-                accept="image/*"
+                
+                accept="image/*" 
                 aria-label="Upload event image">
               <button
                 type="button"
@@ -109,12 +109,15 @@
               type="date"
               class="form-control"
               [min]="today"
-              [ngClass]="{'is-invalid': eventForm.get('start_Date')?.touched && eventForm.get('start_Date')?.invalid}"
+              (change)="eventForm.get('end_Date')?.updateValueAndValidity()"
+              [ngClass]="{'is-invalid': eventForm.get('start_Date')?.touched && (eventForm.get('start_Date')?.invalid || eventForm.errors?.['startDateInPast'] || eventForm.errors?.['endDateBeforeStart'])}"
               aria-describedby="startDateError"
             />
-            <div *ngIf="eventForm.get('start_Date')?.touched && eventForm.get('start_Date')?.invalid" class="text-danger" id="startDateError">
+            <div *ngIf="eventForm.get('start_Date')?.touched && (eventForm.get('start_Date')?.invalid || eventForm.errors?.['startDateInPast'] || eventForm.errors?.['endDateBeforeStart'])" class="text-danger" id="startDateError">
               <small *ngIf="eventForm.get('start_Date')?.errors?.['required']">Start Date is required.</small>
-              <small *ngIf="eventForm.get('start_Date')?.errors?.['invalidDates']">Start Date is invalid.</small>
+              <small *ngIf="eventForm.errors?.['startDateInPast']">Start Date cannot be in the past.</small>
+              <small *ngIf="eventForm.errors?.['invalidDates']">Start Date is invalid.</small>
+              <small *ngIf="eventForm.errors?.['endDateBeforeStart']">End Date must be on or after Start Date.</small>
             </div>
           </div>
 
@@ -127,16 +130,14 @@
               formControlName="end_Date"
               type="date"
               class="form-control"
-              [min]="start_Date || today"
+              [min]="eventForm.get('start_Date')?.value || today"
               [ngClass]="{'is-invalid': eventForm.get('end_Date')?.touched && (eventForm.get('end_Date')?.invalid || eventForm.errors?.['endDateBeforeStart'])}"
               aria-describedby="endDateError"
             />
-            <div *ngIf="eventForm.get('end_Date')?.touched && eventForm.get('end_Date')?.invalid" class="text-danger" id="endDateError">
+            <div *ngIf="eventForm.get('end_Date')?.touched && (eventForm.get('end_Date')?.invalid || eventForm.errors?.['endDateBeforeStart'])" class="text-danger" id="endDateError">
               <small *ngIf="eventForm.get('end_Date')?.errors?.['required']">End Date is required.</small>
               <small *ngIf="eventForm.get('end_Date')?.errors?.['invalidDates']">End Date is invalid.</small>
-            </div>
-            <div *ngIf="eventForm.errors?.['endDateBeforeStart'] && eventForm.get('end_Date')?.touched" class="text-danger">
-              <small>End Date must be on or after Start Date.</small>
+              <small *ngIf="eventForm.errors?.['endDateBeforeStart']">End Date must be on or after Start Date.</small>
             </div>
           </div>
         </div>
@@ -180,6 +181,7 @@
               type="text"
               id="searchTerm"
               [(ngModel)]="searchTerm"
+              (ngModelChange)="applyFilters()"
               class="form-control"
               placeholder="Search..."
               aria-label="Search by name or location">
@@ -205,6 +207,8 @@
               type="date"
               id="startDateFilter"
               [(ngModel)]="startDateFilter"
+              [min]="today"
+              (ngModelChange)="applyFilters()"
               class="form-control"
               aria-label="Filter by start date">
           </div>
@@ -216,6 +220,8 @@
               type="date"
               id="endDateFilter"
               [(ngModel)]="endDateFilter"
+              [min]="startDateFilter || today"
+              (ngModelChange)="applyFilters()"
               class="form-control"
               aria-label="Filter by end date">
           </div>

@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule, DatePipe } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { HttpErrorInterceptor } from './shared/interceptors/http-error.interceptor';
+import { HttpErrorInterceptor } from './interceptors/http-error.interceptor';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { ButtonModule } from 'primeng/button';
 import { ToastrModule } from 'ngx-toastr';

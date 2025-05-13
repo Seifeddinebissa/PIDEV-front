@@ -7,7 +7,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/frontoffice', pathMatch: 'full' },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
   { 
     path: 'frontoffice', 
     loadChildren: () => import('./front-office/front-office.module').then(m => m.FrontOfficeModule) 
@@ -16,8 +16,8 @@ const routes: Routes = [
     path: 'backoffice', 
     loadChildren: () => import('./back-office/back-office.module').then(m => m.BackOfficeModule) 
   },
-  { path: 'home', redirectTo: '/frontoffice', pathMatch: 'full' },
-  { path: '**', redirectTo: '/frontoffice' },
+ // { path: 'home', redirectTo: '/frontoffice', pathMatch: 'full' },
+  //{ path: '**', redirectTo: '/frontoffice' },
   { path: 'back-office', loadChildren: () => import('./back-office/back-office.module').then(m => m.BackOfficeModule) },
   { path: 'front-office', loadChildren: () => import('./front-office/front-office.module').then(m => m.FrontOfficeModule) },
 

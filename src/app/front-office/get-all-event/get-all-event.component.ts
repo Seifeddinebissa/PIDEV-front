@@ -3,7 +3,9 @@ import { Subject, takeUntil } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { EventsService } from 'src/app/back-office/services/event.service';
-import { Event } from 'src/app/back-office/models/event';  
+import { Event } from 'src/app/back-office/models/event';
+import { FavoriteService } from '../services/favorite.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-get-all-event',
@@ -22,7 +24,9 @@ export class GetAllEventComponent implements OnInit, OnDestroy {
   constructor(
     private eventService: EventsService,
     private cdr: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private favoriteService: FavoriteService,
+    private toastr: ToastrService
   ) {
     this.today = new Date().toISOString().split('T')[0];
   }
@@ -67,5 +71,23 @@ export class GetAllEventComponent implements OnInit, OnDestroy {
     if (this.showEvents && !this.events.length) {
       this.getAllEvents(); // Fetch events only if not already loaded
     }
+  }
+
+  viewEventDetails(idEvent: number): void {
+    this.router.navigate(['/events', idEvent]);
+  }
+
+  toggleFavorite(event: Event): void {
+    if (this.favoriteService.isFavorite(event.idEvent)) {
+      this.favoriteService.removeFromFavorites(event.idEvent);
+      this.toastr.success('Event removed from favorites', 'Success');
+    } else {
+      this.favoriteService.addToFavorites(event);
+      this.toastr.success('Event added to favorites', 'Success');
+    }
+  }
+
+  isFavorite(idEvent: number): boolean {
+    return this.favoriteService.isFavorite(idEvent);
   }
 }

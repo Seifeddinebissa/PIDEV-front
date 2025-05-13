@@ -28,11 +28,14 @@
 <!-- Events Display Section -->
 <section class="events__area section-py-120">
     <div class="container">
-        <!-- Toggle Button -->
+        <!-- Toggle Button and Favorites Link -->
         <div class="text-center mb-4">
-            <button class="btn btn-primary" (click)="displayEvents()">
+            <button class="btn btn-primary me-2" (click)="displayEvents()">
                 {{ showEvents ? 'Hide Events' : 'Show Events' }}
             </button>
+            <a routerLink="/favorites" class="btn btn-outline-primary">
+                <i class="fas fa-heart"></i> View Favorites
+            </a>
         </div>
 
         <!-- Error Message -->
@@ -54,16 +57,26 @@
             </div>
             <div *ngFor="let event of events" class="col-lg-4 col-md-6">
                 <div class="card h-100">
-                    <img [src]="event.imageUrl || 'assets/img/default-event.jpg'" class="card-img-top" alt="Event imageUrl" style="height: 200px; object-fit: cover;">
+                    <img [src]="event.imageUrl || 'assets/img/default-event.jpg'" class="card-img-top" alt="Event image" style="height: 200px; object-fit: cover;">
                     <div class="card-body">
                         <h5 class="card-title">{{ event.eventName }}</h5>
                         <p class="card-text">
-                            <strong>ID:</strong> {{ event.idEvent }}<br>
                             <strong>Location:</strong> {{ event.location }}<br>
                             <strong>Capacity:</strong> {{ event.capacity }}<br>
-                            <strong>Start Date:</strong> {{ event.start_Date  }}<br>
-                            <strong>End Date:</strong> {{ event.end_Date  }}
+                            <strong>Start Date:</strong> {{ event.start_Date | date }}<br>
+                            <strong>End Date:</strong> {{ event.end_Date | date }}
                         </p>
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-primary" (click)="viewEventDetails(event.idEvent)">
+                                View Details
+                            </button>
+                            <button class="btn" 
+                                [ngClass]="{'btn-outline-danger': isFavorite(event.idEvent), 'btn-outline-primary': !isFavorite(event.idEvent)}"
+                                (click)="toggleFavorite(event)">
+                                <i class="fas" [ngClass]="{'fa-heart': isFavorite(event.idEvent), 'fa-heart-o': !isFavorite(event.idEvent)}"></i>
+                                {{ isFavorite(event.idEvent) ? 'Remove from Favorites' : 'Add to Favorites' }}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

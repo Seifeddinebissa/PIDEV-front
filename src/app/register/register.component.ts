@@ -22,16 +22,17 @@ export class RegisterComponent implements AfterViewInit {
   email = '';
   msg = '';
   image: File | null = null;
-  imagePreview: string | null = null; // For previewing selected file
+  imagePreview: string | null = null;
   role: string = 'STUDENT';
   availableRoles = ['STUDENT', 'ADMIN', 'HR', 'TRAINER', 'COMPANY'];
 
-  // Camera-related properties
   @ViewChild('video') videoElement!: ElementRef<HTMLVideoElement>;
   @ViewChild('canvas') canvasElement!: ElementRef<HTMLCanvasElement>;
   isCameraOpen: boolean = false;
   capturedPhoto: string | null = null;
   stream: MediaStream | null = null;
+  isSubmitting: boolean = false;
+  showError: boolean = false;
 
   constructor(
     private authService: AuthenticationService,
@@ -42,28 +43,26 @@ export class RegisterComponent implements AfterViewInit {
     // Ensure DOM elements are ready
   }
 
-  // Handle file selection and generate preview
   onFileChange(event: any) {
     this.image = event.target.files[0];
-    this.capturedPhoto = null; // Clear captured photo
-    this.isCameraOpen = false; // Close camera if open
-    this.closeCamera(); // Stop camera stream
+    this.capturedPhoto = null; 
+    this.isCameraOpen = false; 
+    this.closeCamera(); 
     if (this.image) {
       const reader = new FileReader();
-      reader.onload = (e) => (this.imagePreview = e.target?.result as string);
+      reader.onload = (e: any) => (this.imagePreview = e.target.result);
       reader.readAsDataURL(this.image);
     } else {
       this.imagePreview = null;
     }
   }
 
-  // Start the camera
   async startCamera() {
     try {
       this.isCameraOpen = true;
-      this.image = null; // Clear selected file
-      this.imagePreview = null; // Clear file preview
-      this.capturedPhoto = null; // Clear previous captured photo
+      this.image = null; 
+      this.imagePreview = null; 
+      this.capturedPhoto = null; 
       this.stream = await navigator.mediaDevices.getUserMedia({ video: true });
       this.videoElement.nativeElement.srcObject = this.stream;
     } catch (err) {
@@ -73,7 +72,6 @@ export class RegisterComponent implements AfterViewInit {
     }
   }
 
-  // Capture photo from video feed
   capturePhoto() {
     const video = this.videoElement.nativeElement;
     const canvas = this.canvasElement.nativeElement;
@@ -83,7 +81,6 @@ export class RegisterComponent implements AfterViewInit {
     this.capturedPhoto = canvas.toDataURL('image/jpeg');
   }
 
-  // Confirm captured photo and convert to File
   confirmPhoto() {
     if (this.capturedPhoto) {
       this.dataURLtoFile(this.capturedPhoto, 'captured-photo.jpg').then((file) => {
@@ -93,14 +90,12 @@ export class RegisterComponent implements AfterViewInit {
     }
   }
 
-  // Convert data URL to File
   async dataURLtoFile(dataUrl: string, filename: string): Promise<File> {
     const res = await fetch(dataUrl);
     const blob = await res.blob();
     return new File([blob], filename, { type: 'image/jpeg' });
   }
 
-  // Close camera and stop stream
   closeCamera() {
     if (this.stream) {
       this.stream.getTracks().forEach(track => track.stop());
@@ -109,51 +104,72 @@ export class RegisterComponent implements AfterViewInit {
     this.isCameraOpen = false;
   }
 
-  onSubmit() {
-    if (!this.image) {
-      this.msg = 'Please select or capture a profile image.';
-      return;
-    }
+  onSubmit(form: NgForm) {
+    if (form.valid) {
+      const formData = new FormData();
+      formData.append('username', this.username);
+      formData.append('password', this.password);
+      formData.append('firstName', this.firstName);
+      formData.append('lastName', this.lastName);
+      formData.append('cin', this.cin);
+      formData.append('address', this.address);
+      formData.append('email', this.email);
+      formData.append('roles', this.role);
 
-    // Prepare the form data
-    const formData = new FormData();
-    formData.append('username', this.username);
-    formData.append('password', this.password);
-    formData.append('email', this.email);
-    formData.append('firstName', this.firstName);
-    formData.append('lastName', this.lastName);
-    formData.append('cin', this.cin);
-    formData.append('address', this.address);
-    formData.append('image', this.image);
-    formData.append('roles', this.role);
+      if (this.image) {
+        formData.append('image', this.image);
+      } else if (this.capturedPhoto) {
+        fetch(this.capturedPhoto)
+          .then(res => res.blob())
+          .then(blob => {
+            formData.append('image', blob, 'captured-photo.jpg');
+          });
+      }
 
-    // Check if username and email already exist
-    forkJoin([
-      this.authService.existusername(this.username),
-      this.authService.existemail(this.email),
-    ]).subscribe({
-      next: ([usernameResult, emailResult]) => {
-        if (usernameResult) {
-          this.msg = 'Username already exists';
-        } else if (emailResult) {
-          this.msg = 'Email already exists';
-        } else {
-          // Proceed with registration
+      this.isSubmitting = true;
+      this.showError = false;
+
+      forkJoin({
+        usernameCheck: this.authService.existusername(this.username),
+        emailCheck: this.authService.existemail(this.email)
+      }).subscribe({
+        next: (results) => {
+          if (results.usernameCheck) {
+            this.showError = true;
+            this.msg = 'Username already exists';
+            this.isSubmitting = false;
+            return;
+          }
+          if (results.emailCheck) {
+            this.showError = true;
+            this.msg = 'Email already exists';
+            this.isSubmitting = false;
+            return;
+          }
+
           this.authService.register(formData).subscribe({
-            next: () => {
+            next: (response) => {
+              console.log('Registration successful:', response);
               this.router.navigate(['/login']);
             },
-            error: (err) => {
-              console.error('Registration failed', err);
-              this.msg = 'Registration failed. Please try again.';
-            },
+            error: (error) => {
+              console.error('Registration error:', error);
+              this.showError = true;
+              this.msg = error.message || 'Registration failed. Please try again.';
+              this.isSubmitting = false;
+            }
           });
+        },
+        error: (error) => {
+          console.error('Error checking username/email:', error);
+          this.showError = true;
+          this.msg = 'Error checking username/email. Please try again.';
+          this.isSubmitting = false;
         }
-      },
-      error: (err) => {
-        console.error('Error checking username/email', err);
-        this.msg = 'Error verifying username or email. Please try again.';
-      },
-    });
+      });
+    } else {
+      this.showError = true;
+      this.msg = 'Please fill in all required fields correctly.';
+    }
   }
 }

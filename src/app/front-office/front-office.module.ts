@@ -36,6 +36,7 @@ import { CourseDetailsComponent } from './course-details/course-details.componen
 import { EventDetailsComponent } from './event-details/event-details.component';
 import { GetAllEventComponent } from './get-all-event/get-all-event.component';
 import { NotificationComponent } from './notification/notification.component';
+import { FavoriteEventsComponent } from './favorite-events/favorite-events.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { NotificationComponent } from './notification/notification.component';
     StudentCalendarComponent,
     FormationsListComponent,
     CourseDetailsComponent,
-    NotificationComponent
+    NotificationComponent,
+    FavoriteEventsComponent
   ],
   imports: [
     CommonModule,
