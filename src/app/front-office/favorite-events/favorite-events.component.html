@@ -1,0 +1,59 @@
+<!-- Breadcrumb Section -->
+<section class="breadcrumb__area breadcrumb__bg" [style.backgroundImage]="'url(assets/img/bg/breadcrumb_bg.jpg)'">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb__content">
+                    <h3 class="title">Favorite Events</h3>
+                    <nav class="breadcrumb">
+                        <span property="itemListElement" typeof="ListItem">
+                            <a href="index.html">Home</a>
+                        </span>
+                        <span class="breadcrumb-separator"><i class="fas fa-angle-right"></i></span>
+                        <span property="itemListElement" typeof="ListItem">Favorite Events</span>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Favorite Events Section -->
+<section class="events__area section-py-120">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="text-center mb-4">Your Favorite Events</h2>
+            </div>
+        </div>
+
+        <div *ngIf="favoriteEvents.length === 0" class="text-center">
+            <p class="text-muted">You haven't added any events to your favorites yet.</p>
+        </div>
+
+        <div class="row g-4">
+            <div *ngFor="let event of favoriteEvents" class="col-lg-4 col-md-6">
+                <div class="card h-100">
+                    <img [src]="event.imageUrl || 'assets/img/default-event.jpg'" class="card-img-top" alt="Event image" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ event.eventName }}</h5>
+                        <p class="card-text">
+                            <strong>Location:</strong> {{ event.location }}<br>
+                            <strong>Capacity:</strong> {{ event.capacity }}<br>
+                            <strong>Start Date:</strong> {{ event.start_Date | date }}<br>
+                            <strong>End Date:</strong> {{ event.end_Date | date }}
+                        </p>
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-primary" (click)="viewEventDetails(event.idEvent)">
+                                View Details
+                            </button>
+                            <button class="btn btn-danger" (click)="removeFromFavorites(event.idEvent)">
+                                Remove from Favorites
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> 

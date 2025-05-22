@@ -1,15 +1,18 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { EventsService } from './services/event.service';
+import { ToastrModule } from 'ngx-toastr';
 import { BackOfficeRoutingModule } from './back-office-routing.module';
 import { BackOfficeComponent } from './back-office.component';
-import { RouterModule } from '@angular/router';
-import { PaiementComponent } from './paiement/paiement.component';
-import { HttpClientModule } from '@angular/common/http';
+import { EventStatsComponent } from './event-stats/event-stats.component';
+import { EventStatisticsService } from './services/event-statistics.service';
+import { SharedModule } from '../shared/shared.module';
+import { ListreclamationComponent } from './listreclamation/listreclamation.component';
+import { ChatManagementComponent } from './chat-management/chat-management.component';
 import { EntrepriseComponent } from './entreprise/entreprise.component';
 import { AddEntrepriseComponent } from './add-entreprise/add-entreprise.component';
-import { FormsModule } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
 import { UpdateEntrepriseComponent } from './update-entreprise/update-entreprise.component';
 import { StatOffreComponent } from './stat-offre/stat-offre.component';
 import { NgChartsModule } from 'ng2-charts';
@@ -19,7 +22,6 @@ import { FormationEditComponent } from './formation-edit/formation-edit.componen
 import { FeedbackComponent } from './feedback/feedback.component';
 import { FeedbackEditComponent } from './feedback-edit/feedback-edit.component';
 import { FeedbackAddComponent } from './feedback-add/feedback-add.component';
-import { ReactiveFormsModule } from '@angular/forms';
 import { FeedbackStatsComponent } from './feedback-stats/feedback-stats.component';
 import { ChartModule } from 'primeng/chart';
 import { AddPaiementComponent } from './paiement/add-paiement/add-paiement.component';
@@ -29,12 +31,16 @@ import { CancelPageComponent } from './paiement/paypal-payment/cancel-page/cance
 import { ProfileComponent } from './profile/profile.component';
 import { EditProfileComponent } from './profile/edit-profile/edit-profile.component';
 import { UtilisateursComponent } from './utilisateurs/utilisateurs.component';
-
+import { PaiementComponent } from './paiement/paiement.component';
+import { RouterModule } from '@angular/router';
+import { ListEventComponent } from './list-event/list-event.component'; // Add this import
 
 @NgModule({
   declarations: [
     BackOfficeComponent,
-    PaiementComponent,
+    EventStatsComponent,
+    ListreclamationComponent,
+    ChatManagementComponent,
     EntrepriseComponent,
     AddEntrepriseComponent,
     UpdateEntrepriseComponent,
@@ -52,24 +58,27 @@ import { UtilisateursComponent } from './utilisateurs/utilisateurs.component';
     CancelPageComponent,
     ProfileComponent,
     EditProfileComponent,
-    UtilisateursComponent
+    UtilisateursComponent,
+    PaiementComponent,
+    ListEventComponent // Add this to declarations
   ],
   imports: [
-    CommonModule,
-    /*RouterModule.forChild([
-      {
-        path: '',
-        component: BackOfficeComponent
-      }
-    ]),*/
+    CommonModule, // Provides ngClass, ngIf, date pipe, etc.
+    FormsModule, // Provides ngModel for template-driven forms
+    ReactiveFormsModule, // Provides formGroup for reactive forms
+    HttpClientModule,
     RouterModule,
     BackOfficeRoutingModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
+    SharedModule,
+    ToastrModule,
     NgChartsModule,
     ChartModule
   ],
-  exports: [BackOfficeComponent]
+  providers: [
+    DatePipe, // Ensure DatePipe is available for the date pipe
+    DecimalPipe,
+    EventsService,
+    EventStatisticsService
+  ]
 })
 export class BackOfficeModule { }

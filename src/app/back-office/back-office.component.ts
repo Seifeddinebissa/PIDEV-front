@@ -9,11 +9,25 @@ import { User } from '../models/user';
   styleUrls: ['./back-office.component.css']
 })
 export class BackOfficeComponent {
+ 
+  constructor(private router: Router,private authService: AuthenticationService) {}
+
+  // Méthode pour naviguer vers les réclamations avec un log
+  navigateToReclamations(): void {
+    console.log('Clic sur Réclamation - Navigation vers /back-office/reclamations');
+    this.router.navigate(['/back-office/reclamations']);
+  }
+
+  // Méthode pour naviguer vers la gestion des conversations avec un log
+  navigateToChats(): void {
+    console.log('Clic sur Gestion des Conversations - Navigation vers /admin/chats');
+    this.router.navigate(['/admin/chats']);
+  }
 
    user: User | null = null;
    imageUrl: string | null = null;
  
-   constructor(private authService: AuthenticationService) {}
+
  
    ngOnInit() {
      this.authService.getProfile().subscribe({
@@ -39,7 +53,6 @@ export class BackOfficeComponent {
    }
  
    logout() {
-     this.authService.logout();
-   }
+     this.authService.logout();  }
  
 }

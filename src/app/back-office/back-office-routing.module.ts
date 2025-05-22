@@ -1,8 +1,13 @@
+// src/app/back-office/back-office-routing.module.ts
 import { PaypalPaymentComponent } from './paiement/paypal-payment/paypal-payment.component';
 import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PaiementComponent } from './paiement/paiement.component';
 import { BackOfficeComponent } from './back-office.component';
+import { ListEventComponent } from './list-event/list-event.component';
+import { EventStatsComponent } from './event-stats/event-stats.component';
+import { ReclamationComponent } from '../front-office/reclamation/reclamation.component';
+import { ListreclamationComponent } from './listreclamation/listreclamation.component';
+import { ChatManagementComponent } from './chat-management/chat-management.component';
 import { EntrepriseComponent } from './entreprise/entreprise.component';
 import { AddEntrepriseComponent } from './add-entreprise/add-entreprise.component';
 import { UpdateEntrepriseComponent } from './update-entreprise/update-entreprise.component';
@@ -19,14 +24,22 @@ import { SuccessPageComponent } from './paiement/paypal-payment/success-page/suc
 import { ProfileComponent } from './profile/profile.component';
 import { EditProfileComponent } from './profile/edit-profile/edit-profile.component';
 import { UtilisateursComponent } from './utilisateurs/utilisateurs.component';
+import { PaiementComponent } from './paiement/paiement.component';
 
 const routes: Routes = [
   {
     path: '',
     component: BackOfficeComponent,
     children: [
+      { path: '', redirectTo: 'list-event', pathMatch: 'full' },
+     // { path: 'event-statistics', component: EventStatsComponent },
+      { path: 'event-stat', component: EventStatsComponent },
+      { path: 'list-event', component: ListEventComponent },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, // Par défaut, affiche une vue dashboard vide ou un composant dédié
+      { path: 'reclamation', component: ListreclamationComponent },
+      { path: 'admin/chats', component: ChatManagementComponent },
+      //{ path: '', redirectTo: 'reclamations', pathMatch: 'full' } // Optionnel : route par défaut
       { path: 'entreprises', component: EntrepriseComponent },
-      { path: 'paiement', component: PaiementComponent },
       { path: 'add-entreprise', component: AddEntrepriseComponent },
       { path: 'update-entreprise', component: UpdateEntrepriseComponent },
       { path: 'update-entreprise/:id', component: UpdateEntrepriseComponent },

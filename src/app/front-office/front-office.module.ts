@@ -1,42 +1,50 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
-import { FrontOfficeRoutingModule } from './front-office-routing.module';
-import { FrontOfficeComponent } from './front-office.component';
-import { Router, RouterModule } from '@angular/router';
-import { CreateOffreComponent } from './create-offre/create-offre.component';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { UpdateOffreModalComponent } from './update-offre-modal/update-offre-modal.component';
+import { RouterModule } from '@angular/router';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { ToastrModule } from 'ngx-toastr';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input'; 
+import { MatInputModule } from '@angular/material/input';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { FrontOfficeRoutingModule } from './front-office-routing.module';
+import { FrontOfficeComponent } from './front-office.component';
+import { ReclamationComponent } from './reclamation/reclamation.component';
+import { ChatbotComponent } from './chatbot/chatbot.component';
+import { CreateOffreComponent } from './create-offre/create-offre.component';
+import { UpdateOffreModalComponent } from './update-offre-modal/update-offre-modal.component';
 import { OfferComponent } from './offer/offer.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { OfferStudentComponent } from './offer-student/offer-student.component';
 import { FavoritesComponent } from './favorites/favorites.component';
 import { AppliedComponent } from './applied/applied.component';
 import { ApplyEntrepriseComponent } from './apply-entreprise/apply-entreprise.component';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { ToastrModule } from 'ngx-toastr';
 import { MapComponent } from './map/map.component';
 import { InterviewScheduleComponent } from './interview-schedule/interview-schedule.component';
 import { StudentDashboardComponent } from './student-dashboard/student-dashboard.component';
-import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { SetInterviewModalComponent } from './set-interview-modal/set-interview-modal.component';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core'; // Import this
 import { StudentCalendarComponent } from './student-calendar/student-calendar.component';
 import { FormationsListComponent } from './formations-list/formations-list.component';
 import { CourseDetailsComponent } from './course-details/course-details.component';
-import { FormsModule } from '@angular/forms';
-import { NgxPaginationModule } from 'ngx-pagination';
-
+import { EventDetailsComponent } from './event-details/event-details.component';
+import { GetAllEventComponent } from './get-all-event/get-all-event.component';
+import { NotificationComponent } from './notification/notification.component';
+import { FavoriteEventsComponent } from './favorite-events/favorite-events.component';
 
 @NgModule({
   declarations: [
     FrontOfficeComponent,
+    ReclamationComponent,
+    ChatbotComponent,
+    EventDetailsComponent,
+    GetAllEventComponent,
     OfferComponent,
     CreateOffreComponent,
     UpdateOffreModalComponent,
@@ -50,43 +58,32 @@ import { NgxPaginationModule } from 'ngx-pagination';
     SetInterviewModalComponent,
     StudentCalendarComponent,
     FormationsListComponent,
-    CourseDetailsComponent
+    CourseDetailsComponent,
+    NotificationComponent,
+    FavoriteEventsComponent
   ],
   imports: [
-    BrowserAnimationsModule,
-    ReactiveFormsModule,
-    MatDatepickerModule,
-    FormsModule,
     CommonModule,
-    MatDialogModule, 
-    MatButtonModule, 
-    MatFormFieldModule, 
-    MatNativeDateModule,
-    MatInputModule, 
+    FormsModule,
+    ReactiveFormsModule,
     RouterModule,
     FrontOfficeRoutingModule,
+    PdfViewerModule,
+    NgxExtendedPdfViewerModule,
+    NgxPaginationModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
     MatSnackBarModule,
-    ToastrModule.forRoot({
-      timeOut: 5000, // Duration in milliseconds
-      positionClass: 'toast-top-right',// Position of the toast
-      preventDuplicates: true,
-      progressBar: true, // Show a progress bar
-      closeButton: true, // Show a close button
-      toastClass: 'ngx-toastr', // Default class
-      titleClass: 'toast-title', // Class for the title
-      messageClass: 'toast-message', // Class for the message
-      tapToDismiss: true, // Dismiss on click
-      enableHtml: true, // Allow HTML in the message
-    }),
+    MatDatepickerModule,
+    MatNativeDateModule,
+    ToastrModule,
     CalendarModule.forRoot({
       provide: DateAdapter,
-      useFactory: adapterFactory,
-    }),
-  
-    FormsModule,
-    NgxPaginationModule,
-    ReactiveFormsModule
+      useFactory: adapterFactory
+    })
   ],
-  exports: [FrontOfficeComponent]
+  providers: [DatePipe]
 })
 export class FrontOfficeModule { }

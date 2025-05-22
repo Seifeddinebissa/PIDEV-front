@@ -1,0 +1,107 @@
+/* Style global */
+.container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  
+  /* Titre */
+  h2 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Carte d'événement */
+  .event-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+    background: #f9f9f9;
+  }
+  
+  .event-card:hover {
+    transform: scale(1.02);
+  }
+  
+  /* Image */
+  .event-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 2px solid #ddd;
+  }
+  
+  /* Contenu */
+  .event-content {
+    padding: 15px;
+  }
+  
+  .event-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 10px;
+  }
+  
+  .event-details {
+    font-size: 0.9em;
+    color: #666;
+  }
+  
+  /* Dates */
+  .event-date {
+    font-size: 0.9em;
+    font-weight: bold;
+    color: #ff5722;
+    margin-top: 5px;
+  }
+  
+  /* Boutons */
+  .btn {
+    display: inline-block;
+    padding: 8px 12px;
+    margin: 5px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.3s;
+    cursor: pointer;
+  }
+  
+  .btn-primary {
+    background: #007bff;
+    color: white;
+    border: none;
+  }
+  
+  .btn-primary:hover {
+    background: #0056b3;
+  }
+  
+  .btn-danger {
+    background: #dc3545;
+    color: white;
+    border: none;
+  }
+  
+  .btn-danger:hover {
+    background: #a71d2a;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .container {
+      padding: 15px;
+    }
+    
+    .event-card {
+      margin-bottom: 15px;
+    }
+  }
+  

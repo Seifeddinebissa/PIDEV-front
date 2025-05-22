@@ -22,18 +22,32 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "/assets",
+                "ignore": ["**/*.css", "**/fonts/fa-*"]
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/@fortawesome/fontawesome-free/webfonts",
+                "output": "/assets/fonts"
+              }
+            ],
+            "allowedCommonJsDependencies": [
+              "pdfjs-dist/build/pdf",
+              "pdfjs-dist/web/pdf_viewer",
+              "file-saver",
+              "leaflet"
             ],
             "styles": [
               "src/styles.css",
               "node_modules/leaflet/dist/leaflet.css",
               "node_modules/bootstrap-icons/font/bootstrap-icons.css",
               "node_modules/angular-calendar/css/angular-calendar.css",
-
               "src/assets/css/bootstrap.min.css",
               "src/assets/css/animate.min.css",
               "src/assets/css/magnific-popup.css",
-              "src/assets/css/fontawesome-all.min.css",
               "src/assets/css/flaticon-skillgro.css",
               "src/assets/css/flaticon-skillgro-new.css",
               "src/assets/css/swiper-bundle.min.css",
@@ -44,9 +58,10 @@
               "src/assets/css/plyr.css",
               "src/assets/css/spacing.css",
               "src/assets/css/tg-cursor.css",
-              "src/assets/css/main.css"
-
-              
+              "src/assets/css/main.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": []
           },
@@ -80,7 +95,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "proxyConfig": "proxy.conf.json" 
+            "proxyConfig": "proxy.conf.json"
           },
           "configurations": {
             "production": {
@@ -112,6 +127,8 @@
             ],
             "styles": [
               "src/styles.css",
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/@fortawesome/fontawesome-free/css/all.min.css",
               "node_modules/bootstrap-icons/font/bootstrap-icons.css",
               "src/assets/css/bootstrap.min.css",
               "src/assets/css/animate.min.css",
